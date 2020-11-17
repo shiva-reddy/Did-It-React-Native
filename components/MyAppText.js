@@ -15,7 +15,11 @@ const MyAppText = ({ children }) => {
 };
 
 const styles = StyleSheet.create({
-  defaultText: { color: '#E9C46A', fontFamily: 'Pangolin_400Regular' },
+  defaultText: {
+    color: '#E9C46A',
+    fontFamily: 'Pangolin_400Regular',
+    alignSelf: 'center',
+  },
 });
 
 export default MyAppText;

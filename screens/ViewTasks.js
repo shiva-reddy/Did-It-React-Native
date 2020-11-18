@@ -7,6 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
+import CompletedTasks from '../components/CompletedTasks';
 
 const FirstRoute = () => (
   <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
@@ -15,7 +16,9 @@ const FirstRoute = () => (
 );
 
 const SecondRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#ffffff' }]} />
+  <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
+    <CompletedTasks></CompletedTasks>
+  </View>
 );
 
 const renderTabBar = (props) => {

@@ -3,11 +3,15 @@ import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import MyAppText from '../components/MyAppText';
+import UpcomingTasks from '../components/UpcomingTasks';
 
 const FirstRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#E9C46A' }]} />
+  <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
+    <UpcomingTasks></UpcomingTasks>
+  </View>
 );
 
 const SecondRoute = () => (
@@ -27,7 +31,7 @@ const renderTabBar = (props) => {
 
 const initialLayout = { width: Dimensions.get('window').width };
 
-const ViewTasks = () => {
+const ViewTasks = ({ navigation }) => {
   const [activitySelected, setActivitSelected] = useState('Chores');
 
   const [index, setIndex] = React.useState(0);
@@ -43,7 +47,20 @@ const ViewTasks = () => {
   return (
     <View style={styles.container}>
       <View style={styles.activityContainer}>
-        <View style={[{ marginTop: 60 }]}></View>
+        <Pressable
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
+          <View style={[{ marginVertical: 11 }]}>
+            <MaterialIcons
+              style={[styles.activityIcon]}
+              name="arrow-back"
+              size={30}
+              color="#E76F51"
+            />
+          </View>
+        </Pressable>
         <Pressable
           onPress={() => {
             setActivitSelected('Chores');
@@ -134,7 +151,7 @@ const ViewTasks = () => {
         </Pressable>
       </View>
       <View style={styles.taskContainer}>
-        <MyAppText style={{ alignSelf: 'center' }}>
+        <MyAppText>
           <Text style={styles.activityHeader}>{activitySelected}</Text>
         </MyAppText>
 
@@ -168,7 +185,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   activityHeader: {
-    fontSize: 40,
+    fontSize: 55,
   },
   activityIcon: {
     alignSelf: 'center',

@@ -51,7 +51,11 @@ export default function App() {
           <RootStack.Screen
             name="ViewTasks"
             component={viewTaskScreens}
-            options={{ ...headerStyles, title: 'View Tasks' }}
+            options={{
+              ...headerStyles,
+              title: 'View Tasks',
+              headerShown: false,
+            }}
           ></RootStack.Screen>
         </RootStack.Navigator>
       </NavigationContainer>

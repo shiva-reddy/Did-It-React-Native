@@ -8,8 +8,20 @@ import Home from './screens/Home';
 import ViewTasks from './screens/ViewTasks';
 import CreateTask from './screens/CreateTask';
 
-//const MainTaskStack = createStackNavigator();
+const ViewTaskStack = createStackNavigator();
 const RootStack = createStackNavigator();
+
+const viewTaskScreens = () => {
+  return (
+    <ViewTaskStack.Navigator>
+      <ViewTaskStack.Screen
+        name="ViewTasksMain"
+        component={ViewTasks}
+        options={{ headerShown: false }}
+      ></ViewTaskStack.Screen>
+    </ViewTaskStack.Navigator>
+  );
+};
 
 export default function App() {
   const headerStyles = {
@@ -23,30 +35,27 @@ export default function App() {
   };
 
   return (
-    // <View style={styles.container}>
-    //   <StatusBar style="auto" />
-    //   <Home></Home>
-    // </View>
-
-    <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        ></RootStack.Screen>
-        <RootStack.Screen
-          name="CreateTask"
-          component={CreateTask}
-          options={{ ...headerStyles, title: 'Create Tasks' }}
-        ></RootStack.Screen>
-        <RootStack.Screen
-          name="ViewTasks"
-          component={ViewTasks}
-          options={{ ...headerStyles, title: 'View Tasks' }}
-        ></RootStack.Screen>
-      </RootStack.Navigator>
-    </NavigationContainer>
+    <View style={styles.container}>
+      <NavigationContainer>
+        <RootStack.Navigator>
+          <RootStack.Screen
+            name="Home"
+            component={Home}
+            options={{ headerShown: false }}
+          ></RootStack.Screen>
+          <RootStack.Screen
+            name="CreateTask"
+            component={CreateTask}
+            options={{ ...headerStyles, title: 'Create Tasks' }}
+          ></RootStack.Screen>
+          <RootStack.Screen
+            name="ViewTasks"
+            component={viewTaskScreens}
+            options={{ ...headerStyles, title: 'View Tasks' }}
+          ></RootStack.Screen>
+        </RootStack.Navigator>
+      </NavigationContainer>
+    </View>
   );
 }
 
@@ -54,7 +63,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#264653',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
 });

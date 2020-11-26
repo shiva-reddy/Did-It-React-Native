@@ -11,7 +11,7 @@ const SetTaskName = ({ route, navigation }) => {
     const taskCategory = route.params.taskCategory;
     return (
         <View style={styles.container}>
-            <ConversationCard avatarText="Choose your ga"/>
+            <ConversationCard avatarText="Choose your name"/>
             <View style={{flex: 3, flexDirection: 'row'}}>
                 <View style={styles.options}>
                     <InputModeButton icon="microphone"/>

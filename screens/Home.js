@@ -6,6 +6,7 @@ import { Foundation } from '@expo/vector-icons';
 import MyAppText from '../components/MyAppText';
 
 const Home = ({ navigation }) => {
+
   return (
     <View style={styles.container}>
       <TouchableOpacity

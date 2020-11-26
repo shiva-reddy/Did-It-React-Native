@@ -36,17 +36,34 @@ const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
   const [activitySelected, setActivitSelected] = useState('Chores');
-
+  console.log("Navigatoin is "+JSON.stringify(navigation))
+  const props = navigation
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Upcoming' },
     { key: 'second', title: 'Completed' },
   ]);
 
+
+  // const renderScene = ({routes} ) => {
+  //   console.log("Routes and index and value ", {routes}+" "+ "navigation "+JSON.stringify(props))
+    
+  //   switch (routes.route.key) {
+  //     case 'first':
+  //       return  FirstRoute(props)
+  //     case 'second':
+  //       return  SecondRoute(props)
+  //     default:
+  //       return null;
+  //   }
+  // };
+
+
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
   });
+  
   return (
     <View style={styles.container}>
       <View style={styles.activityContainer}>

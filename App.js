@@ -6,10 +6,29 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import Home from './screens/Home';
 import ViewTasks from './screens/ViewTasks';
-import CreateTask from './screens/CreateTask';
+import PickTaskCategory from './screens/PickTaskCategory';
+import SetTaskName from './screens/SetTaskName';
 
 const ViewTaskStack = createStackNavigator();
+const CreateTaskStack = createStackNavigator();
 const RootStack = createStackNavigator();
+
+const createTaskScreens = () => {
+  return (
+    <CreateTaskStack.Navigator>
+      <CreateTaskStack.Screen
+        name="PickTaskCategory"
+        component={PickTaskCategory}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+       <CreateTaskStack.Screen
+        name="SetTaskName"
+        component={SetTaskName}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+    </CreateTaskStack.Navigator>
+  );
+};
 
 const viewTaskScreens = () => {
   return (
@@ -45,7 +64,7 @@ export default function App() {
           ></RootStack.Screen>
           <RootStack.Screen
             name="CreateTask"
-            component={CreateTask}
+            component={createTaskScreens}
             options={{ ...headerStyles, title: 'Create Tasks' }}
           ></RootStack.Screen>
           <RootStack.Screen

@@ -6,12 +6,14 @@ import TaskCategories from '../utils/TaskCategories';
 
 import MyAppText from '../components/MyAppText';
 
-const TaskCategoryCard = ({props}) => {
+const TaskCategoryCard = ({navigation, props}) => {
   return (
       <TouchableOpacity
         onPress={() => {
-          // eslint-disable-next-line no-undef
-          navigation.navigate('CreateTask');
+          navigation.navigate('CreateTask', {
+            screen: 'SetTaskName',
+            params: { taskCategory: props },
+          });
         }}
       >
         <View style={styles.card}>
@@ -29,7 +31,7 @@ const TaskCategoryCard = ({props}) => {
   );
 };
 
-const CreateTask = () => {
+const CreateTask = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <MyAppText>
@@ -37,7 +39,7 @@ const CreateTask = () => {
       </MyAppText>
       <View style={styles.container}>
         {TaskCategories.map(cat => (
-          <TaskCategoryCard props={cat}/>
+          <TaskCategoryCard navigation={navigation} props={cat}/>
         ))}
       </View>
    </View>

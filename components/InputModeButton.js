@@ -5,7 +5,7 @@ import MyAppText from '../components/MyAppText';
 
 const InputModeButton = ({icon, action}) => {
     return (
-       <TouchableOpacity style={styles.button}>
+       <TouchableOpacity style={styles.button} onPress={() => action()}>
        <Foundation
             style={[styles.icon]}
             name={icon}

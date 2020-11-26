@@ -8,6 +8,8 @@ import Home from './screens/Home';
 import ViewTasks from './screens/ViewTasks';
 import PickTaskCategory from './screens/PickTaskCategory';
 import SetTaskName from './screens/SetTaskName';
+import SetTaskNameKeyboard from './screens/SetTaskNameKeyboard';
+import SetTaskNameVerification from './screens/SetTaskNameVerification';
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -24,6 +26,16 @@ const createTaskScreens = () => {
        <CreateTaskStack.Screen
         name="SetTaskName"
         component={SetTaskName}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskNameKeyboard"
+        component={SetTaskNameKeyboard}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskNameVerification"
+        component={SetTaskNameVerification}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
     </CreateTaskStack.Navigator>

@@ -11,11 +11,11 @@ const SetTaskName = ({ route, navigation }) => {
     const taskCategory = route.params.taskCategory;
     return (
         <View style={styles.container}>
-            <ConversationCard avatarText="Choose your ga"/>
+            <ConversationCard avatarText="Choose your name"/>
             <View style={{flex: 3, flexDirection: 'row'}}>
                 <View style={styles.options}>
-                    <InputModeButton icon="microphone"/>
-                    <InputModeButton icon="pencil"/>
+                    <InputModeButton icon="microphone" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
+                    <InputModeButton icon="pencil" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
                 </View>
             </View>
         </View>

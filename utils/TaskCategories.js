@@ -1,20 +1,24 @@
 const taskCategories = [
-    {
-        'title': 'Chore',
-        'icon': 'clipboard-pencil',
-    },
-    {
-        'title': 'Hobby',
-        'icon': 'clipboard-pencil',
-    },
-    {
-        'title': 'Homework',
-        'icon': 'clipboard-pencil',
-    },
-    {
-        'title': 'Study',
-        'icon': 'clipboard-pencil',
-    },
+  {
+    title: 'Chore',
+    iconPack: 'materialCommunity',
+    icon: 'broom',
+  },
+  {
+    title: 'Hobby',
+    iconPack: 'FontAwesome5',
+    icon: 'guitar',
+  },
+  {
+    title: 'Homework',
+    iconPack: 'FontAwesome5',
+    icon: 'pencil-ruler',
+  },
+  {
+    title: 'Study',
+    iconPack: 'FontAwesome5',
+    icon: 'book-open',
+  },
 ];
 
 export default taskCategories;

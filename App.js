@@ -29,6 +29,10 @@ const MyTheme = {
     border: 'rgb(199, 199, 204)',
     notification: 'rgb(255, 69, 58)',
   },
+  primaryColor: '#264653',
+  secondaryColor: '#E9C46A',
+  tertiaryColor: '#2A9D8F',
+  accentColor: '#E76F51',
 };
 
 const createTaskScreens = () => {

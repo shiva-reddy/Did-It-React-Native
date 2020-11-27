@@ -10,6 +10,8 @@ import PickTaskCategory from './screens/PickTaskCategory';
 import SetTaskName from './screens/SetTaskName';
 import SetTaskNameKeyboard from './screens/SetTaskNameKeyboard';
 import SetTaskNameVerification from './screens/SetTaskNameVerification';
+import SetTaskRecurrance from './screens/SetTaskRecurrance';
+import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from "./screens/SetTaskDate";
 import SetTaskTime from "./screens/SetTaskTime";
 
@@ -48,6 +50,16 @@ const createTaskScreens = () => {
       <CreateTaskStack.Screen
         name="SetTaskNameVerification"
         component={SetTaskNameVerification}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskRecurrance"
+        component={SetTaskRecurrance}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskRecurranceSchedule"
+        component={SetTaskRecurranceSchedule}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
     </CreateTaskStack.Navigator>

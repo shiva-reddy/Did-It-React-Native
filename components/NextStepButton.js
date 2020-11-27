@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         width:120,
         height:50,
+        flexDirection: 'row-reverse',
         backgroundColor:'#fff',
     }
 });

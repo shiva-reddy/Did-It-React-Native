@@ -13,7 +13,7 @@ const SetTaskNameVerification = ({navigation, route}) => {
         <View style={styles.container}>
             <ConversationCard avatarText="Choose your name" userText={chosenText}/>
             <View style={{flex: 1, flexDirection: 'row-reverse'}}>
-                    <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
+                    <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskDate")}/>
             </View>
         </View>
     );

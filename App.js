@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
-
+import ViewDetailedTask from './screens/MarkTaskAsDone';
 import Home from './screens/Home';
 import ViewTasks from './screens/ViewTasks';
 import PickTaskCategory from './screens/PickTaskCategory';
@@ -50,6 +50,14 @@ const viewTaskScreens = () => {
         component={ViewTasks}
         options={{ headerShown: false }}
       ></ViewTaskStack.Screen>
+                <ViewTaskStack.Screen
+            name="MarkTaskAsDone"
+            component={ViewDetailedTask}
+            options={{
+             
+              headerShown: false,
+            }}
+          ></ViewTaskStack.Screen>
     </ViewTaskStack.Navigator>
   );
 };

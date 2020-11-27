@@ -43,6 +43,15 @@ const createTaskScreens = () => {
 };
 
 const viewTaskScreens = () => {
+  const headerStyles = {
+    headerStyle: {
+      backgroundColor: '#264653',
+    },
+    headerTintColor: '#F4A261',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
   return (
     <ViewTaskStack.Navigator>
       <ViewTaskStack.Screen
@@ -50,14 +59,13 @@ const viewTaskScreens = () => {
         component={ViewTasks}
         options={{ headerShown: false }}
       ></ViewTaskStack.Screen>
-                <ViewTaskStack.Screen
+        
+        <ViewTaskStack.Screen
             name="MarkTaskAsDone"
             component={ViewDetailedTask}
-            options={{
-             
-              headerShown: false,
-            }}
-          ></ViewTaskStack.Screen>
+            options={{ ...headerStyles, title: 'Task Information' }}
+          ></ViewTaskStack.Screen>    
+
     </ViewTaskStack.Navigator>
   );
 };

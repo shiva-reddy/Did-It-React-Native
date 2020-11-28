@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
 import TaskCategories from '../utils/TaskCategories';
 import { useTheme } from '@react-navigation/native';
 
@@ -59,7 +58,11 @@ const CreateTask = ({ navigation }) => {
       </MyAppText>
       <View style={styles({ primaryColor }).container}>
         {TaskCategories.map((cat) => (
-          <TaskCategoryCard navigation={navigation} props={cat} />
+          <TaskCategoryCard
+            navigation={navigation}
+            props={cat}
+            key={`category-${cat.title}`}
+          />
         ))}
       </View>
     </View>

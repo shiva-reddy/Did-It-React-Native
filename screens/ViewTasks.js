@@ -47,7 +47,6 @@ const ViewTasks = ({ navigation }) => {
   const { primaryColor, tertiaryColor, accentColor } = useTheme();
 
   const [activitySelected, setActivitSelected] = useState('Chores');
-  console.log('Navigatoin is ' + JSON.stringify(navigation));
   const props = navigation;
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([

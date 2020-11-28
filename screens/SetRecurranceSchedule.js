@@ -9,7 +9,6 @@ import DropDownPicker from 'react-native-dropdown-picker';
 
 
 const option = (text, action) => {
-    console.log(text);
     return (
        <TouchableOpacity style={styles.button} onPress={() => action()}>
            <MyAppText>

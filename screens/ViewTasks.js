@@ -8,6 +8,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
+import TaskCreatedModal from '../components/TaskCreatedModal';
 
 const FirstRoute = () => (
   <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
@@ -174,7 +175,9 @@ const ViewTasks = ({ navigation }) => {
         <MyAppText>
           <Text style={styles.activityHeader}>{activitySelected}</Text>
         </MyAppText>
-
+        <View>
+          {TaskCreatedModal(true)}
+        </View>
         <TabView
           navigationState={{ index, routes }}
           renderScene={renderScene}

@@ -23,6 +23,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
     "react-native-calendar-picker": "^7.0.3",
     "react-native-chat-bubbles": "^0.0.1",
+    "react-native-date-picker": "^3.2.5",
     "react-native-dropdown-picker": "^3.7.1",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-gesture-handler": "~1.7.0",

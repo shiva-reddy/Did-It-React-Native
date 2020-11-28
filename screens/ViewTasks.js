@@ -176,7 +176,7 @@ const ViewTasks = ({ navigation }) => {
           <Text style={styles.activityHeader}>{activitySelected}</Text>
         </MyAppText>
         <View>
-          {TaskCreatedModal(true)}
+          {TaskCreatedModal(true,null)}
         </View>
         <TabView
           navigationState={{ index, routes }}

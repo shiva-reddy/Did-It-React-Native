@@ -5,18 +5,19 @@ import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
 import NextStepButton from "../components/NextStepButton";
-import DateTimePickerModal from "@react-native-community/datetimepicker";
+import DatePicker from 'react-native-date-picker';
 
 
 const SetTaskTime = ({ route, navigation }) => {
+    const [date, setDate] = React.useState(new Date());
     return (
         <View style={styles.container}>
             <ConversationCard avatarText="By what date do you plan on completing this task?"/>
             <View style={{marginBottom: 30, backgroundColor: '#ffff'}}>
-                <DateTimePickerModal isVisible='true'
-                    value={new Date(1598051730000)}
-                    mode="time"
-                    display = "spinner"/>
+            <DatePicker
+                date={date}
+                onDateChange={setDate}
+                />
             </View>
             {/* <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
                 <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskTime")}/>

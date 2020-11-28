@@ -16,7 +16,7 @@ const SetTaskDate = ({ route, navigation }) => {
                 <CalendarPicker/>
             </View>
             <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
-                <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskTime")}/>
+                <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskRecurrance")}/>
             </View>
         </View>
     );

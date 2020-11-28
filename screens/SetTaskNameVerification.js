@@ -4,14 +4,17 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
-import InputModeButton from "../components/InputModeButton";
+import NextStepButton from "../components/NextStepButton";
 
 
 const SetTaskNameVerification = ({navigation, route}) => {
     const chosenText = route.params.chosenText;
     return (
         <View style={styles.container}>
-            <ConversationCard avatarText={chosenText}/>
+            <ConversationCard avatarText="Choose your name" userText={chosenText}/>
+            <View style={{flex: 1, flexDirection: 'row-reverse'}}>
+                    <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskDate")}/>
+            </View>
         </View>
     );
 };

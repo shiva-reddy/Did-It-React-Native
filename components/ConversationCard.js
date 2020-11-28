@@ -4,6 +4,14 @@ import MessageBubble from './MessageBubble';
 import Monster from '../assets/monsterReact';
 // import Monster from '../assets/monster.svg';
 
+const redoButton = () => {
+    return (
+       <TouchableOpacity style={styles.button}>
+       <Text>Redo</Text>
+      </TouchableOpacity>
+    );
+};
+
 const ConversationCard = ({avatarText, userText}) => {
     return (
         <View style={styles.card}>
@@ -19,9 +27,12 @@ const ConversationCard = ({avatarText, userText}) => {
                 </View>
             </View>
             {userText &&
-                <View style={styles.user_text}>
-                    <MessageBubble text={userText}/>
-                </View>
+                    <View style={styles.user_text}>
+                        <View>
+                            <MessageBubble text={userText}/>
+                            {redoButton()}
+                        </View>
+                    </View>
             }
         </View>);
 }
@@ -36,16 +47,27 @@ const styles = StyleSheet.create({
         
     },
     user_text: {
+        flex: 2,
         height: 100,
     },
     card: {
         flex: 6,
         flexDirection: 'column',
-        justifyContent: 'space-around',
         width: 400,
         marginTop: 90,
         marginLeft: 10,
     },
+    button: { 
+        borderWidth:1,
+        borderColor:'rgba(0,0,0,0.2)',
+        alignItems:'center',
+        justifyContent:'center',
+        width:120,
+        height:50,
+        alignSelf: 'center',
+        backgroundColor:'#fff',
+        borderRadius:20,
+    }
 });
 
 export default ConversationCard;

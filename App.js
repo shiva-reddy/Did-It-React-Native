@@ -13,6 +13,11 @@ import SetTaskNameVerification from './screens/SetTaskNameVerification';
 import GetUserCameraPreference from './screens/GetUserCameraPreference';
 import TaskCompletedModal from './components/TaskMarkedDoneModal';
 import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
+import SetTaskRecurrance from './screens/SetTaskRecurrance';
+import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
+import SetTaskDate from "./screens/SetTaskDate";
+import SetTaskTime from "./screens/SetTaskTime";
+
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -37,8 +42,28 @@ const createTaskScreens = () => {
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
       <CreateTaskStack.Screen
+        name="SetTaskDate"
+        component={SetTaskDate}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskTime"
+        component={SetTaskTime}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
         name="SetTaskNameVerification"
         component={SetTaskNameVerification}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskRecurrance"
+        component={SetTaskRecurrance}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="SetTaskRecurranceSchedule"
+        component={SetTaskRecurranceSchedule}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
     </CreateTaskStack.Navigator>

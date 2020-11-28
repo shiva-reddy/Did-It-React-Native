@@ -1,23 +1,32 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight,Button,Icon } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button,Icon } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
-import InputModeButton from "../components/InputModeButton";
-import TaskCreatedModal from "../components/TaskCreatedModal";
-import Monster from '../assets/monsterReact';
+import NextStepButton from "../components/NextStepButton";
+import CalendarPicker from 'react-native-calendar-picker';
 
 
-const SetTaskName = ({ route, navigation }) => {
+const option = (text, action) => {
+    console.log(text);
+    return (
+       <TouchableOpacity style={styles.button} onPress={() => action()}>
+           <MyAppText>
+        <Text style={styles.modeText}>{text}</Text>
+          </MyAppText>
+       </TouchableOpacity>
+    );
+};
+
+const SetTaskRecurrance = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
-            {/* {TaskCreatedModal(true)} */}
-            <ConversationCard avatarText="Choose your name"/>
+            <ConversationCard avatarText="Does this task repeat?"/>
             <View style={{flex: 3, flexDirection: 'row'}}>
                 <View style={styles.options}>
-                    <InputModeButton icon="microphone" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
-                    <InputModeButton icon="pencil" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
+                    {option("Yes", () =>{navigation.navigate("SetTaskRecurranceSchedule")})}
+                    {option("No", () =>{})}
                 </View>
             </View>
         </View>
@@ -45,6 +54,9 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         borderRadius:100,
     },
+    modeText: {
+        fontSize: 40,
+      },
     options: {
         flex: 6,
         flexDirection: 'row',
@@ -53,4 +65,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SetTaskName;
+export default SetTaskRecurrance;

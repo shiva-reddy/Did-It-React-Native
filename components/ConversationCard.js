@@ -19,7 +19,7 @@ const ConversationCard = ({ avatarText, userText }) => {
         <View style={styles.avatar}>
           <AvatarComponent />
         </View>
-        <View style={styles.avatar_text}>
+        <View style={styles.avatarText}>
           <MessageBubble mine text={avatarText} />
         </View>
       </View>

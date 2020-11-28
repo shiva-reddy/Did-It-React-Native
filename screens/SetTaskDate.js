@@ -12,7 +12,7 @@ import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
-//import CalendarPicker from 'react-native-calendar-picker';
+import CalendarPicker from 'react-native-calendar-picker';
 
 const SetTaskDate = ({ route, navigation }) => {
   return (
@@ -30,7 +30,7 @@ const SetTaskDate = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('SetTaskRecurrance')}
+          action={() => navigation.navigate('SetTaskTime')}
         />
       </View>
     </View>

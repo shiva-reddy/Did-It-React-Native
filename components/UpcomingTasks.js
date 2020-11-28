@@ -63,13 +63,21 @@ const UpcomingTasks = () => {
               },
             ]}
           >
+            <TouchableOpacity >
+              
             <Foundation
               style={styles.actionIcon}
               name="pencil"
               size={30}
               color="#E76F51"
             />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+      navigationObject.navigate('MarkTaskAsDone', {name:item.name, deadline:item.deadline,
+      description:item.description,isRecurring:item.isRecurring});
+      }}>
             <Entypo name="check" size={30} color="#E76F51" />
+            </TouchableOpacity>
           </View>
         </View>
         </TouchableOpacity>

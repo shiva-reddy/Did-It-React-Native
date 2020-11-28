@@ -15,7 +15,7 @@ const tasks = [
   { name: 'Task 6', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
   { name: 'Task 7', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
   { name: 'Task 8', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 9', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 9', deadline: '11-17-2020',  description:"Its a math day",isRecurring:"Yes" },
   { name: 'Task 11', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" }
 ];
 

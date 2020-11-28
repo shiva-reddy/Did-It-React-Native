@@ -40,6 +40,8 @@ const ViewDetailedTask = ({ navigation, route }) => {
 
 
 
+
+    
     console.log("route params "+JSON.stringify(route))
     const taskName = route.params.name
     const taskDeadline = route.params.deadline
@@ -105,7 +107,11 @@ const ViewDetailedTask = ({ navigation, route }) => {
                 />
             </View>
             <View style={[{justifyContent: 'flex-end'}]}>
+              <Pressable  onPress={() => {
+                  navigation.navigate('GetUserCameraPreference')
+              }}>
               <Entypo name="check" size={30} color="#E76F51" />
+              </Pressable>
             </View>
           </View>
         </View>

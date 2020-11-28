@@ -30,8 +30,8 @@ const SetTaskRecurrance = ({ route, navigation }) => {
       <ConversationCard avatarText="Does this task repeat?" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
-          {option('Yes', () => {})}
-          {option('No', () => {})}
+          {option('Yes', () => {navigation.navigate("SetTaskRecurranceSchedule")})}
+          {option('No', () => {navigation.navigate("ViewTasks")})}
         </View>
       </View>
     </View>

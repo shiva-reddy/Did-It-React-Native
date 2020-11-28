@@ -99,7 +99,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('SetTaskTime')}
+          action={() => navigation.navigate('ViewTasks')}
         />
       </View>
     </View>

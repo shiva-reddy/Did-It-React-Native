@@ -10,6 +10,9 @@ import PickTaskCategory from './screens/PickTaskCategory';
 import SetTaskName from './screens/SetTaskName';
 import SetTaskNameKeyboard from './screens/SetTaskNameKeyboard';
 import SetTaskNameVerification from './screens/SetTaskNameVerification';
+import GetUserCameraPreference from './screens/GetUserCameraPreference';
+import TaskCompletedModal from './components/TaskMarkedDoneModal';
+import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
 import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from './screens/SetTaskDate';
@@ -83,6 +86,15 @@ const createTaskScreens = () => {
 };
 
 const viewTaskScreens = () => {
+  const headerStyles = {
+    headerStyle: {
+      backgroundColor: '#264653',
+    },
+    headerTintColor: '#F4A261',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
   return (
     <ViewTaskStack.Navigator>
       <ViewTaskStack.Screen
@@ -93,9 +105,22 @@ const viewTaskScreens = () => {
       <ViewTaskStack.Screen
         name="MarkTaskAsDone"
         component={ViewDetailedTask}
-        options={{
-          headerShown: false,
-        }}
+        options={{ ...headerStyles, title: 'Task Information' }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="GetUserCameraPreference"
+        component={GetUserCameraPreference}
+        options={{ ...headerStyles, title: 'Add a memory' }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="TaskCompletedModal"
+        component={TaskCompletedModal}
+        options={{ headerShown: false }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="TakePhotoFromCamera"
+        component={TakePhotoFromCamera}
+        options={{ ...headerStyles, title: 'Taking a Picture' }}
       ></ViewTaskStack.Screen>
     </ViewTaskStack.Navigator>
   );

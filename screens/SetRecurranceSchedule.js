@@ -26,11 +26,12 @@ const option = (text, action) => {
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const [period, setPeriod] = React.useState('month');
-  const daysOfMonth = Array.from(Array(31).keys()).map((day) => {
-    return { label: day, value: day };
+  const daysOfMonth = Array.from(Array(30).keys()).map((day) => {
+    return { label: (day + 1).toString(), value: (day + 1).toString() };
   });
 
-  const [day, setDay] = React.useState('Sunday');
+  const [dayOfMonth, setDaysOfMonth] = React.useState('1');
+  const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
   const daysOfWeek = [
     'Sunday',
@@ -63,23 +64,31 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
           defaultValue={period}
           containerStyle={{ height: 40 }}
           style={{ backgroundColor: '#fafafa', width: 150 }}
-          itemStyle={{
-            justifyContent: 'flex-start',
-          }}
+          itemStyle={{ justifyContent: 'flex-start' }}
           dropDownStyle={{ backgroundColor: '#fafafa' }}
           onChangeItem={(item) => setPeriod(item.value)}
         />
-        <DropDownPicker
-          items={daysOfWeek}
-          defaultValue={day}
-          containerStyle={{ height: 40 }}
-          style={{ backgroundColor: '#fafafa', width: 150 }}
-          itemStyle={{
-            justifyContent: 'flex-start',
-          }}
-          dropDownStyle={{ backgroundColor: '#fafafa' }}
-          onChangeItem={(item) => setDay(item.value)}
-        />
+        {period === 'month' ? (
+          <DropDownPicker
+            items={daysOfMonth}
+            defaultValue={dayOfMonth}
+            containerStyle={{ height: 40 }}
+            style={{ backgroundColor: '#fafafa', width: 150 }}
+            itemStyle={{ justifyContent: 'flex-start' }}
+            dropDownStyle={{ backgroundColor: '#fafafa' }}
+            onChangeItem={(item) => setDaysOfMonth(item.value)}
+          />
+        ) : (
+          <DropDownPicker
+            items={daysOfWeek}
+            defaultValue={dayOfWeek}
+            containerStyle={{ height: 40 }}
+            style={{ backgroundColor: '#fafafa', width: 150 }}
+            itemStyle={{ justifyContent: 'flex-start' }}
+            dropDownStyle={{ backgroundColor: '#fafafa' }}
+            onChangeItem={(item) => setDayOfWeek(item.value)}
+          />
+        )}
       </View>
       <View
         style={{

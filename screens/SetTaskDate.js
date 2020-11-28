@@ -19,7 +19,7 @@ const SetTaskDate = ({ route, navigation }) => {
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
       <View style={{ marginBottom: 30, backgroundColor: '#ffff' }}>
-        {/* <CalendarPicker/> */}
+        <CalendarPicker />
       </View>
       <View
         style={{
@@ -30,7 +30,7 @@ const SetTaskDate = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('SetTaskTime')}
+          action={() => navigation.navigate('SetTaskRecurrance')}
         />
       </View>
     </View>

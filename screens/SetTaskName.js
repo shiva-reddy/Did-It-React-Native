@@ -17,6 +17,9 @@ import TaskCreatedModal from '../components/TaskCreatedModal';
 import Monster from '../assets/monsterReact';
 
 const SetTaskName = ({ route, navigation }) => {
+  const { taskCategory } = route.params;
+  console.log(taskCategory);
+
   return (
     <View style={styles.container}>
       {/* {TaskCreatedModal(true)} */}
@@ -25,11 +28,19 @@ const SetTaskName = ({ route, navigation }) => {
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
-            action={() => navigation.navigate('SetTaskNameKeyboard')}
+            action={() =>
+              navigation.navigate('SetTaskNameKeyboard', {
+                taskCategory,
+              })
+            }
           />
           <InputModeButton
             icon="pencil"
-            action={() => navigation.navigate('SetTaskNameKeyboard')}
+            action={() =>
+              navigation.navigate('SetTaskNameKeyboard', {
+                taskCategory,
+              })
+            }
           />
         </View>
       </View>

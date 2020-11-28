@@ -14,6 +14,8 @@ import Svg, { Path } from 'react-native-svg';
 // from 'https://github.com/nirsky/react-native-size-matters'
 import { moderateScale } from 'react-native-size-matters';
 
+import MyAppText from '../components/MyAppText';
+
 // Props info list
 // 1. mine (bool) => renders blue bubble on right
 // 2. text (string) => renders text message
@@ -41,16 +43,18 @@ const MessageBubble = (props) => {
           />
         ) : null}
         {props.text ? (
-          <Text
-            style={[
-              styles.text,
-              {
-                color: secondaryColor,
-              },
-            ]}
-          >
-            {props.text}
-          </Text>
+          <MyAppText>
+            <Text
+              style={[
+                styles.text,
+                {
+                  color: secondaryColor,
+                },
+              ]}
+            >
+              {props.text}
+            </Text>
+          </MyAppText>
         ) : null}
         <View
           style={[
@@ -99,10 +103,10 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   cloud: {
-    maxWidth: moderateScale(250, 2),
-    paddingHorizontal: moderateScale(10, 2),
-    paddingTop: moderateScale(5, 2),
-    paddingBottom: moderateScale(7, 2),
+    maxWidth: moderateScale(200, 1.5),
+    paddingHorizontal: moderateScale(10, 1.5),
+    paddingTop: moderateScale(5, 1.5),
+    paddingBottom: moderateScale(7, 1.5),
     borderRadius: 20,
   },
   text: {

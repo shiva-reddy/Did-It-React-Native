@@ -21,11 +21,12 @@ const option = (text, action) => {
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
     const [period, setPeriod] = React.useState('month');
-    const daysOfMonth = Array.from(Array(31).keys()).map(day => {
-        return {label : day,value : day};
+    const daysOfMonth = Array.from(Array(30).keys()).map(day => {
+        return {label : (day + 1).toString(),value : (day + 1).toString()};
     });
 
-    const [day, setDay] = React.useState('Sunday');
+    const [dayOfMonth, setDaysOfMonth] = React.useState('1');
+    const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
     const daysOfWeek = 
     ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday","Friday","Saturday"]
@@ -33,14 +34,10 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         return {label : day,value : day};
     });
 
-    
     return (
         <View style={styles.container}>
             <ConversationCard avatarText="How does the task repeat?"/>
-            <View style={{alignSelf: 'stretch', 
-            flex: 6,
-            justifyContent: 'space-around',
-            flexDirection: 'row'}}>
+            <View style={{alignSelf: 'stretch',flex: 6,justifyContent: 'space-around',flexDirection: 'row'}}>
                 <DropDownPicker
                     items={[
                         {label: 'Month', value: 'month'},
@@ -49,23 +46,31 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                     defaultValue={period}
                     containerStyle={{height: 40}}
                     style={{backgroundColor: '#fafafa', width: 150}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
+                    itemStyle={{justifyContent: 'flex-start'}}
                     dropDownStyle={{backgroundColor: '#fafafa'}}
                     onChangeItem={item => setPeriod(item.value)}
                 />
-                <DropDownPicker
-                    items={daysOfWeek}
-                    defaultValue={day}
-                    containerStyle={{height: 40}}
-                    style={{backgroundColor: '#fafafa',width: 150}}
-                    itemStyle={{
-                        justifyContent: 'flex-start'
-                    }}
-                    dropDownStyle={{backgroundColor: '#fafafa'}}
-                    onChangeItem={item => setDay(item.value)}
-                />
+                {
+                    period === 'month'
+                    ? <DropDownPicker
+                            items={daysOfMonth}
+                            defaultValue={dayOfMonth}
+                            containerStyle={{height: 40}}
+                            style={{backgroundColor: '#fafafa',width: 150}}
+                            itemStyle={{justifyContent: 'flex-start'}}
+                            dropDownStyle={{backgroundColor: '#fafafa'}}
+                            onChangeItem={item => setDaysOfMonth(item.value)}
+                        />
+                        : <DropDownPicker
+                        items={daysOfWeek}
+                        defaultValue={dayOfWeek}
+                        containerStyle={{height: 40}}
+                        style={{backgroundColor: '#fafafa',width: 150}}
+                        itemStyle={{justifyContent: 'flex-start'}}
+                        dropDownStyle={{backgroundColor: '#fafafa'}}
+                        onChangeItem={item => setDayOfWeek(item.value)}
+                    />
+                }
             </View>
             <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
                 <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskTime")}/>

@@ -1,24 +1,22 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight,Button,Icon } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button,Icon } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
-import InputModeButton from "../components/InputModeButton";
-import TaskCreatedModal from "../components/TaskCreatedModal";
-import Monster from '../assets/monsterReact';
+import NextStepButton from "../components/NextStepButton";
+import CalendarPicker from 'react-native-calendar-picker';
 
 
-const SetTaskName = ({ route, navigation }) => {
+const SetTaskDate = ({ route, navigation }) => {
     return (
         <View style={styles.container}>
-            {/* {TaskCreatedModal(true)} */}
-            <ConversationCard avatarText="Choose your name"/>
-            <View style={{flex: 3, flexDirection: 'row'}}>
-                <View style={styles.options}>
-                    <InputModeButton icon="microphone" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
-                    <InputModeButton icon="pencil" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
-                </View>
+            <ConversationCard avatarText="By what date do you plan on completing this task?"/>
+            <View style={{marginBottom: 30, backgroundColor: '#ffff'}}>
+                <CalendarPicker/>
+            </View>
+            <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
+                <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskRecurrance")}/>
             </View>
         </View>
     );
@@ -53,4 +51,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SetTaskName;
+export default SetTaskDate;

@@ -1,25 +1,27 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight,Button,Icon } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Button,Icon } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
-import InputModeButton from "../components/InputModeButton";
-import TaskCreatedModal from "../components/TaskCreatedModal";
-import Monster from '../assets/monsterReact';
+import NextStepButton from "../components/NextStepButton";
+import DatePicker from 'react-native-date-picker';
 
 
-const SetTaskName = ({ route, navigation }) => {
+const SetTaskTime = ({ route, navigation }) => {
+    const [date, setDate] = React.useState(new Date());
     return (
         <View style={styles.container}>
-            {/* {TaskCreatedModal(true)} */}
-            <ConversationCard avatarText="Choose your name"/>
-            <View style={{flex: 3, flexDirection: 'row'}}>
-                <View style={styles.options}>
-                    <InputModeButton icon="microphone" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
-                    <InputModeButton icon="pencil" action={() => navigation.navigate("SetTaskNameKeyboard")}/>
-                </View>
+            <ConversationCard avatarText="By what date do you plan on completing this task?"/>
+            <View style={{marginBottom: 30, backgroundColor: '#ffff'}}>
+            <DatePicker
+                date={date}
+                onDateChange={setDate}
+                />
             </View>
+            {/* <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
+                <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskTime")}/>
+            </View> */}
         </View>
     );
 };
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: '#264653',
     },
-    button: { 
+    button: {
         borderWidth:1,
         borderColor:'rgba(0,0,0,0.2)',
         alignItems:'center',
@@ -53,4 +55,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default SetTaskName;
+export default SetTaskTime;

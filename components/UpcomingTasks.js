@@ -7,16 +7,16 @@ import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
 
 const tasks = [
-  { name: 'Task 1', deadline: '11-17-2020' },
-  { name: 'Task 2', deadline: '11-17-2020' },
-  { name: 'Task 3', deadline: '11-17-2020' },
-  { name: 'Task 4', deadline: '11-17-2020' },
-  { name: 'Task 5', deadline: '11-17-2020' },
-  { name: 'Task 6', deadline: '11-17-2020' },
-  { name: 'Task 7', deadline: '11-17-2020' },
-  { name: 'Task 8', deadline: '11-17-2020' },
-  { name: 'Task 9', deadline: '11-17-2020' },
-  { name: 'Task 10', deadline: '11-17-2020' },
+  { name: 'Task 1', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 2', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 3', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 4', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 5', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 6', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 7', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 8', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 9', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
+  { name: 'Task 11', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" }
 ];
 
 
@@ -63,13 +63,21 @@ const UpcomingTasks = () => {
               },
             ]}
           >
+            <TouchableOpacity >
+              
             <Foundation
               style={styles.actionIcon}
               name="pencil"
               size={30}
               color="#E76F51"
             />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => {
+      navigationObject.navigate('MarkTaskAsDone', {name:item.name, deadline:item.deadline,
+      description:item.description,isRecurring:item.isRecurring});
+      }}>
             <Entypo name="check" size={30} color="#E76F51" />
+            </TouchableOpacity>
           </View>
         </View>
         </TouchableOpacity>

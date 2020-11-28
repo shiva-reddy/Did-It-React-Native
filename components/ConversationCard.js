@@ -39,11 +39,12 @@ const ConversationCard = ({avatarText, userText}) => {
 
 const styles = StyleSheet.create({
     avatar: {
-        height: 180,
-        width: 180,
+        height: 40,
+        width: 50,
     },
     avatar_text: {
-        height: 100,
+        height: 50,
+        
     },
     user_text: {
         flex: 2,

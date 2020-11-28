@@ -45,26 +45,11 @@ const ViewTasks = ({ navigation }) => {
     { key: 'second', title: 'Completed' },
   ]);
 
-
-  // const renderScene = ({routes} ) => {
-  //   console.log("Routes and index and value ", {routes}+" "+ "navigation "+JSON.stringify(props))
-    
-  //   switch (routes.route.key) {
-  //     case 'first':
-  //       return  FirstRoute(props)
-  //     case 'second':
-  //       return  SecondRoute(props)
-  //     default:
-  //       return null;
-  //   }
-  // };
-
-
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
   });
-  
+
   return (
     <View style={styles.container}>
       <View style={styles.activityContainer}>

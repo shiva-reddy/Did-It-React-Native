@@ -1,5 +1,5 @@
-import * as React from "react"
-import Svg, { Path } from "react-native-svg"
+import * as React from 'react';
+import Svg, { Path } from 'react-native-svg';
 
 function Monster(props) {
   return (
@@ -36,7 +36,7 @@ function Monster(props) {
         strokeLinejoin="round"
       />
     </Svg>
-  )
+  );
 }
 
 export default Monster;

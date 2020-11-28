@@ -4,56 +4,59 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 
 import MyAppText from '../components/MyAppText';
+import { useTheme } from '@react-navigation/native';
 
 const Home = ({ navigation }) => {
+  const { primaryColor, tertiaryColor } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <View style={styles(primaryColor).container}>
       <TouchableOpacity
         onPress={() => {
           navigation.navigate('CreateTask');
         }}
       >
         <Foundation
-          style={[styles.icon, { paddingLeft: 40 }]}
+          style={[styles().icon, { paddingLeft: 40 }]}
           name="clipboard-pencil"
           size={120}
-          color="#2A9D8F"
+          color={tertiaryColor}
         />
         <MyAppText>
-          <Text style={styles.modeText}>Create Task</Text>
+          <Text style={styles(primaryColor).modeText}>Create Task</Text>
         </MyAppText>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('ViewTasks')}>
         <FontAwesome5
           name="tasks"
-          color="#2A9D8F"
+          color={tertiaryColor}
           size={120}
-          style={[styles.icon]}
+          style={[styles(primaryColor).icon]}
         ></FontAwesome5>
         <MyAppText>
-          <Text style={styles.modeText}>View Tasks</Text>
+          <Text style={styles(primaryColor).modeText}>View Tasks</Text>
         </MyAppText>
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  icon: {
-    marginTop: 40,
+const styles = (primaryColor) =>
+  StyleSheet.create({
+    icon: {
+      marginTop: 40,
 
-    marginHorizontal: 20,
-  },
-  modeText: {
-    fontSize: 40,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#264653',
-  },
-});
+      marginHorizontal: 20,
+    },
+    modeText: {
+      fontSize: 40,
+    },
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: primaryColor,
+    },
+  });
 
 export default Home;

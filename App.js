@@ -15,13 +15,28 @@ import TaskCompletedModal from './components/TaskMarkedDoneModal';
 import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
 import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
-import SetTaskDate from "./screens/SetTaskDate";
-import SetTaskTime from "./screens/SetTaskTime";
-
+import SetTaskDate from './screens/SetTaskDate';
+import SetTaskTime from './screens/SetTaskTime';
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
 const RootStack = createStackNavigator();
+
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: 'rgb(255, 45, 85)',
+    background: 'rgb(242, 242, 242)',
+    card: 'rgb(255, 255, 255)',
+    text: 'rgb(28, 28, 30)',
+    border: 'rgb(199, 199, 204)',
+    notification: 'rgb(255, 69, 58)',
+  },
+  primaryColor: '#264653',
+  secondaryColor: '#E9C46A',
+  tertiaryColor: '#2A9D8F',
+  accentColor: '#E76F51',
+};
 
 const createTaskScreens = () => {
   return (
@@ -31,7 +46,7 @@ const createTaskScreens = () => {
         component={PickTaskCategory}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
-       <CreateTaskStack.Screen
+      <CreateTaskStack.Screen
         name="SetTaskName"
         component={SetTaskName}
         options={{ headerShown: false }}
@@ -86,27 +101,27 @@ const viewTaskScreens = () => {
         name="ViewTasksMain"
         component={ViewTasks}
         options={{ headerShown: false }}
-      ></ViewTaskStack.Screen>   
+      ></ViewTaskStack.Screen>
       <ViewTaskStack.Screen
-          name="MarkTaskAsDone"
-          component={ViewDetailedTask}
-          options={{ ...headerStyles, title: 'Task Information' }}
-        ></ViewTaskStack.Screen>    
-          <ViewTaskStack.Screen
-          name="GetUserCameraPreference"
-          component={GetUserCameraPreference}
-          options={{ ...headerStyles, title: 'Add a memory' }}
-        ></ViewTaskStack.Screen>
-        <ViewTaskStack.Screen
-          name="TaskCompletedModal"
-          component={TaskCompletedModal}
-          options={{ headerShown: false }}
-        ></ViewTaskStack.Screen>
-        <ViewTaskStack.Screen
-          name="TakePhotoFromCamera"
-          component={TakePhotoFromCamera}
-          options={{ ...headerStyles, title: 'Taking a Picture' }}
-        ></ViewTaskStack.Screen>
+        name="MarkTaskAsDone"
+        component={ViewDetailedTask}
+        options={{ ...headerStyles, title: 'Task Information' }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="GetUserCameraPreference"
+        component={GetUserCameraPreference}
+        options={{ ...headerStyles, title: 'Add a memory' }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="TaskCompletedModal"
+        component={TaskCompletedModal}
+        options={{ headerShown: false }}
+      ></ViewTaskStack.Screen>
+      <ViewTaskStack.Screen
+        name="TakePhotoFromCamera"
+        component={TakePhotoFromCamera}
+        options={{ ...headerStyles, title: 'Taking a Picture' }}
+      ></ViewTaskStack.Screen>
     </ViewTaskStack.Navigator>
   );
 };
@@ -124,7 +139,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <NavigationContainer>
+      <NavigationContainer theme={MyTheme}>
         <RootStack.Navigator>
           <RootStack.Screen
             name="Home"

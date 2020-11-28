@@ -4,23 +4,32 @@ import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { useTheme } from '@react-navigation/native';
 
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
 import TaskCreatedModal from '../components/TaskCreatedModal';
 
-const FirstRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
-    <UpcomingTasks></UpcomingTasks>
-  </View>
-);
+const FirstRoute = () => {
+  const { secondaryColor } = useTheme();
 
-const SecondRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#E9C46A' }]}>
-    <CompletedTasks></CompletedTasks>
-  </View>
-);
+  return (
+    <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
+      <UpcomingTasks></UpcomingTasks>
+    </View>
+  );
+};
+
+const SecondRoute = () => {
+  const { secondaryColor } = useTheme();
+
+  return (
+    <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
+      <CompletedTasks></CompletedTasks>
+    </View>
+  );
+};
 
 const renderTabBar = (props) => {
   return (
@@ -36,9 +45,10 @@ const renderTabBar = (props) => {
 const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
+  const { primaryColor, tertiaryColor, accentColor } = useTheme();
+
   const [activitySelected, setActivitSelected] = useState('Chores');
-  console.log("Navigatoin is "+JSON.stringify(navigation))
-  const props = navigation
+  const props = navigation;
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Upcoming' },
@@ -63,7 +73,7 @@ const ViewTasks = ({ navigation }) => {
               style={[styles.activityIcon]}
               name="arrow-back"
               size={30}
-              color="#E76F51"
+              color={accentColor}
             />
           </View>
         </Pressable>
@@ -72,18 +82,18 @@ const ViewTasks = ({ navigation }) => {
             setActivitSelected('Chores');
           }}
           android_ripple={{
-            color: '#E76F51',
+            color: accentColor,
           }}
           style={{
             backgroundColor:
-              activitySelected === 'Chores' ? '#E76F51' : '#264653',
+              activitySelected === 'Chores' ? accentColor : primaryColor,
           }}
         >
           <MaterialCommunityIcons
             style={[styles.activityIcon]}
             name="broom"
             size={65}
-            color="#2A9D8F"
+            color={tertiaryColor}
           />
           <MyAppText>
             <Text style={styles.activityText}>Chores</Text>
@@ -94,18 +104,18 @@ const ViewTasks = ({ navigation }) => {
             setActivitSelected('Hobbies');
           }}
           android_ripple={{
-            color: '#E76F51',
+            color: accentColor,
           }}
           style={{
             backgroundColor:
-              activitySelected === 'Hobbies' ? '#E76F51' : '#264653',
+              activitySelected === 'Hobbies' ? accentColor : primaryColor,
           }}
         >
           <FontAwesome5
             name="guitar"
             size={60}
             style={[styles.activityIcon]}
-            color="#2A9D8F"
+            color={tertiaryColor}
           />
           <MyAppText>
             <Text style={styles.activityText}>Hobbies</Text>
@@ -116,18 +126,18 @@ const ViewTasks = ({ navigation }) => {
             setActivitSelected('Homework');
           }}
           android_ripple={{
-            color: '#E76F51',
+            color: accentColor,
           }}
           style={{
             backgroundColor:
-              activitySelected === 'Homework' ? '#E76F51' : '#264653',
+              activitySelected === 'Homework' ? accentColor : primaryColor,
           }}
         >
           <FontAwesome5
             name="pencil-ruler"
             size={55}
             style={[styles.activityIcon]}
-            color="#2A9D8F"
+            color={tertiaryColor}
           />
           <MyAppText>
             <Text style={styles.activityText}>Homework</Text>
@@ -138,18 +148,18 @@ const ViewTasks = ({ navigation }) => {
             setActivitSelected('Study');
           }}
           android_ripple={{
-            color: '#E76F51',
+            color: accentColor,
           }}
           style={{
             backgroundColor:
-              activitySelected === 'Study' ? '#E76F51' : '#264653',
+              activitySelected === 'Study' ? accentColor : primaryColor,
           }}
         >
           <FontAwesome5
             name="book-open"
             size={55}
             style={[styles.activityIcon]}
-            color="#2A9D8F"
+            color={tertiaryColor}
           />
           <MyAppText>
             <Text style={styles.activityText}>Study</Text>

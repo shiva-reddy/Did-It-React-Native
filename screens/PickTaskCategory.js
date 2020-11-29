@@ -13,7 +13,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('CreateTask', {
-          screen: 'SetTaskName',
+          screen: 'SetTaskNameVoice',
           params: { taskCategory: props },
         });
       }}

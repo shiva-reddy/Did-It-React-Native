@@ -11,12 +11,14 @@ import { Foundation } from '@expo/vector-icons';
 import MyAppText from '../components/MyAppText';
 import { useTheme } from '@react-navigation/native';
 
-const InputModeButton = ({ icon, action }) => {
+const InputModeButton = ({ icon, action, onPressIn, onPressOut}) => {
   const { tertiaryColor, secondaryColor } = useTheme();
   return (
     <TouchableOpacity
       style={styles({ tertiaryColor }).button}
       onPress={() => action()}
+      onPressIn={onPressIn ? onPressIn : () => action()}
+      onPressOut={onPressOut ? onPressOut : () => {}}
     >
       <Foundation
         style={[styles.icon]}

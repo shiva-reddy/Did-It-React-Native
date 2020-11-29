@@ -1,30 +1,14 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-  Icon,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
-
-const option = (text, action) => {
-  return (
-    <TouchableOpacity style={styles.button} onPress={() => action()}>
-      <MyAppText>
-        <Text style={styles.modeText}>{text}</Text>
-      </MyAppText>
-    </TouchableOpacity>
-  );
-};
+import { useTheme } from '@react-navigation/native';
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
+  const { secondaryColor, tertiaryColor } = useTheme();
+
   const [period, setPeriod] = React.useState('month');
   const daysOfMonth = Array.from(Array(30).keys()).map((day) => {
     return { label: (day + 1).toString(), value: (day + 1).toString() };
@@ -63,37 +47,69 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
           ]}
           defaultValue={period}
           containerStyle={{ height: 40 }}
-          style={{ backgroundColor: '#fafafa', width: 150 }}
+          style={{
+            backgroundColor: tertiaryColor,
+            borderColor: secondaryColor,
+            width: 150,
+          }}
           itemStyle={{ justifyContent: 'flex-start' }}
-          dropDownStyle={{ backgroundColor: '#fafafa' }}
+          dropDownStyle={{
+            backgroundColor: tertiaryColor,
+            borderColor: secondaryColor,
+          }}
           onChangeItem={(item) => setPeriod(item.value)}
+          labelStyle={{
+            color: secondaryColor,
+            fontFamily: 'Pangolin_400Regular',
+          }}
         />
         {period === 'month' ? (
           <DropDownPicker
             items={daysOfMonth}
             defaultValue={dayOfMonth}
             containerStyle={{ height: 40 }}
-            style={{ backgroundColor: '#fafafa', width: 150 }}
-            itemStyle={{ justifyContent: 'flex-start' }}
-            dropDownStyle={{ backgroundColor: '#fafafa' }}
+            style={{
+              backgroundColor: tertiaryColor,
+              borderColor: secondaryColor,
+              width: 150,
+            }}
+            itemStyle={{ justifyContent: 'flex-start', color: secondaryColor }}
+            dropDownStyle={{
+              backgroundColor: tertiaryColor,
+              borderColor: secondaryColor,
+            }}
             onChangeItem={(item) => setDaysOfMonth(item.value)}
+            labelStyle={{
+              color: secondaryColor,
+              fontFamily: 'Pangolin_400Regular',
+            }}
           />
         ) : (
           <DropDownPicker
             items={daysOfWeek}
             defaultValue={dayOfWeek}
             containerStyle={{ height: 40 }}
-            style={{ backgroundColor: '#fafafa', width: 150 }}
+            style={{
+              backgroundColor: tertiaryColor,
+              borderColor: secondaryColor,
+              width: 150,
+            }}
             itemStyle={{ justifyContent: 'flex-start' }}
-            dropDownStyle={{ backgroundColor: '#fafafa' }}
+            dropDownStyle={{
+              backgroundColor: tertiaryColor,
+              borderColor: secondaryColor,
+            }}
             onChangeItem={(item) => setDayOfWeek(item.value)}
+            labelStyle={{
+              color: secondaryColor,
+              fontFamily: 'Pangolin_400Regular',
+            }}
           />
         )}
       </View>
       <View
         style={{
-          alignSelf: 'stretch',
-          flexDirection: 'row-reverse',
+          marginRight: 25,
           marginBottom: 20,
         }}
       >
@@ -113,28 +129,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     backgroundColor: '#264653',
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 120,
-    height: 120,
-    backgroundColor: '#fff',
-    borderRadius: 100,
-  },
-  modeText: {
-    fontSize: 40,
-  },
-  options: {
-    flex: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
   },
 });
 

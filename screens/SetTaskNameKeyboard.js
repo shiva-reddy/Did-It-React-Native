@@ -4,6 +4,7 @@ import ConversationCard from '../components/ConversationCard';
 import { Input } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import NextStepButton from '../components/NextStepButton';
+import Toast from 'react-native-simple-toast';
 
 const SetTaskNameKeyboard = ({ route, navigation }) => {
   const [input, setInput] = React.useState('');
@@ -11,10 +12,14 @@ const SetTaskNameKeyboard = ({ route, navigation }) => {
   const { taskCategory } = route.params;
 
   const navigateToVerify = () => {
-    navigation.navigate('CreateTask', {
-      screen: 'SetTaskNameVerification',
-      params: { chosenText: input },
-    });
+    if (input !== '') {
+      navigation.navigate('CreateTask', {
+        screen: 'SetTaskNameVerification',
+        params: { chosenText: input },
+      });
+    } else {
+      Toast.show('Please enter a task name', Toast.SHORT, Toast.BOTTOM);
+    }
   };
 
   return (

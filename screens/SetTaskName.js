@@ -23,7 +23,7 @@ const SetTaskName = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {/* {TaskCreatedModal(true)} */}
-      <ConversationCard avatarText="Choose your name" />
+      <ConversationCard avatarText="Choose your input method" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
           <InputModeButton

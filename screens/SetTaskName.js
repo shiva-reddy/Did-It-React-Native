@@ -15,22 +15,23 @@ import MyAppText from '../components/MyAppText';
 import InputModeButton from '../components/InputModeButton';
 import TaskCreatedModal from '../components/TaskCreatedModal';
 import Monster from '../assets/monsterReact';
+import VoiceTest from '../screens/VoiceTest';
 
 const SetTaskName = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
-      {/* {TaskCreatedModal(true)} */}
       <ConversationCard avatarText="Choose your name" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
-          <InputModeButton
+          <VoiceTest/>
+          {/* <InputModeButton
             icon="microphone"
             action={() => navigation.navigate('SetTaskNameKeyboard')}
           />
           <InputModeButton
             icon="pencil"
             action={() => navigation.navigate('SetTaskNameKeyboard')}
-          />
+          /> */}
         </View>
       </View>
     </View>

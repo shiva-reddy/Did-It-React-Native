@@ -1,5 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
@@ -17,6 +16,7 @@ import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
+import Task from './database/Models/Task'
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -127,6 +127,18 @@ const viewTaskScreens = () => {
 };
 
 export default function App() {
+
+
+  useEffect(() => {
+
+    async function createTable () {
+      console.log("Creating table")
+      await Task.createTable()
+    }
+    createTable()
+  }, [])
+
+
   const headerStyles = {
     headerStyle: {
       backgroundColor: '#264653',

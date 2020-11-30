@@ -1,54 +1,95 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, InteractionManager, TouchableOpacity, Button,Icon } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { StyleSheet, View, TouchableOpacity, Button } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
-import MyAppText from '../components/MyAppText';
-import InputModeButton from "../components/InputModeButton";
+import { Input } from 'react-native-elements';
+import { useTheme } from '@react-navigation/native';
+import NextStepButton from '../components/NextStepButton';
+import Toast from 'react-native-simple-toast';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addTaskName } from '../store/CreateTaskActions';
 
+const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
+  const [input, setInput] = React.useState('');
+  const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
+  const { taskCategory } = route.params;
 
-const SetTaskNameKeyboard = ({navigation}) => {
-    const [input, setInput] = React.useState('');
+  const navigateToVerify = () => {
+    if (input !== '' && input.length != 0) {
+      addTaskName({ taskName: input });
+      navigation.navigate('CreateTask', {
+        screen: 'SetTaskNameVerification',
+        params: { chosenText: input },
+      });
+    } else {
+      Toast.show('Please enter a task name', Toast.SHORT, Toast.BOTTOM);
+    }
+  };
 
-    return (
-        <View style={styles.container}>
-            <ConversationCard avatarText="Choose your name"/>
-            <View style={{flex: 3}}>
-                <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-                    <TextInput
-                        autoFocus={true}
-                        style={styles.input}
-                        onChangeText={text => setInput(text)}
-                        onSubmitEditing={() => navigation.navigate('CreateTask', {
-                            screen: 'SetTaskNameVerification',
-                            params: { chosenText: input },
-                          })}
-                        value={input}
-                    />
-                </View>
-            </View>
+  return (
+    <View style={styles({ primaryColor }).container}>
+      <ConversationCard
+        style={{ flex: 1 }}
+        avatarText={`What is the name of your ${taskCategory} task?`}
+      />
+      <View style={{ flex: 3 }}>
+        <View
+          style={{
+            marginHorizontal: 20,
+          }}
+        >
+          <Input
+            style={styles({ secondaryColor, tertiaryColor }).input}
+            inputContainerStyle={{ color: secondaryColor }}
+            placeholder="Task Name"
+            placeholderTextColor={secondaryColor}
+            onChangeText={(text) => setInput(text)}
+            onSubmitEditing={navigateToVerify}
+            value={input}
+            autoFocus={true}
+          />
         </View>
-    );
+        <View style={{ alignItems: 'flex-end', marginRight: 25 }}>
+          <NextStepButton
+            content="Next"
+            action={navigateToVerify}
+          ></NextStepButton>
+        </View>
+      </View>
+    </View>
+  );
 };
 
-const styles = StyleSheet.create({
+const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
+  StyleSheet.create({
     icon: {
-        marginTop: 20,
-        marginHorizontal: 20,
+      marginTop: 20,
+      marginHorizontal: 20,
     },
     container: {
       flex: 1,
-      alignItems: 'stretch',
+      // alignItems: 'stretch',
       justifyContent: 'center',
-      backgroundColor: '#264653',
+      backgroundColor: primaryColor,
+      flexDirection: 'column',
     },
-    input:{ 
-        height: 40,
-        width: 300,
-        color: '#FFFF',
-        borderColor: 'gray',
-        borderWidth: 1,
-    }
-});
+    input: {
+      borderWidth: 2, // size/width of the border
+      borderColor: secondaryColor, // color of the border
+      color: secondaryColor,
+      backgroundColor: tertiaryColor,
+      padding: 20,
+      borderRadius: 5,
+      height: 75,
+    },
+  });
 
-export default SetTaskNameKeyboard;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskName,
+    },
+    dispatch,
+  );
+
+export default connect(null, mapDispatchToProps)(SetTaskNameKeyboard);

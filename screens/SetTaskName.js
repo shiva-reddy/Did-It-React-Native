@@ -1,34 +1,34 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TouchableHighlight,
-  Button,
-  Icon,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
-import ConversationCard from '../components/ConversationCard';
-import MyAppText from '../components/MyAppText';
-import InputModeButton from '../components/InputModeButton';
-import TaskCreatedModal from '../components/TaskCreatedModal';
-import Monster from '../assets/monsterReact';
+import { StyleSheet, View } from 'react-native';
 
-const SetTaskName = ({ route, navigation }) => {
+import ConversationCard from '../components/ConversationCard';
+import InputModeButton from '../components/InputModeButton';
+
+import { connect } from 'react-redux';
+
+const SetTaskName = ({ navigation, taskCategory }) => {
+  console.log(taskCategory);
+
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText="Choose your name" />
+      <ConversationCard avatarText="Choose your input method" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
-            action={() => navigation.navigate('SetTaskNameKeyboard')}
+            action={() =>
+              navigation.navigate('SetTaskNameKeyboard', {
+                taskCategory,
+              })
+            }
           />
           <InputModeButton
             icon="pencil"
-            action={() => navigation.navigate('SetTaskNameKeyboard')}
+            action={() =>
+              navigation.navigate('SetTaskNameKeyboard', {
+                taskCategory,
+              })
+            }
           />
         </View>
       </View>
@@ -65,4 +65,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SetTaskName;
+const mapStateToProps = (state) => {
+  const { taskCategory } = state.createTask;
+  return { taskCategory };
+};
+
+export default connect(mapStateToProps)(SetTaskName);

@@ -1,38 +1,51 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-  Icon,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
-import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import InlineTimePicker from 'react-native-inline-timepicker';
+import { useTheme } from '@react-navigation/native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addTaskTime } from '../store/CreateTaskActions';
 
 const SetTaskTime = ({ route, navigation }) => {
+  const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const [time, setTime] = React.useState({
     hours: 12,
     minutes: 0,
     seconds: 0,
-    meridian: "AM"
+    meridian: 'AM',
   });
   const updateTime = (h, m, s, mn) => {
-    setTime({hours: h, minutes: m, seconds: s, meridian: mn});
-  }
-  
+    setTime({ hours: h, minutes: m, seconds: s, meridian: mn });
+    console.log(time);
+  };
+
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
-      <View style={{ marginBottom: 30, flex: 6,alignSelf: 'stretch' }}>
-          <InlineTimePicker onChangeTime = {updateTime}/>
+      <View style={{ marginBottom: 30, flex: 6, alignSelf: 'stretch' }}>
+        <InlineTimePicker
+          onChangeTime={updateTime}
+          textBackgroundColor={primaryColor}
+          containerBackgroundColor={tertiaryColor}
+          textColor={secondaryColor}
+          textBorderColor={secondaryColor}
+        />
       </View>
-      <View style={{alignSelf: 'stretch', flexDirection: 'row-reverse',marginBottom: 20}}>
-          <NextStepButton content="Next Step" action={() => navigation.navigate("SetTaskRecurrance")}/>
+      <View
+        style={{
+          marginBottom: 20,
+          marginRight: 20,
+        }}
+      >
+        <NextStepButton
+          content="Next Step"
+          action={() => {
+            addTaskTime({ taskTime: time });
+            navigation.navigate('SetTaskRecurrance');
+          }}
+        />
       </View>
     </View>
   );
@@ -45,26 +58,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     backgroundColor: '#264653',
   },
-  button: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 120,
-    height: 120,
-    backgroundColor: '#fff',
-    borderRadius: 100,
-  },
-  options: {
-    flex: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
 });
 
-export default SetTaskTime;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskTime,
+    },
+    dispatch,
+  );
+
+export default connect(mapDispatchToProps)(SetTaskTime);

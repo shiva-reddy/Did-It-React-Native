@@ -1,36 +1,63 @@
-import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Button,
-  Icon,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
-import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import CalendarPicker from 'react-native-calendar-picker';
+import { useTheme } from '@react-navigation/native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addTaskDate } from '../store/CreateTaskActions';
+import Toast from 'react-native-simple-toast';
 
 const SetTaskDate = ({ route, navigation }) => {
+  const {
+    primaryColor,
+    secondaryColor,
+    tertiaryColor,
+    accentColor,
+  } = useTheme();
+
+  const [dateSelected, setDate] = useState('');
+
+  const onDateChange = (date, type) => {
+    const [dateFormatted] = date.format().split('T');
+    setDate(dateFormatted);
+  };
+
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
-      <View style={{ marginBottom: 30, backgroundColor: '#ffff' }}>
-        <CalendarPicker />
+      <View style={{ marginBottom: 30, backgroundColor: tertiaryColor }}>
+        <CalendarPicker
+          textStyle={{
+            fontFamily: 'Pangolin_400Regular',
+            color: secondaryColor,
+          }}
+          selectedDayColor={accentColor}
+          todayBackgroundColor={primaryColor}
+          todayTextStyle={{
+            color: 'black',
+          }}
+          onDateChange={onDateChange}
+        />
       </View>
       <View
         style={{
-          alignSelf: 'stretch',
-          flexDirection: 'row-reverse',
+          alignItems: 'flex-end',
+          marginRight: 25,
           marginBottom: 20,
         }}
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('SetTaskTime')}
+          action={() => {
+            if (dateSelected !== null && dateSelected.length !== 0) {
+              addTaskDate({ taskDate: dateSelected });
+              navigation.navigate('SetTaskTime');
+            } else {
+              Toast.show('Please select a date', Toast.SHORT, Toast.BOTTOM);
+            }
+          }}
         />
       </View>
     </View>
@@ -44,26 +71,18 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
     justifyContent: 'center',
     backgroundColor: '#264653',
   },
-  button: {
-    borderWidth: 1,
-    borderColor: 'rgba(0,0,0,0.2)',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 120,
-    height: 120,
-    backgroundColor: '#fff',
-    borderRadius: 100,
-  },
-  options: {
-    flex: 6,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
 });
 
-export default SetTaskDate;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskDate,
+    },
+    dispatch,
+  );
+
+export default connect(null, mapDispatchToProps)(SetTaskDate);

@@ -1,9 +1,10 @@
-import React from 'react';
-import { StyleSheet, Text, View, Image, Pressable, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, Pressable, Button, TouchableOpacity } from 'react-native';
 import MyAppText from '../components/MyAppText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
+import {deleteTask} from '../database/Utilities/api'
 
 const BackButton = ({ navigation }) => {
   return (
@@ -28,11 +29,16 @@ function LogoTitle() {
 }
 
 const ViewDetailedTask = ({ navigation, route }) => {
+  
   console.log('route params ' + JSON.stringify(route));
-  const taskName = route.params.name;
-  const taskDeadline = route.params.deadline;
+
+  const taskName =        route.params.name;
+  const taskDeadline =    route.params.deadline;
   const taskDescription = route.params.description;
   const taskIsRecurring = route.params.isRecurring;
+  const taskID =          route.params.id;
+
+  const [id,setID] = useState(id)
 
   console.log(
     taskName +
@@ -47,7 +53,13 @@ const ViewDetailedTask = ({ navigation, route }) => {
   return (
     <View style={[styles.container]}>
       <View style={[{ justifyContent: 'flex-end', flexDirection: 'row' }]}>
+        <TouchableOpacity onPress= { async()=>{
+            navigation.goBack()
+            await deleteTask(taskID)
+
+        }}>
         <Entypo name="trash" size={30} color="#FFF" />
+        </TouchableOpacity>
       </View>
       <View
         style={[
@@ -106,7 +118,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
               style={{ width: '40%', height: 50, backgroundColor: '#264653' }}
             >
               <MyAppText>
-                <Text>{taskIsRecurring}</Text>
+                <Text>{taskIsRecurring==1?"Yes":"No"}</Text>
               </MyAppText>
             </View>
           </View>
@@ -123,7 +135,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable
               onPress={() => {
-                navigation.navigate('GetUserCameraPreference');
+                navigation.navigate('GetUserCameraPreference', {taskId:id});
               }}
             >
               <Entypo name="check" size={30} color="#E76F51" />

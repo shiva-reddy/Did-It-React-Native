@@ -1,31 +1,49 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Button,Icon } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Button,
+  Icon,
+} from 'react-native';
 import { Foundation } from '@expo/vector-icons';
 import MyAppText from '../components/MyAppText';
+import { useTheme } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 
-const NextStepButton = ({content, action}) => {
-    return (
-       <TouchableOpacity style={styles.button} onPress={() => action()}>
-            <Text>{content}</Text>
-        </TouchableOpacity>
-    );
+const NextStepButton = ({ content, action }) => {
+  const { secondaryColor, tertiaryColor } = useTheme();
+
+  return (
+    <TouchableOpacity
+      style={styles({ tertiaryColor }).button}
+      onPress={() => action()}
+    >
+      <MyAppText>
+        <MaterialIcons name="navigate-next" size={30} color={secondaryColor} />
+      </MyAppText>
+    </TouchableOpacity>
+  );
 };
 
-const styles = StyleSheet.create({
+const styles = ({ tertiaryColor }) =>
+  StyleSheet.create({
     icon: {
-        marginTop: 20,
-        marginHorizontal: 20,
+      marginTop: 20,
+      marginHorizontal: 20,
     },
-    button: { 
-        borderWidth:1,
-        borderColor:'rgba(0,0,0,0.2)',
-        alignItems:'center',
-        justifyContent:'center',
-        width:120,
-        height:50,
-        flexDirection: 'row-reverse',
-        backgroundColor:'#fff',
-    }
-});
+    button: {
+      borderWidth: 1,
+      borderColor: tertiaryColor,
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 80,
+      height: 50,
+      borderRadius: 100,
+      flexDirection: 'row-reverse',
+      backgroundColor: tertiaryColor,
+    },
+  });
 
 export default NextStepButton;

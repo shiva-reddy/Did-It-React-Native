@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 import React, { useEffect } from 'react';
-=======
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
->>>>>>> 87a8ac01a272d4ef5492a187ee61b179860a8f3f
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
@@ -23,11 +20,9 @@ import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
-<<<<<<< HEAD
 import Task from './database/Models/Task'
-=======
 import CreateTaskReducer from './store/CreateTaskReducer';
->>>>>>> 87a8ac01a272d4ef5492a187ee61b179860a8f3f
+
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();

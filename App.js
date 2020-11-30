@@ -1,5 +1,5 @@
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
@@ -19,7 +19,9 @@ import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
+import Task from './database/Models/Task'
 import CreateTaskReducer from './store/CreateTaskReducer';
+
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -130,7 +132,21 @@ const viewTaskScreens = () => {
 };
 
 export default function App() {
+
+
+
+  useEffect(() => {
+
+    async function createTable () {
+      console.log("Creating table")
+      await Task.createTable()
+    }
+    createTable()
+  }, [])
+
+
   const store = createStore(CreateTaskReducer);
+
 
   const headerStyles = {
     headerStyle: {

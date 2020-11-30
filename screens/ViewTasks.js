@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
-
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
-import TaskCreatedModal from '../components/TaskCreatedModal';
 
 const FirstRoute = () => {
   const { secondaryColor } = useTheme();
@@ -45,13 +44,23 @@ const renderTabBar = (props) => {
 const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
-  const { primaryColor, tertiaryColor, accentColor } = useTheme();
 
+  console.log("Rendering")
+ 
+  const isFocused = useIsFocused()
+
+    useEffect(() => {
+        //Update the state you want to be updated
+        console.log("Is focused "+isFocused)
+        
+    } , [isFocused])
+
+  const { primaryColor, tertiaryColor, accentColor } = useTheme();
   const [activitySelected, setActivitSelected] = useState('Chores');
-  const props = navigation;
   const [index, setIndex] = React.useState(0);
+
   const [routes] = React.useState([
-    { key: 'first', title: 'Upcoming' },
+    { key: 'first', title:  'Upcoming' },
     { key: 'second', title: 'Completed' },
   ]);
 
@@ -60,126 +69,127 @@ const ViewTasks = ({ navigation }) => {
     second: SecondRoute,
   });
 
+  
   return (
     <View style={styles.container}>
-      <View style={styles.activityContainer}>
-        <Pressable
-          onPress={() => {
-            navigation.goBack();
-          }}
-        >
-          <View style={[{ marginVertical: 11 }]}>
-            <MaterialIcons
+     
+        <View style={[{backgroundColor:'transparent'},styles.container]}>
+        <View style={styles.activityContainer}>
+          <Pressable
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <View style={[{ marginVertical: 11 }]}>
+              <MaterialIcons
+                style={[styles.activityIcon]}
+                name="arrow-back"
+                size={30}
+                color={accentColor}
+              />
+            </View>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setActivitSelected('Chores');
+            }}
+            android_ripple={{
+              color: accentColor,
+            }}
+            style={{
+              backgroundColor:
+                activitySelected === 'Chores' ? accentColor : primaryColor,
+            }}
+          >
+            <MaterialCommunityIcons
               style={[styles.activityIcon]}
-              name="arrow-back"
-              size={30}
-              color={accentColor}
+              name="broom"
+              size={65}
+              color={tertiaryColor}
             />
-          </View>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            setActivitSelected('Chores');
-          }}
-          android_ripple={{
-            color: accentColor,
-          }}
-          style={{
-            backgroundColor:
-              activitySelected === 'Chores' ? accentColor : primaryColor,
-          }}
-        >
-          <MaterialCommunityIcons
-            style={[styles.activityIcon]}
-            name="broom"
-            size={65}
-            color={tertiaryColor}
-          />
-          <MyAppText>
-            <Text style={styles.activityText}>Chores</Text>
-          </MyAppText>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            setActivitSelected('Hobbies');
-          }}
-          android_ripple={{
-            color: accentColor,
-          }}
-          style={{
-            backgroundColor:
-              activitySelected === 'Hobbies' ? accentColor : primaryColor,
-          }}
-        >
-          <FontAwesome5
-            name="guitar"
-            size={60}
-            style={[styles.activityIcon]}
-            color={tertiaryColor}
-          />
-          <MyAppText>
-            <Text style={styles.activityText}>Hobbies</Text>
-          </MyAppText>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            setActivitSelected('Homework');
-          }}
-          android_ripple={{
-            color: accentColor,
-          }}
-          style={{
-            backgroundColor:
-              activitySelected === 'Homework' ? accentColor : primaryColor,
-          }}
-        >
-          <FontAwesome5
-            name="pencil-ruler"
-            size={55}
-            style={[styles.activityIcon]}
-            color={tertiaryColor}
-          />
-          <MyAppText>
-            <Text style={styles.activityText}>Homework</Text>
-          </MyAppText>
-        </Pressable>
-        <Pressable
-          onPress={() => {
-            setActivitSelected('Study');
-          }}
-          android_ripple={{
-            color: accentColor,
-          }}
-          style={{
-            backgroundColor:
-              activitySelected === 'Study' ? accentColor : primaryColor,
-          }}
-        >
-          <FontAwesome5
-            name="book-open"
-            size={55}
-            style={[styles.activityIcon]}
-            color={tertiaryColor}
-          />
-          <MyAppText>
-            <Text style={styles.activityText}>Study</Text>
-          </MyAppText>
-        </Pressable>
-      </View>
-      <View style={styles.taskContainer}>
+            <MyAppText>
+              <Text style={styles.activityText}>Chores</Text>
+            </MyAppText>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setActivitSelected('Hobbies');
+            }}
+            android_ripple={{
+              color: accentColor,
+            }}
+            style={{
+              backgroundColor:
+                activitySelected === 'Hobbies' ? accentColor : primaryColor,
+            }}
+          >
+            <FontAwesome5
+              name="guitar"
+              size={60}
+              style={[styles.activityIcon]}
+              color={tertiaryColor}
+            />
+            <MyAppText>
+              <Text style={styles.activityText}>Hobbies</Text>
+            </MyAppText>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setActivitSelected('Homework');
+            }}
+            android_ripple={{
+              color: accentColor,
+            }}
+            style={{
+              backgroundColor:
+                activitySelected === 'Homework' ? accentColor : primaryColor,
+            }}
+          >
+            <FontAwesome5
+              name="pencil-ruler"
+              size={55}
+              style={[styles.activityIcon]}
+              color={tertiaryColor}
+            />
+            <MyAppText>
+              <Text style={styles.activityText}>Homework</Text>
+            </MyAppText>
+          </Pressable>
+          <Pressable
+            onPress={() => {
+              setActivitSelected('Study');
+            }}
+            android_ripple={{
+              color: accentColor,
+            }}
+            style={{
+              backgroundColor:
+                activitySelected === 'Study' ? accentColor : primaryColor,
+            }}
+          >
+            <FontAwesome5
+              name="book-open"
+              size={55}
+              style={[styles.activityIcon]}
+              color={tertiaryColor}
+            />
+            <MyAppText>
+              <Text style={styles.activityText}>Study</Text>
+            </MyAppText>
+          </Pressable>
+        </View>
+        <View style={styles.taskContainer}>
         <MyAppText>
           <Text style={styles.activityHeader}>{activitySelected}</Text>
         </MyAppText>
-        <View>
-          {TaskCreatedModal(true,null)}
-        </View>
-        <TabView
-          navigationState={{ index, routes }}
+        {isFocused &&(<TabView
+          navigationState={{ index, routes}}
           renderScene={renderScene}
           renderTabBar={renderTabBar}
           onIndexChange={setIndex}
           initialLayout={initialLayout}
-        />
+        />)}
+         </View>
       </View>
     </View>
   );

@@ -6,55 +6,9 @@ import { Ionicons } from '@expo/vector-icons';
 
 const GetUserCameraPreference = ({ route,navigation }) => {
 
-    console.log("Rerendering")
-    //const [modalVisible, setModalVisible] = useState(false);
-
-    // const TaskCompletedModal = (modalVisible) => {
-    //     //console.log("Modal visible status "+modelVisible)
-        
-    //     console.log("Modal visible status "+modalVisible)
-        
-    //     console.log("Model visible status "+JSON.stringify(route.params))
+    console.log("Rerendering") 
     
-    //     return (
-    //       <View style={styles.centeredView}>
-    //         <Modal
-    //           animationType="slide"
-    //           transparent={true}
-    //           visible={modalVisible}
-    //           onRequestClose={() => {
-    //             Alert.alert("Modal has been closed.");
-    //           }}
-    //         >
-    //           <View style={styles.centeredView}>
-    //             <View style={styles.modalView}>
-    //             <Ionicons name="md-checkmark-circle" size={32} color="green" />
-    //               <Text style={styles.modalText}>Yay! You have completed the task. Great Job</Text>
-    //               <TouchableHighlight
-    //                 style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-    //                 onPress={() => {
-    //                   setModalVisible(!modalVisible);
-    //                 }}
-    //               >
-    //                 <Text style={styles.textStyle}>Hide Modal</Text>
-    //               </TouchableHighlight>
-    //             </View>
-    //           </View>
-    //         </Modal>
-      
-    //         <TouchableHighlight
-    //           style={styles.openButton}
-    //           onPress={() => {
-    //             setModalVisible(true);
-    //           }}
-    //         >
-    //           <Text style={styles.textStyle}>Show Modal</Text>
-    //         </TouchableHighlight>
-    //       </View>
-    //     );
-    // };
-    
-    
+    const taskID = route.params.taskID
  
     return (
         <View style={styles.container}>
@@ -68,7 +22,7 @@ const GetUserCameraPreference = ({ route,navigation }) => {
                         title="Yes"
                         color="#000"
                         backgroundColor='#FFF'
-                        onPress = {()=> navigation.navigate('TakePhotoFromCamera')}
+                        onPress = {()=> navigation.navigate('TakePhotoFromCamera',{taskID:taskID})}
                     />
                     </View>
                     <View style={[{ width:200, flexDirection:'row', margin:10, justifyContent:'center'}]}>

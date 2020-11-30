@@ -1,5 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
@@ -17,6 +19,7 @@ import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
+import CreateTaskReducer from './store/CreateTaskReducer';
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -127,6 +130,8 @@ const viewTaskScreens = () => {
 };
 
 export default function App() {
+  const store = createStore(CreateTaskReducer);
+
   const headerStyles = {
     headerStyle: {
       backgroundColor: '#264653',
@@ -139,29 +144,31 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <NavigationContainer theme={MyTheme}>
-        <RootStack.Navigator>
-          <RootStack.Screen
-            name="Home"
-            component={Home}
-            options={{ headerShown: false }}
-          ></RootStack.Screen>
-          <RootStack.Screen
-            name="CreateTask"
-            component={createTaskScreens}
-            options={{ ...headerStyles, title: 'Create Tasks' }}
-          ></RootStack.Screen>
-          <RootStack.Screen
-            name="ViewTasks"
-            component={viewTaskScreens}
-            options={{
-              ...headerStyles,
-              title: 'View Tasks',
-              headerShown: false,
-            }}
-          ></RootStack.Screen>
-        </RootStack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer theme={MyTheme}>
+          <RootStack.Navigator>
+            <RootStack.Screen
+              name="Home"
+              component={Home}
+              options={{ headerShown: false }}
+            ></RootStack.Screen>
+            <RootStack.Screen
+              name="CreateTask"
+              component={createTaskScreens}
+              options={{ ...headerStyles, title: 'Create Tasks' }}
+            ></RootStack.Screen>
+            <RootStack.Screen
+              name="ViewTasks"
+              component={viewTaskScreens}
+              options={{
+                ...headerStyles,
+                title: 'View Tasks',
+                headerShown: false,
+              }}
+            ></RootStack.Screen>
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </View>
   );
 }

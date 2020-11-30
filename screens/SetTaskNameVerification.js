@@ -1,18 +1,6 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-  InteractionManager,
-  TouchableOpacity,
-  Button,
-  Icon,
-} from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
-import { Foundation } from '@expo/vector-icons';
+import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
-import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 
 const SetTaskNameVerification = ({ navigation, route }) => {

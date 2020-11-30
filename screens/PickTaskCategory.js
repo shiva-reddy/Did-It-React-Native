@@ -15,7 +15,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
       onPress={() => {
         navigation.navigate('CreateTask', {
           screen: 'SetTaskName',
-          params: { taskCategory: props },
+          params: { taskCategory: props.title },
         });
       }}
     >

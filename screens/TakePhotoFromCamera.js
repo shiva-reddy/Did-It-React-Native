@@ -148,14 +148,6 @@ const CameraComponent = () => {
     setHasPermission(null);
   };
 
-  // const __takePicture = async () => {
-  //     const photo: any = await camera.takePictureAsync()
-  //     console.log(photo)
-  //     setPreviewVisible(true)
-  //     //setStartCamera(false)
-  //     setCapturedImage(photo)
-  //   }
-
   const takePicture = async () => {
     const photo = await camera.takePictureAsync({ skipProcessing: true });
     console.log(photo);
@@ -164,11 +156,6 @@ const CameraComponent = () => {
     setCapturedImage(photo);
   };
 
-  const onPictureSaved = async (photo) => {
-    console.log('Photo');
-
-    // more load here
-  };
 
   useEffect(() => {
     (async () => {

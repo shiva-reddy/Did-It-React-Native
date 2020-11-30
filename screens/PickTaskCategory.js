@@ -4,12 +4,19 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TaskCategories from '../utils/TaskCategories';
 import { useTheme } from '@react-navigation/native';
+<<<<<<< HEAD
 import {createTask, deleteTask} from '../database/Utilities/api'
+=======
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { addTaskCategory } from '../store/CreateTaskActions';
+>>>>>>> 87a8ac01a272d4ef5492a187ee61b179860a8f3f
 
 import MyAppText from '../components/MyAppText';
 
 const TaskCategoryCard = ({ navigation, props }) => {
   const { accentColor, tertiaryColor, secondaryColor } = useTheme();
+  console.log(props);
   return (
     <TouchableOpacity
       onPress={() => {
@@ -17,6 +24,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
           screen: 'SetTaskName',
           params: { taskCategory: props.title },
         });
+        props.addTaskCategory({ taskCategory: props.title });
       }}
     >
       <View style={styles({ accentColor, secondaryColor }).card}>
@@ -50,6 +58,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
   );
 };
 
+<<<<<<< HEAD
 const CreateTask = ({ navigation }) => {
 
   const { primaryColor } = useTheme();
@@ -117,6 +126,11 @@ const CreateTask = ({ navigation }) => {
 
 
   }, [])
+=======
+const CreateTask = ({ navigation, addTaskCategory }) => {
+  const { primaryColor } = useTheme();
+  console.log('from here' + addTaskCategory);
+>>>>>>> 87a8ac01a272d4ef5492a187ee61b179860a8f3f
 
   return (
     <View style={styles({ primaryColor }).container}>
@@ -127,7 +141,7 @@ const CreateTask = ({ navigation }) => {
         {TaskCategories.map((cat) => (
           <TaskCategoryCard
             navigation={navigation}
-            props={cat}
+            props={{ ...cat, addTaskCategory }}
             key={`category-${cat.title}`}
           />
         ))}
@@ -163,4 +177,17 @@ const styles = ({ accentColor, primaryColor, secondaryColor }) =>
     },
   });
 
-export default CreateTask;
+const mapStateToProps = (state) => {
+  const { taskCategory } = state.createTask;
+  return { taskCategory };
+};
+
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskCategory,
+    },
+    dispatch,
+  );
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTask);

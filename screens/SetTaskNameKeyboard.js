@@ -5,14 +5,18 @@ import { Input } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import NextStepButton from '../components/NextStepButton';
 import Toast from 'react-native-simple-toast';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addTaskName } from '../store/CreateTaskActions';
 
-const SetTaskNameKeyboard = ({ route, navigation }) => {
+const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
   const [input, setInput] = React.useState('');
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const { taskCategory } = route.params;
 
   const navigateToVerify = () => {
-    if (input !== '') {
+    if (input !== '' && input.length != 0) {
+      addTaskName({ taskName: input });
       navigation.navigate('CreateTask', {
         screen: 'SetTaskNameVerification',
         params: { chosenText: input },
@@ -80,4 +84,12 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
     },
   });
 
-export default SetTaskNameKeyboard;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskName,
+    },
+    dispatch,
+  );
+
+export default connect(null, mapDispatchToProps)(SetTaskNameKeyboard);

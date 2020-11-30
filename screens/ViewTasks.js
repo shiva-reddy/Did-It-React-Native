@@ -52,7 +52,7 @@ const ViewTasks = ({ navigation }) => {
     useEffect(() => {
         //Update the state you want to be updated
         console.log("Is focused "+isFocused)
-        setComponentState(true)
+        
     } , [isFocused])
 
   const { primaryColor, tertiaryColor, accentColor } = useTheme();

@@ -4,6 +4,9 @@ import ConversationCard from '../components/ConversationCard';
 import NextStepButton from '../components/NextStepButton';
 import InlineTimePicker from 'react-native-inline-timepicker';
 import { useTheme } from '@react-navigation/native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { addTaskTime } from '../store/CreateTaskActions';
 
 const SetTaskTime = ({ route, navigation }) => {
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
@@ -15,6 +18,7 @@ const SetTaskTime = ({ route, navigation }) => {
   });
   const updateTime = (h, m, s, mn) => {
     setTime({ hours: h, minutes: m, seconds: s, meridian: mn });
+    console.log(time);
   };
 
   return (
@@ -37,7 +41,10 @@ const SetTaskTime = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('SetTaskRecurrance')}
+          action={() => {
+            addTaskTime({ taskTime: time });
+            navigation.navigate('SetTaskRecurrance');
+          }}
         />
       </View>
     </View>
@@ -57,4 +64,12 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SetTaskTime;
+const mapDispatchToProps = (dispatch) =>
+  bindActionCreators(
+    {
+      addTaskTime,
+    },
+    dispatch,
+  );
+
+export default connect(mapDispatchToProps)(SetTaskTime);

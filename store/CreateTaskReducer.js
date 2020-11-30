@@ -7,6 +7,7 @@ const INITIAL_STATE = {
   taskCategory: '',
   isTaskRepeating: false,
   repeatRange: '',
+  isRecurring:0
 };
 
 const createTaskReducer = (state = INITIAL_STATE, action) => {

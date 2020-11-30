@@ -5,8 +5,15 @@ import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
+import { useSelector } from 'react-redux'
+import { createTask } from '../database/Utilities/api';
+import moment from 'moment'
+
+const selectTodos = state => state.createTask
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
+  const taskObject = useSelector(selectTodos)
+  console.log("Task name is "+JSON.stringify(taskObject))
   const { secondaryColor, tertiaryColor } = useTheme();
 
   const [period, setPeriod] = React.useState('month');
@@ -115,7 +122,39 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => navigation.navigate('ViewTasks')}
+          action={async () => {
+            // Read the values, insert into db and view tasks
+            /*
+              {"createTask":{"taskName":"","taskDate":{},"taskTime":"","taskCategory":"","isTaskRepeating":false,"repeatRange":""}}
+                  
+                  name:         {type: types.TEXT, not_null: true },
+                  category:      {type: types.TEXT },
+                  isCompleted:   {type: types.BOOLEAN},
+                  isRecurring:   {type: types.BOOLEAN},
+                  taskFinishBy : {type: types.DATETIME},
+                  createdDate:   {type: types.DATE}
+
+                  var task = {}
+                  task.name=taskObject.taskName
+                  task.category=taskObject.taskCategory
+                  task.isCompleted = 0
+                  task.isRecurring = taskObject.isRecurring ==false?0:1
+                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
+                  task.createdDate = new Date().toIsoString()
+                  
+            */
+                  var task = {}
+                  task.name=taskObject.taskName
+                  task.category=taskObject.taskCategory
+                  task.isCompleted = 0
+                  task.isRecurring = taskObject.isRecurring ==false?0:1
+                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
+                  task.createdDate = new Date().toISOString()
+            
+                  console.log("Task object is "+ JSON.stringify(task))
+                  await createTask(taskObject)
+
+                  navigation.navigate('ViewTasks')}}
         />
       </View>
     </View>

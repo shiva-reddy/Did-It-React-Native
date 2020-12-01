@@ -24,6 +24,8 @@ const SetTaskDate = ({ route, navigation }) => {
     setDate(dateFormatted);
   };
 
+  const moment = require('moment');
+  const now = moment();
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
@@ -39,6 +41,7 @@ const SetTaskDate = ({ route, navigation }) => {
             color: 'black',
           }}
           onDateChange={onDateChange}
+          disabledDates={date => date < now}
         />
       </View>
       <View

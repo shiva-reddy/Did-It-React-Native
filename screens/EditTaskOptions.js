@@ -6,16 +6,18 @@ import InputModeButton from '../components/InputModeButton';
 
 import { connect } from 'react-redux';
 
-const SetTaskName = ({ navigation, taskCategory, mode}) => {
+const EditTaskOptions = ({ navigation, taskCategory }) => {
+  console.log(taskCategory);
+
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText="Choose your input method" />
+      <ConversationCard avatarText="What do you want to update on this task?" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
             action={() =>
-              navigation.navigate('SetTaskNameVoice', {
+              navigation.navigate('SetTaskDate', {
                 taskCategory,
               })
             }
@@ -64,8 +66,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { taskCategory, mode } = state.createTask;
-  return { taskCategory, mode };
+  const { taskCategory } = state.createTask;
+  return { taskCategory };
 };
 
-export default connect(mapStateToProps)(SetTaskName);
+export default connect(mapStateToProps)(EditTaskOptions);

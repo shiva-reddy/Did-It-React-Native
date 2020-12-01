@@ -13,6 +13,11 @@ export const addTaskCategory = (taskObject) => ({
   payload: taskObject.taskCategory,
 });
 
+export const addMode = (taskObject) => ({
+  type: 'ADD_MODE',
+  payload: taskObject.mode,
+});
+
 export const addTaskDate = (taskObject) => ({
   type: 'ADD_TASK_DATE',
   payload: taskObject.taskDate,

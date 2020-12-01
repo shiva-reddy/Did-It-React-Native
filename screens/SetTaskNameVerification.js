@@ -3,7 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import NextStepButton from '../components/NextStepButton';
 
-const SetTaskNameVerification = ({ navigation, route }) => {
+import { connect } from 'react-redux';
+
+const SetTaskNameVerification = ({ navigation, route, mode }) => {
   const chosenText = route.params.chosenText;
 
   const redoAction = () => {
@@ -17,7 +19,7 @@ const SetTaskNameVerification = ({ navigation, route }) => {
     <View style={styles.container}>
       <ConversationCard
         style={{ flex: 2 }}
-        avatarText="Is this your task name?"
+        avatarText= {mode === 'create' ? "Is this your task name?" : "Update your task name to this?"}
         userText={chosenText}
         redoAction = {redoAction}
       />
@@ -49,4 +51,9 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SetTaskNameVerification;
+const mapStateToProps = (state) => {
+  const { taskCategory, mode } = state.createTask;
+  return { taskCategory, mode };
+};
+
+export default connect(mapStateToProps)(SetTaskNameVerification);

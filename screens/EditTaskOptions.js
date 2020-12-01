@@ -1,42 +1,40 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 
 import ConversationCard from '../components/ConversationCard';
 import InputModeButton from '../components/InputModeButton';
-
+import { useTheme } from '@react-navigation/native';
+import { Foundation } from '@expo/vector-icons';
+import MyAppText from '../components/MyAppText';
 import { connect } from 'react-redux';
 
-const EditTaskOptions = ({ navigation, taskCategory }) => {
-  console.log(taskCategory);
-
+const option = (text, action) => {
+  const { tertiaryColor, secondaryColor } = useTheme();
   return (
-    <View style={styles.container}>
+  <TouchableOpacity
+    style= {styles({ tertiaryColor }).button}
+    onPress= {action ? action : () => {}}
+  >
+    <MyAppText>{text}</MyAppText>
+  </TouchableOpacity>);
+};
+
+const EditTaskOptions = ({ navigation, taskCategory }) => {
+  const { tertiaryColor, secondaryColor } = useTheme();
+  return (
+    <View style={styles({ tertiaryColor }).container}>
       <ConversationCard avatarText="What do you want to update on this task?" />
-      <View style={{ flex: 3, flexDirection: 'row' }}>
-        <View style={styles.options}>
-          <InputModeButton
-            icon="microphone"
-            action={() =>
-              navigation.navigate('SetTaskDate', {
-                taskCategory,
-              })
-            }
-          />
-          <InputModeButton
-            icon="pencil"
-            action={() =>
-              navigation.navigate('SetTaskNameKeyboard', {
-                taskCategory,
-              })
-            }
-          />
+      <View style={{ flex: 6, flexDirection: 'row' }}>
+        <View style={styles({ tertiaryColor }).options}>
+          {option('The task description', () => {})}
+          {option('The task date', () => {})}
         </View>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const styles = ({ tertiaryColor }) => StyleSheet.create({
   icon: {
     marginTop: 20,
     marginHorizontal: 20,
@@ -52,14 +50,14 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(0,0,0,0.2)',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 120,
-    height: 120,
-    backgroundColor: '#fff',
-    borderRadius: 100,
+    width: 300,
+    height: 100,
+    backgroundColor: tertiaryColor,
+    borderRadius: 20,
   },
   options: {
     flex: 6,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-around',
   },

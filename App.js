@@ -17,6 +17,7 @@ import TaskCompletedModal from './components/TaskMarkedDoneModal';
 import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
 import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
+import EditTaskOptions from './screens/EditTaskOptions';
 import SetTaskNameVoice from './screens/SetTaskNameVoice';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
@@ -47,6 +48,11 @@ const MyTheme = {
 const createTaskScreens = () => {
   return (
     <CreateTaskStack.Navigator>
+      <CreateTaskStack.Screen
+        name="EditTaskOptions"
+        component={EditTaskOptions}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
       <CreateTaskStack.Screen
         name="PickTaskCategory"
         component={PickTaskCategory}

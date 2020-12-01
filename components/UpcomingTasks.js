@@ -77,23 +77,23 @@ import {getUpcomingTasks} from '../database/Utilities/api'
 //   },
 // ];
 
-const UpcomingTasks = ({category}) => {
-  console.log("rendering")
+const UpcomingTasks = ({category, dbData}) => {
+  console.log("rendering in upcoming tasks "+dbData)
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([]);
+  const [tasks,setData] = useState([dbData]);
   const [refreshList2, setBoolean] = useState(false)
 
-  useEffect(() => {
-    async function createTable () {
-      //console.log("Getting upcoming tasks")
-      // Update the document title using the browser API
-      let upcomingTasks = await getUpcomingTasks()
-      console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
-      setData(upcomingTasks.rows)
-      setBoolean(!refreshList2)
-    }
-    createTable();
-  },[]);
+  // useEffect(() => {
+  //   async function createTable () {
+  //     //console.log("Getting upcoming tasks")
+  //     // Update the document title using the browser API
+  //     let upcomingTasks = await getUpcomingTasks()
+  //     console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
+  //     setData(upcomingTasks.rows)
+  //     setBoolean(!refreshList2)
+  //   }
+  //   createTable();
+  // },[]);
 
   console.log("Upcoming Rows is",tasks.length)
   const renderTasks = ({ item }) => {

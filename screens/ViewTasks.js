@@ -10,23 +10,24 @@ import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
 import { connect } from 'react-redux';
+import {getCompletedTasks, getUpcomingTasks} from '../database/Utilities/api'
 
-const FirstRoute = () => {
+const FirstRoute = ({ data }) => {
   const { secondaryColor } = useTheme();
-  console.log("Activity in first route ")
+
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <UpcomingTasks></UpcomingTasks>
+      <UpcomingTasks dbData={data}></UpcomingTasks>
     </View>
   );
 };
 
-const SecondRoute = () => {
+const SecondRoute = ({ data }) => {
   const { secondaryColor } = useTheme();
   console.log("Activity in second route ")
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <CompletedTasks></CompletedTasks>
+      <CompletedTasks dbData={data}></CompletedTasks>
     </View>
   );
 };
@@ -95,6 +96,8 @@ const ViewTasks = ({ navigation }) => {
   
   const [index, setIndex] = React.useState(0);
   const [previousActivity,setPreviousActivity] = useState("");
+  const [dbData, setDBData] = useState('Hello');
+  const [dbData2, setDBData2] = useState('Hello')
   //const previousActivity = usePrevious(activitySelected)
   const [routes] = React.useState([
     { key: 'first', title:  'Upcoming' },
@@ -108,20 +111,15 @@ const ViewTasks = ({ navigation }) => {
   //   second: SecondRoute,
   // });
 
-  const renderScene = ({ route }) => {
-    console.log("Route is "+route.key)
-    console.log("Index is "+index)
+  const renderScene= ({ route }) => {
+    //console.log(route);
     switch (route.key) {
-      case 'second':
-        return <UpcomingTasks></UpcomingTasks>;
-      
       case 'first':
-        return <CompletedTasks></CompletedTasks>;
-      
-      default:
-        return null;
+        return <FirstRoute data={dbData}></FirstRoute>;
+      case 'second':
+        return <SecondRoute data={dbData}></SecondRoute>;
     }
-  };
+  }
   
   return (
     <View style={styles.container}>
@@ -143,7 +141,15 @@ const ViewTasks = ({ navigation }) => {
             </View>
           </Pressable>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
+              let result = await getUpcomingTasks('Chores')
+              let completed = await getCompletedTasks('Chores')
+              let data1 = result.rows
+              let data2 = completed.rows
+              console.log("data is "+data1)
+              console.log("data is "+data2)
+              setDBData(data1);
+              setDBData(data2);
               setActivitSelected('Chores');
             }}
             android_ripple={{
@@ -165,7 +171,18 @@ const ViewTasks = ({ navigation }) => {
             </MyAppText>
           </Pressable>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
+              
+              let result = await getUpcomingTasks('Hobbies')
+              let completed = await getCompletedTasks('Hobbies')
+              let data1 = result.rows
+              let data2 = completed.rows
+              console.log("data is "+data1)
+              console.log("data is "+data2)
+              setDBData(data1);
+              setDBData(data2);
+              //setActivitSelected('Chores');
+            
               setActivitSelected('Hobbies');
             }}
             android_ripple={{
@@ -187,7 +204,18 @@ const ViewTasks = ({ navigation }) => {
             </MyAppText>
           </Pressable>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
+              let result = await getUpcomingTasks('Homework')
+              let completed = await getCompletedTasks('Homework')
+              let data1 = result.rows
+              let data2 = completed.rows
+              console.log("data is "+data1)
+              console.log("data is "+data2)
+              setDBData(data1);
+              setDBData(data2);
+              //setActivitSelected('Chores');
+            
+              //setActivitSelected('Hobbies');
               setActivitSelected('Homework');
             }}
             android_ripple={{
@@ -209,7 +237,19 @@ const ViewTasks = ({ navigation }) => {
             </MyAppText>
           </Pressable>
           <Pressable
-            onPress={() => {
+            onPress={async () => {
+              let result = await getUpcomingTasks('Study')
+              let completed = await getCompletedTasks('Study')
+              let data1 = result.rows
+              let data2 = completed.rows
+              console.log("data is "+data1)
+              console.log("data is "+data2)
+              setDBData(data1);
+              setDBData(data2);
+              //setActivitSelected('Chores');
+            
+              //setActivitSelected('Hobbies');
+              //setActivitSelected('Homework');
               setActivitSelected('Study');
             }}
             android_ripple={{

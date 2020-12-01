@@ -26,23 +26,23 @@ const tasks = [
   { name: 'Task 11',deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" }
 ];
 
-const CompletedTasks = ({category}) => {
-  console.log("rendering2")
+const CompletedTasks = ({category,dbData}) => {
+  console.log("rendering2 in completed tasks "+dbData)
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([]);
+  const [tasks,setData] = useState(dbData);
   const [refreshList, setBoolean] = useState(false)
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    async function createTable () {
-      // Update the document title using the browser API
-      let upcomingTasks = await getCompletedTasks()
-      console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
-      setData(upcomingTasks.rows)
-      setBoolean(!refreshList)
-    }
-    createTable();
-  },[]);
+  //   async function createTable () {
+  //     // Update the document title using the browser API
+  //     let upcomingTasks = await getCompletedTasks()
+  //     console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
+  //     setData(upcomingTasks.rows)
+  //     setBoolean(!refreshList)
+  //   }
+  //   createTable();
+  // },[]);
 
   // async function createTable () {
   //   // Update the document title using the browser API

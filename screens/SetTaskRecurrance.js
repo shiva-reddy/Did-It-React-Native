@@ -36,16 +36,30 @@ const SetTaskRecurrance = ({ route, navigation }) => {
           })}
           {option('No', async () => {
             //read the values and insert into db
-            var task = {}
-                  task.name=taskObject.taskName
-                  task.category=taskObject.taskCategory
-                  task.isCompleted = 0
-                  task.isRecurring = taskObject.isRecurring ==false?0:1
-                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
-                  task.createdDate = new Date().toISOString()
+            const task = {};
+            task.name = taskObject.taskName;
+            task.category = taskObject.taskCategory;
+            task.isCompleted = 0;
+            task.isRecurring = taskObject.isRecurring;
+            // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
+            // " "+JSON.stringify(taskObject.taskTime.seconds))
             
-                  console.log("Task object is "+ JSON.stringify(task))
-                  await createTask(taskObject)
+            // convert time to seconds
+            var taskTimeInSeconds  = taskObject.taskTime.hours*3600 + taskObject.taskTime.minutes*60 + taskObject.taskTime.seconds
+            // Get seconds in HH:mm:ss format
+            taskTimeInSeconds = moment(taskObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+            //console.log("Task time is "+taskTimeInSeconds)
+            
+            // Concat date and time
+            task.taskFinishBy = moment(
+              `${taskObject.taskDate} ${taskTimeInSeconds}`,
+              'YYYY-MM-DD HH:mm:ss',
+            ).toISOString();
+            //console.log("task object "+ JSON.stringify(task))
+            task.createdDate = new Date().toISOString();
+
+            console.log('Task object is ' + JSON.stringify(task));
+            await createTask(task);
                   navigation.navigate('ViewTasks');
           })}
         </View>

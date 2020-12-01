@@ -84,11 +84,10 @@ const SetTaskNameVoice = ({ route, navigation }) => {
             // });
             // const resp = await response;
             // const data = await resp.json();
-            const response = await sampleResponse();
-            // console.log(response);
+            // console.log(data);
             navigation.navigate('CreateTask', {
               screen: 'SetTaskNameVerification',
-              params: { chosenText: response },
+              params: { chosenText: await sampleResponse() },
             });
         } catch(error) {
             console.log('There was an error reading file', error);

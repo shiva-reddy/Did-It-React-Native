@@ -17,7 +17,7 @@ const SetTaskName = ({ navigation, taskCategory }) => {
           <InputModeButton
             icon="microphone"
             action={() =>
-              navigation.navigate('SetTaskNameKeyboard', {
+              navigation.navigate('SetTaskNameVoice', {
                 taskCategory,
               })
             }

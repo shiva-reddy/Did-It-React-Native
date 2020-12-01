@@ -5,15 +5,19 @@ import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
-import moment from 'moment'
+import moment from 'moment';
 
-const selectTodos = state => state.createTask
+const selectTodos = (state) => state.createTask;
+
+function pad(num) {
+  return ("0"+num).slice(-2);
+}
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
-  const taskObject = useSelector(selectTodos)
-  console.log("Task name is "+JSON.stringify(taskObject))
+  const taskObject = useSelector(selectTodos);
+  console.log('Task object is ' + JSON.stringify(taskObject));
   const { secondaryColor, tertiaryColor } = useTheme();
 
   const [period, setPeriod] = React.useState('month');
@@ -143,18 +147,33 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                   task.createdDate = new Date().toIsoString()
                   
             */
-                  var task = {}
-                  task.name=taskObject.taskName
-                  task.category=taskObject.taskCategory
-                  task.isCompleted = 0
-                  task.isRecurring = taskObject.isRecurring ==false?0:1
-                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
-                  task.createdDate = new Date().toISOString()
+            const task = {};
+            task.name = taskObject.taskName;
+            task.category = taskObject.taskCategory;
+            task.isCompleted = 0;
+            task.isRecurring = taskObject.isRecurring;
+            // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
+            // " "+JSON.stringify(taskObject.taskTime.seconds))
             
-                  console.log("Task object is "+ JSON.stringify(task))
-                  await createTask(taskObject)
+            // convert time to seconds
+            var taskTimeInSeconds  = taskObject.taskTime.hours*3600 + taskObject.taskTime.minutes*60 + taskObject.taskTime.seconds
+            // Get seconds in HH:mm:ss format
+            taskTimeInSeconds = moment(taskObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+            //console.log("Task time is "+taskTimeInSeconds)
+            
+            // Concat date and time
+            task.taskFinishBy = moment(
+              `${taskObject.taskDate} ${taskTimeInSeconds}`,
+              'YYYY-MM-DD HH:mm:ss',
+            ).toISOString();
+            //console.log("task object "+ JSON.stringify(task))
+            task.createdDate = new Date().toISOString();
 
-                  navigation.navigate('ViewTasks')}}
+            console.log('Task object is ' + JSON.stringify(task));
+            await createTask(task);
+
+            navigation.navigate('ViewTasks');
+          }}
         />
       </View>
     </View>

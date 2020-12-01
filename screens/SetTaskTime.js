@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { addTaskTime } from '../store/CreateTaskActions';
 
-const SetTaskTime = ({ route, navigation }) => {
+const SetTaskTime = ({ route, navigation, addTaskTime }) => {
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const [time, setTime] = React.useState({
     hours: 12,
@@ -20,6 +20,8 @@ const SetTaskTime = ({ route, navigation }) => {
     setTime({ hours: h, minutes: m, seconds: s, meridian: mn });
     console.log(time);
   };
+
+  //console.log(taskDate);
 
   return (
     <View style={styles.container}>
@@ -72,4 +74,9 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapDispatchToProps)(SetTaskTime);
+// const mapStateToProps = (state) => {
+//   const { taskDate } = state.createTask;
+//   return { taskDate };
+// };
+
+export default connect(null, mapDispatchToProps)(SetTaskTime);

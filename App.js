@@ -23,7 +23,7 @@ import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
 import Task from './database/Models/Task'
 import CreateTaskReducer from './store/CreateTaskReducer';
-import {createTask, deleteTask} from './database/Utilities/api';
+import {checkTableExists} from './database/Utilities/api'
 
 
 const ViewTaskStack = createStackNavigator();
@@ -156,52 +156,17 @@ export default function App() {
     const createTable = async () => {
       console.log("Creating table");
       await Task.createTable()
-    };
-
-    const createTasks = async () => {
-      console.log("Creating tasks");
-      var task = {
-        name:"Task1",
-        isCompleted:   0,
-        category:"Homework",
-        isRecurring:   1,
-        taskFinishBy : nextweek()
-      };
-      var task2 = {
-        name:"Task2",
-        isCompleted:   0,
-        category:"Homework",
-        isRecurring:   1,
-        taskFinishBy : nextweek()
-      };
-      var task3 = {
-        name:"Task3",
-        isCompleted:   1,
-        category:"Homework",
-        isRecurring:   0,
-        taskFinishBy : new Date().toISOString()
-      };
-      var task4 = {
-        name:"Task4",
-        isCompleted:   1,
-        category:"Homework",
-        isRecurring:   0,
-        taskFinishBy : new Date().toISOString()
-      };
-              
-      console.log("About to create");
-      let result = await createTask(task)
-      console.log('Task created result  '+result)
-      result =     await createTask(task2)
-      console.log('Task created result  '+result)
-      result =     await createTask(task3)
-      console.log('Task created result  '+result)
-      result =     await createTask(task4)
-      console.log('Task created result  '+result)
-    };
-    createTable();
-    createTasks();
-  }, []);
+      let result = await checkTableExists(Task.tableName)
+      console.log("Table name "+JSON.stringify(result))
+      if(result.rows.length>0) {
+        console.log("Table exists")
+      }
+      else {
+        console.log("Table does not exist")
+      }
+    }
+    createTable()
+  }, [])
 
 
   const store = createStore(CreateTaskReducer);

@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { addTaskDate } from '../store/CreateTaskActions';
 import Toast from 'react-native-simple-toast';
 
-const SetTaskDate = ({ route, navigation }) => {
+const SetTaskDate = ({ route, navigation, addTaskDate }) => {
   const {
     primaryColor,
     secondaryColor,
@@ -20,6 +20,7 @@ const SetTaskDate = ({ route, navigation }) => {
   const [dateSelected, setDate] = useState('');
 
   const onDateChange = (date, type) => {
+    console.log("date is "+date.format())
     const [dateFormatted] = date.format().split('T');
     setDate(dateFormatted);
   };

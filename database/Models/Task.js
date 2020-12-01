@@ -96,4 +96,9 @@ export default class Task extends BaseModel {
 
   }
 
+  static checkTableExists(tableName){
+    const sql = `SELECT * FROM sqlite_master WHERE name = '${tableName}' AND type='table'`
+    return this.repository.databaseLayer.executeSql(sql)
+  }
+
 }

@@ -5,15 +5,15 @@ import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
-import moment from 'moment'
+import moment from 'moment';
 
-const selectTodos = state => state.createTask
+const selectTodos = (state) => state.createTask;
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
-  const taskObject = useSelector(selectTodos)
-  console.log("Task name is "+JSON.stringify(taskObject))
+  const taskObject = useSelector(selectTodos);
+  console.log('Task name is ' + JSON.stringify(taskObject));
   const { secondaryColor, tertiaryColor } = useTheme();
 
   const [period, setPeriod] = React.useState('month');
@@ -143,18 +143,22 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                   task.createdDate = new Date().toIsoString()
                   
             */
-                  var task = {}
-                  task.name=taskObject.taskName
-                  task.category=taskObject.taskCategory
-                  task.isCompleted = 0
-                  task.isRecurring = taskObject.isRecurring ==false?0:1
-                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
-                  task.createdDate = new Date().toISOString()
-            
-                  console.log("Task object is "+ JSON.stringify(task))
-                  await createTask(taskObject)
+            const task = {};
+            task.name = taskObject.taskName;
+            task.category = taskObject.taskCategory;
+            task.isCompleted = 0;
+            task.isRecurring = taskObject.isRecurring;
+            task.taskFinishBy = moment(
+              `${taskObject.taskDate} ${taskObject.taskTime}`,
+              'YYYY-MM-DD HH:mm:ss',
+            ).format();
+            task.createdDate = new Date().toISOString();
 
-                  navigation.navigate('ViewTasks')}}
+            console.log('Task object is ' + JSON.stringify(task));
+            //await createTask(taskObject);
+
+            navigation.navigate('ViewTasks');
+          }}
         />
       </View>
     </View>

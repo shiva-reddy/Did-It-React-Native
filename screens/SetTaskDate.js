@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import { addTaskDate } from '../store/CreateTaskActions';
 import Toast from 'react-native-simple-toast';
 
-const SetTaskDate = ({ route, navigation }) => {
+const SetTaskDate = ({ route, navigation, addTaskDate }) => {
   const {
     primaryColor,
     secondaryColor,

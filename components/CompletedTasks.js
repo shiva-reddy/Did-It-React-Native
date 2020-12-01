@@ -44,6 +44,15 @@ const CompletedTasks = ({category}) => {
     createTable();
   },[]);
 
+  // async function createTable () {
+  //   // Update the document title using the browser API
+  //   let upcomingTasks = await getCompletedTasks()
+  //   console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
+  //   setData(upcomingTasks.rows)
+  //   setBoolean(!refreshList)
+  // }
+  // createTable();
+
   console.log("Rows is",tasks.length)
 
   const renderTasks = ({ item }) => {

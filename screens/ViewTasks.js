@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useIsFocused } from '@react-navigation/native';
 import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
@@ -9,10 +9,11 @@ import { useTheme } from '@react-navigation/native';
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
+import { connect } from 'react-redux';
 
 const FirstRoute = () => {
   const { secondaryColor } = useTheme();
-
+  console.log("Activity in first route ")
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
       <UpcomingTasks></UpcomingTasks>
@@ -22,7 +23,7 @@ const FirstRoute = () => {
 
 const SecondRoute = () => {
   const { secondaryColor } = useTheme();
-
+  console.log("Activity in second route ")
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
       <CompletedTasks></CompletedTasks>
@@ -41,34 +42,86 @@ const renderTabBar = (props) => {
   );
 };
 
+function usePrevious(value) {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+    console.log("value is "+value+ " "+new Date().getMilliseconds())
+  });
+  return ref.current;
+}
+
 const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
 
   console.log("Rendering")
- 
+  const [activitySelected, setActivitSelected] = useState('Chores');
   const isFocused = useIsFocused()
 
     useEffect(() => {
         //Update the state you want to be updated
         console.log("Is focused "+isFocused)
+        console.log("activity selected "+activitySelected)
         
-    } , [isFocused])
+    } , [isFocused, activitySelected])
+
+    useEffect(() => {
+
+      //Update the state you want to be updated
+      console.log("activity selected "+activitySelected)
+      // let previous = previousActivity
+      // let current = activitySelected
+      // setPreviousActivity(activitySelected)
+      // setActivitSelected("")
+      // setActivitSelected(current)
+      // setPreviousActivity(previous)
+      // if(index==0) {
+      //   index=1
+      //   setIndex(index)
+      // }
+      // else if(index==1){
+      //   index=0
+      //   setIndex(0)
+      // }
+      // console.log("previous activity "+previousActivity+" "+new Date().getMilliseconds())
+      // let previous = activitySelected
+      // setActivitSelected("")
+      //setTimeout(function(){ setActivitSelected(previous); }, 3000); 
+      
+  } , [activitySelected])
 
   const { primaryColor, tertiaryColor, accentColor } = useTheme();
-  const [activitySelected, setActivitSelected] = useState('Chores');
+  
   const [index, setIndex] = React.useState(0);
-
+  const [previousActivity,setPreviousActivity] = useState("");
+  //const previousActivity = usePrevious(activitySelected)
   const [routes] = React.useState([
     { key: 'first', title:  'Upcoming' },
     { key: 'second', title: 'Completed' },
   ]);
 
-  const renderScene = SceneMap({
-    first: FirstRoute,
-    second: SecondRoute,
-  });
 
+
+  // const renderScene= SceneMap({
+  //   first: FirstRoute,
+  //   second: SecondRoute,
+  // });
+
+  const renderScene = ({ route }) => {
+    console.log("Route is "+route.key)
+    console.log("Index is "+index)
+    switch (route.key) {
+      case 'second':
+        return <UpcomingTasks></UpcomingTasks>;
+      
+      case 'first':
+        return <CompletedTasks></CompletedTasks>;
+      
+      default:
+        return null;
+    }
+  };
   
   return (
     <View style={styles.container}>
@@ -174,7 +227,7 @@ const ViewTasks = ({ navigation }) => {
               color={tertiaryColor}
             />
             <MyAppText>
-              <Text style={styles.activityText}>Study</Text>
+              <Text style={styles.activityText}>{activitySelected}</Text>
             </MyAppText>
           </Pressable>
         </View>
@@ -182,13 +235,13 @@ const ViewTasks = ({ navigation }) => {
         <MyAppText>
           <Text style={styles.activityHeader}>{activitySelected}</Text>
         </MyAppText>
-        {isFocused &&(<TabView
+        <TabView
           navigationState={{ index, routes}}
           renderScene={renderScene}
           renderTabBar={renderTabBar}
           onIndexChange={setIndex}
-          initialLayout={initialLayout}
-        />)}
+          initialLayout={initialLayout}  
+        />
          </View>
       </View>
     </View>
@@ -225,4 +278,11 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapStateToProps(state, ownProps) {
+  return {
+      activitySelected: state.activitySelected
+  };
+}
+
 export default ViewTasks;
+//export default connect(mapStateToProps)(ViewTasks);

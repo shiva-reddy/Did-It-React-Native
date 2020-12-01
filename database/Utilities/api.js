@@ -48,11 +48,15 @@ function updateTaskName(taskId='0', name='') {
     return Task.updateTaskName(taskId,name)
 }
 
+function checkTableExists(tableName = ''){
+    return Task.checkTableExists(tableName)
+}
+
 export { markTaskAsDone, 
          deleteTask, 
          createTask, 
          getCompletedTasks, 
          getUpcomingTasks, 
          reScheduleTask, 
-         updateTaskName };
+         updateTaskName,checkTableExists };
     

@@ -11,9 +11,13 @@ import moment from 'moment';
 
 const selectTodos = (state) => state.createTask;
 
+function pad(num) {
+  return ("0"+num).slice(-2);
+}
+
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const taskObject = useSelector(selectTodos);
-  console.log('Task name is ' + JSON.stringify(taskObject));
+  console.log('Task object is ' + JSON.stringify(taskObject));
   const { secondaryColor, tertiaryColor } = useTheme();
 
   const [period, setPeriod] = React.useState('month');
@@ -148,14 +152,25 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             task.category = taskObject.taskCategory;
             task.isCompleted = 0;
             task.isRecurring = taskObject.isRecurring;
+            // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
+            // " "+JSON.stringify(taskObject.taskTime.seconds))
+            
+            // convert time to seconds
+            var taskTimeInSeconds  = taskObject.taskTime.hours*3600 + taskObject.taskTime.minutes*60 + taskObject.taskTime.seconds
+            // Get seconds in HH:mm:ss format
+            taskTimeInSeconds = moment(taskObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+            //console.log("Task time is "+taskTimeInSeconds)
+            
+            // Concat date and time
             task.taskFinishBy = moment(
-              `${taskObject.taskDate} ${taskObject.taskTime}`,
+              `${taskObject.taskDate} ${taskTimeInSeconds}`,
               'YYYY-MM-DD HH:mm:ss',
-            ).format();
+            ).toISOString();
+            //console.log("task object "+ JSON.stringify(task))
             task.createdDate = new Date().toISOString();
 
             console.log('Task object is ' + JSON.stringify(task));
-            //await createTask(taskObject);
+            await createTask(task);
 
             navigation.navigate('ViewTasks');
           }}

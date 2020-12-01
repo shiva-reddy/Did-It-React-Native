@@ -21,6 +21,7 @@ import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
 import Task from './database/Models/Task'
 import CreateTaskReducer from './store/CreateTaskReducer';
+import {checkTableExists} from './database/Utilities/api'
 
 
 const ViewTaskStack = createStackNavigator();
@@ -140,6 +141,14 @@ export default function App() {
     async function createTable () {
       console.log("Creating table")
       await Task.createTable()
+      let result = await checkTableExists(Task.tableName)
+      console.log("Table name "+JSON.stringify(result))
+      if(result.rows.length>0) {
+        console.log("Table exists")
+      }
+      else {
+        console.log("Table does not exist")
+      }
     }
     createTable()
   }, [])

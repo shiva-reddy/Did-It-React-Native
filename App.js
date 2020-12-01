@@ -23,6 +23,7 @@ import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
 import Task from './database/Models/Task'
 import CreateTaskReducer from './store/CreateTaskReducer';
+import {createTask, deleteTask} from './database/Utilities/api';
 
 
 const ViewTaskStack = createStackNavigator();
@@ -151,55 +152,57 @@ export default function App() {
     return nextweek;
   }
 
-  const createTasks = async () => {
-    var task = {
-      name:"Task1",
-      isCompleted:   0,
-      category:"Homework",
-      isRecurring:   1,
-      taskFinishBy : nextweek()
-    };
-    var task2 = {
-      name:"Task2",
-      isCompleted:   0,
-      category:"Homework",
-      isRecurring:   1,
-      taskFinishBy : nextweek()
-    };
-    var task3 = {
-      name:"Task3",
-      isCompleted:   1,
-      category:"Homework",
-      isRecurring:   0,
-      taskFinishBy : new Date().toISOString()
-    };
-    var task4 = {
-      name:"Task4",
-      isCompleted:   1,
-      category:"Homework",
-      isRecurring:   0,
-      taskFinishBy : new Date().toISOString()
-    };
-            
-    let result = await createTask(task)
-    console.log('Task created result  '+result)
-    result =     await createTask(task2)
-    console.log('Task created result  '+result)
-    result =     await createTask(task3)
-    console.log('Task created result  '+result)
-    result =     await createTask(task4)
-    console.log('Task created result  '+result)
-  }
-
-  const createTable = async () => {
-    console.log("Creating table")
-    await Task.createTable()
-  }
-
   useEffect(() => {
-    createTable()
-    createTasks()
+    const createTable = async () => {
+      console.log("Creating table");
+      await Task.createTable()
+    };
+
+    const createTasks = async () => {
+      console.log("Creating tasks");
+      var task = {
+        name:"Task1",
+        isCompleted:   0,
+        category:"Homework",
+        isRecurring:   1,
+        taskFinishBy : nextweek()
+      };
+      var task2 = {
+        name:"Task2",
+        isCompleted:   0,
+        category:"Homework",
+        isRecurring:   1,
+        taskFinishBy : nextweek()
+      };
+      var task3 = {
+        name:"Task3",
+        isCompleted:   1,
+        category:"Homework",
+        isRecurring:   0,
+        taskFinishBy : new Date().toISOString()
+      };
+      var task4 = {
+        name:"Task4",
+        isCompleted:   1,
+        category:"Homework",
+        isRecurring:   0,
+        taskFinishBy : new Date().toISOString()
+      };
+              
+      console.log("About to create");
+      let result = await createTask(task)
+      console.log('Task created result  '+result)
+      result =     await createTask(task2)
+      console.log('Task created result  '+result)
+      result =     await createTask(task3)
+      console.log('Task created result  '+result)
+      result =     await createTask(task4)
+      console.log('Task created result  '+result)
+    };
+    createTable();
+    createTasks();
   }, []);
+
 
   const store = createStore(CreateTaskReducer);
 

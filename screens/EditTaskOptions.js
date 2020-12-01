@@ -26,8 +26,22 @@ const EditTaskOptions = ({ navigation, taskCategory }) => {
       <ConversationCard avatarText="What do you want to update on this task?" />
       <View style={{ flex: 6, flexDirection: 'row' }}>
         <View style={styles({ tertiaryColor }).options}>
-          {option('The task description', () => {})}
-          {option('The task date', () => {})}
+          {option('The task description', () => {
+              navigation.navigate('CreateTask', {
+                screen: 'SetTaskName',
+                params: {
+                  taskCategory: taskCategory,
+                },
+              })}
+            )}
+          {option('The task date', () => {
+              navigation.navigate('CreateTask', {
+                screen: 'SetTaskDate',
+                params: {
+                  taskCategory: taskCategory,
+                },
+              })}
+          )}
         </View>
       </View>
     </View>

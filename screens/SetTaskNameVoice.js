@@ -18,6 +18,7 @@ const SetTaskNameVoice = ({ route, navigation }) => {
     const [isFetching, setIsFetching] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
     const [query, setQuery] = useState('');
+    const [speech, setSpeech] = React.useState("Push the microphone button and speak your task description into the phone");
 
     useEffect(() => {
         Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -55,28 +56,40 @@ const SetTaskNameVoice = ({ route, navigation }) => {
         }
     }
 
+    const sleep = (milliseconds) => {
+      return new Promise(resolve => setTimeout(resolve, milliseconds));
+    }
+
+    const sampleResponse = async () => {
+      await sleep(2000);
+      return "Sample text";
+    }
+
     const getTranscription = async () => {
         setIsFetching(true);
         try {
-            const info = await FileSystem.getInfoAsync(recording.getURI());
-            // console.log(`FILE INFO: ${JSON.stringify(info)}`);
-            const uri = info.uri;
-            const formData = new FormData();
-            formData.append('file', {
-                uri,
-                type: 'audio/x-wav',
-                name: 'speech2text'
+            // const info = await FileSystem.getInfoAsync(recording.getURI());
+            // // console.log(`FILE INFO: ${JSON.stringify(info)}`);
+            // const uri = info.uri;
+            // const formData = new FormData();
+            // formData.append('file', {
+            //     uri,
+            //     type: 'audio/x-wav',
+            //     name: 'speech2text'
+            // });
+            // // console.log(formData);
+            // const response = await fetch(config.CLOUD_FUNCTION_URL, {
+            //     method: 'POST',
+            //     body: formData
+            // });
+            // const resp = await response;
+            // const data = await resp.json();
+            const response = await sampleResponse();
+            // console.log(response);
+            navigation.navigate('CreateTask', {
+              screen: 'SetTaskNameVerification',
+              params: { chosenText: response },
             });
-            // console.log(formData);
-            const response = await fetch(config.CLOUD_FUNCTION_URL, {
-                method: 'POST',
-                body: formData
-            });
-            const resp = await response;
-            const data = await resp.json();
-            console.log("Recieved response");
-            console.log(data.transcript);
-            setQuery(data.transcript);
         } catch(error) {
             console.log('There was an error reading file', error);
             stopRecording();
@@ -108,7 +121,7 @@ const SetTaskNameVoice = ({ route, navigation }) => {
             console.log(error);
             stopRecording();
         }
-
+        setSpeech("Listening...");
         setRecording(recording);
     }
 
@@ -128,11 +141,13 @@ const SetTaskNameVoice = ({ route, navigation }) => {
     };
 
     const handleOnPressIn = () => {
+        console.log("Pressed")
         startRecording();
     };
 
     const handleOnPressOut = () => {
         stopRecording();
+        setSpeech("Hmm...Processing");
         getTranscription();
     };
 
@@ -142,12 +157,11 @@ const SetTaskNameVoice = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText="Choose your name" />
+      <ConversationCard avatarText={speech} />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
-            action={handleOnPressIn}
             onPressIn={handleOnPressIn}
             onPressOut={handleOnPressOut}
           />

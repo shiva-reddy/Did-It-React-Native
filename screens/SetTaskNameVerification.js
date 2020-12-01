@@ -5,12 +5,21 @@ import NextStepButton from '../components/NextStepButton';
 
 const SetTaskNameVerification = ({ navigation, route }) => {
   const chosenText = route.params.chosenText;
+
+  const redoAction = () => {
+    navigation.navigate('CreateTask', {
+      screen: 'SetTaskName',
+      params: { taskCategory: "chore" },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <ConversationCard
         style={{ flex: 2 }}
         avatarText="Is this your task name?"
         userText={chosenText}
+        redoAction = {redoAction}
       />
       <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 30 }}>
         <NextStepButton action={() => navigation.navigate('SetTaskDate')} />

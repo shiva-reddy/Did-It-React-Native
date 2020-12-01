@@ -11,8 +11,7 @@ import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
-import {getUpcomingTasks} from '../database/Utilities/api'
-
+import { getUpcomingTasks } from '../database/Utilities/api';
 
 // const tasks = [
 //   {
@@ -77,25 +76,25 @@ import {getUpcomingTasks} from '../database/Utilities/api'
 //   },
 // ];
 
-const UpcomingTasks = ({category}) => {
-  console.log("rendering")
+const UpcomingTasks = ({ category }) => {
+  console.log('rendering');
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([]);
-  const [refreshList2, setBoolean] = useState(false)
+  const [tasks, setData] = useState([]);
+  const [refreshList2, setBoolean] = useState(false);
 
   useEffect(() => {
-    async function createTable () {
+    async function createTable() {
       //console.log("Getting upcoming tasks")
       // Update the document title using the browser API
-      let upcomingTasks = await getUpcomingTasks()
-      console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
-      setData(upcomingTasks.rows)
-      setBoolean(!refreshList2)
+      //let upcomingTasks = await getUpcomingTasks()
+      //setData(upcomingTasks.rows)
+      //setBoolean(!refreshList2)
     }
-    createTable();
-  },[]);
+    console.log('Upcoming tasks rendered');
+    //createTable();
+  }, []);
 
-  console.log("Upcoming Rows is",tasks.length)
+  //console.log('Upcoming Rows is', tasks.length);
   const renderTasks = ({ item }) => {
     //console.log("item is "+item)
     return (
@@ -105,10 +104,10 @@ const UpcomingTasks = ({category}) => {
             navigationObject.navigate('MarkTaskAsDone', {
               name: item.name,
               deadline: new Date(item.taskFinishBy).toLocaleDateString('en-US'),
-              description: "",
+              description: '',
               isRecurring: item.isRecurring,
               category: item.category,
-              id: item.id
+              id: item.id,
             });
           }}
         >
@@ -128,7 +127,8 @@ const UpcomingTasks = ({category}) => {
               </MyAppText>
               <MyAppText alignCenter={false}>
                 <Text style={styles.taskDeadline}>
-                  Deadline: {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
+                  Deadline:{' '}
+                  {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
                 </Text>
               </MyAppText>
             </View>
@@ -161,7 +161,7 @@ const UpcomingTasks = ({category}) => {
       data={tasks}
       renderItem={renderTasks}
       keyExtractor={(item) => item.name}
-      extraData = {refreshList2}
+      extraData={refreshList2}
     ></FlatList>
   );
 };

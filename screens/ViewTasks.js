@@ -9,23 +9,24 @@ import { useTheme } from '@react-navigation/native';
 import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
+import TestScreen from './TestScreen';
 
-const FirstRoute = () => {
+const FirstRoute = ({ data }) => {
   const { secondaryColor } = useTheme();
 
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <UpcomingTasks></UpcomingTasks>
+      <UpcomingTasks dbData={data}></UpcomingTasks>
     </View>
   );
 };
 
-const SecondRoute = () => {
+const SecondRoute = ({ data }) => {
   const { secondaryColor } = useTheme();
 
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <CompletedTasks></CompletedTasks>
+      <CompletedTasks dbData={data}></CompletedTasks>
     </View>
   );
 };
@@ -44,36 +45,33 @@ const renderTabBar = (props) => {
 const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
+  //console.log('Rendering');
 
-  console.log("Rendering")
- 
-  const isFocused = useIsFocused()
-
-    useEffect(() => {
-        //Update the state you want to be updated
-        console.log("Is focused "+isFocused)
-        
-    } , [isFocused])
+  //const isFocused = useIsFocused()
 
   const { primaryColor, tertiaryColor, accentColor } = useTheme();
+  const [dbData, setDBData] = useState('Hello');
   const [activitySelected, setActivitSelected] = useState('Chores');
   const [index, setIndex] = React.useState(0);
 
   const [routes] = React.useState([
-    { key: 'first', title:  'Upcoming' },
+    { key: 'first', title: 'Upcoming' },
     { key: 'second', title: 'Completed' },
   ]);
+
+  useEffect(() => {
+    //Update the state you want to be updated
+    console.log('View Tasks Rendered');
+  }, [activitySelected]);
 
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
   });
 
-  
   return (
     <View style={styles.container}>
-     
-        <View style={[{backgroundColor:'transparent'},styles.container]}>
+      <View style={[{ backgroundColor: 'transparent' }, styles.container]}>
         <View style={styles.activityContainer}>
           <Pressable
             onPress={() => {
@@ -91,6 +89,7 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={() => {
+              setDBData('Test1');
               setActivitSelected('Chores');
             }}
             android_ripple={{
@@ -113,6 +112,7 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={() => {
+              setDBData('Test2');
               setActivitSelected('Hobbies');
             }}
             android_ripple={{
@@ -135,6 +135,7 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={() => {
+              setDBData('Test3');
               setActivitSelected('Homework');
             }}
             android_ripple={{
@@ -157,6 +158,7 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={() => {
+              setDBData('Test4');
               setActivitSelected('Study');
             }}
             android_ripple={{
@@ -177,19 +179,28 @@ const ViewTasks = ({ navigation }) => {
               <Text style={styles.activityText}>Study</Text>
             </MyAppText>
           </Pressable>
+          <TestScreen></TestScreen>
         </View>
         <View style={styles.taskContainer}>
-        <MyAppText>
-          <Text style={styles.activityHeader}>{activitySelected}</Text>
-        </MyAppText>
-        {isFocused &&(<TabView
-          navigationState={{ index, routes}}
-          renderScene={renderScene}
-          renderTabBar={renderTabBar}
-          onIndexChange={setIndex}
-          initialLayout={initialLayout}
-        />)}
-         </View>
+          <MyAppText>
+            <Text style={styles.activityHeader}>{activitySelected}</Text>
+          </MyAppText>
+          <TabView
+            navigationState={{ index, routes }}
+            renderScene={({ route }) => {
+              //console.log(route);
+              switch (route.key) {
+                case 'first':
+                  return <FirstRoute data={dbData}></FirstRoute>;
+                case 'second':
+                  return <SecondRoute data={dbData}></SecondRoute>;
+              }
+            }}
+            renderTabBar={renderTabBar}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+          />
+        </View>
       </View>
     </View>
   );

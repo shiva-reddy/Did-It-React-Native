@@ -4,7 +4,7 @@ import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, CommonActions } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
 import moment from 'moment';
@@ -143,21 +143,33 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                   task.createdDate = new Date().toIsoString()
                   
             */
-            const task = {};
-            task.name = taskObject.taskName;
-            task.category = taskObject.taskCategory;
-            task.isCompleted = 0;
-            task.isRecurring = taskObject.isRecurring;
-            task.taskFinishBy = moment(
-              `${taskObject.taskDate} ${taskObject.taskTime}`,
-              'YYYY-MM-DD HH:mm:ss',
-            ).format();
-            task.createdDate = new Date().toISOString();
+            // const task = {};
+            // task.name = taskObject.taskName;
+            // task.category = taskObject.taskCategory;
+            // task.isCompleted = 0;
+            // task.isRecurring = taskObject.isRecurring;
+            // task.taskFinishBy = moment(
+            //   `${taskObject.taskDate} ${taskObject.taskTime}`,
+            //   'YYYY-MM-DD HH:mm:ss',
+            // ).format();
+            // task.createdDate = new Date().toISOString();
 
-            console.log('Task object is ' + JSON.stringify(task));
+            // console.log('Task object is ' + JSON.stringify(task));
             //await createTask(taskObject);
 
-            navigation.navigate('ViewTasks');
+            //navigation.navigate('ViewTasks');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  { name: 'Home', params: { headerShown: false } },
+                  {
+                    name: 'ViewTasks',
+                    params: { title: 'View Tasks', headerShown: false },
+                  },
+                ],
+              }),
+            );
           }}
         />
       </View>

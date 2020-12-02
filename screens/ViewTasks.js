@@ -10,24 +10,23 @@ import MyAppText from '../components/MyAppText';
 import UpcomingTasks from '../components/UpcomingTasks';
 import CompletedTasks from '../components/CompletedTasks';
 import { connect } from 'react-redux';
-import {getCompletedTasks, getUpcomingTasks} from '../database/Utilities/api'
+import { getCompletedTasks, getUpcomingTasks } from '../database/Utilities/api';
 
-const FirstRoute = ({ data }) => {
+const FirstRoute = ({ activity }) => {
   const { secondaryColor } = useTheme();
 
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <UpcomingTasks dbData={data}></UpcomingTasks>
+      <UpcomingTasks activity={activity.activitySelected}></UpcomingTasks>
     </View>
   );
 };
 
-const SecondRoute = ({ data }) => {
+const SecondRoute = ({ activity }) => {
   const { secondaryColor } = useTheme();
-  console.log("Activity in second route ")
   return (
     <View style={[styles.scene, { backgroundColor: secondaryColor }]}>
-      <CompletedTasks dbData={data}></CompletedTasks>
+      <CompletedTasks activity={activity.activitySelected}></CompletedTasks>
     </View>
   );
 };
@@ -47,7 +46,7 @@ function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {
     ref.current = value;
-    console.log("value is "+value+ " "+new Date().getMilliseconds())
+    console.log('value is ' + value + ' ' + new Date().getMilliseconds());
   });
   return ref.current;
 }
@@ -55,78 +54,59 @@ function usePrevious(value) {
 const initialLayout = { width: Dimensions.get('window').width };
 
 const ViewTasks = ({ navigation }) => {
-
-  console.log("Rendering")
+  console.log('Rendering');
   const [activitySelected, setActivitSelected] = useState('Chores');
-  const isFocused = useIsFocused()
+  const isFocused = useIsFocused();
   const [index, setIndex] = React.useState(0);
-  const [previousActivity,setPreviousActivity] = useState("");
-  const [dbData, setDBData] =   useState([]);
-  const [dbData2, setDBData2] = useState([])
-  //const previousActivity = usePrevious(activitySelected)
   const [routes] = React.useState([
-    { key: 'first', title:  'Upcoming' },
+    { key: 'first', title: 'Upcoming' },
     { key: 'second', title: 'Completed' },
   ]);
 
+  useEffect(() => {
+    //Update the state you want to be updated
+    console.log('Is focused ' + isFocused);
+    console.log('activity selected ' + activitySelected);
+  }, [isFocused, activitySelected]);
 
-    useEffect(() => {
-        //Update the state you want to be updated
-        console.log("Is focused "+isFocused)
-        console.log("activity selected "+activitySelected)
-        
-    } , [isFocused, activitySelected])
-
-    useEffect(() => {
-
-      //Update the state you want to be updated
-      console.log("activity selected "+activitySelected)
-      // let previous = previousActivity
-      // let current = activitySelected
-      // setPreviousActivity(activitySelected)
-      // setActivitSelected("")
-      // setActivitSelected(current)
-      // setPreviousActivity(previous)
-      // if(index==0) {
-      //   index=1
-      //   setIndex(index)
-      // }
-      // else if(index==1){
-      //   index=0
-      //   setIndex(0)
-      // }
-      // console.log("previous activity "+previousActivity+" "+new Date().getMilliseconds())
-      // let previous = activitySelected
-      // setActivitSelected("")
-      //setTimeout(function(){ setActivitSelected(previous); }, 3000); 
-      
-  } , [activitySelected])
+  useEffect(() => {
+    //Update the state you want to be updated
+    console.log('activity selected ' + activitySelected);
+    // let previous = previousActivity
+    // let current = activitySelected
+    // setPreviousActivity(activitySelected)
+    // setActivitSelected("")
+    // setActivitSelected(current)
+    // setPreviousActivity(previous)
+    // if(index==0) {
+    //   index=1
+    //   setIndex(index)
+    // }
+    // else if(index==1){
+    //   index=0
+    //   setIndex(0)
+    // }
+    // console.log("previous activity "+previousActivity+" "+new Date().getMilliseconds())
+    // let previous = activitySelected
+    // setActivitSelected("")
+    //setTimeout(function(){ setActivitSelected(previous); }, 3000);
+  }, [activitySelected]);
 
   const { primaryColor, tertiaryColor, accentColor } = useTheme();
-  
 
-  
-
-
-  // const renderScene= SceneMap({
-  //   first: FirstRoute,
-  //   second: SecondRoute,
-  // });
-
-  const renderScene= ({ route }) => {
+  const renderScene = ({ route }) => {
     //console.log(route);
     switch (route.key) {
       case 'first':
-        return <FirstRoute data={dbData}></FirstRoute>;
+        return <FirstRoute activity={{ activitySelected }}></FirstRoute>;
       case 'second':
-        return <SecondRoute data={dbData2}></SecondRoute>;
+        return <SecondRoute activity={{ activitySelected }}></SecondRoute>;
     }
-  }
-  
+  };
+
   return (
     <View style={styles.container}>
-     
-        <View style={[{backgroundColor:'transparent'},styles.container]}>
+      <View style={[{ backgroundColor: 'transparent' }, styles.container]}>
         <View style={styles.activityContainer}>
           <Pressable
             onPress={() => {
@@ -144,16 +124,6 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={async () => {
-              let result = await getUpcomingTasks('Chores')
-              let completed = await getCompletedTasks('Chores')
-              let data1 = result.rows
-              let data2 = completed.rows
-              console.log("Completed tasks " +completed)
-              console.log("Upcoming tasks " + result)
-              console.log("data is "+data1)
-              console.log("data is "+data2)
-              setDBData(data1);
-              setDBData2(data2);
               setActivitSelected('Chores');
             }}
             android_ripple={{
@@ -176,21 +146,6 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={async () => {
-              
-              let result = await getUpcomingTasks('Hobbies')
-              let completed = await getCompletedTasks('Hobbies')
-              let data1 = result.rows
-              let data2 = completed.rows
-              console.log("Completed tasks " +completed)
-              console.log("Upcoming tasks " + result)
-              const dataDB = {...data1}
-              const dataDB2 = {taskArray: data1}
-              console.log("data1 is "+{taskArray:data1})
-              console.log("data2 is "+{taskArray:data2})
-              setDBData({taskArray:data1});
-              setDBData2({taskArray:data2});
-              //setActivitSelected('Chores');
-            
               setActivitSelected('Hobbies');
             }}
             android_ripple={{
@@ -213,19 +168,6 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={async () => {
-              let result = await getUpcomingTasks('Homework')
-              let completed = await getCompletedTasks('Homework')
-              console.log("Completed tasks " +completed)
-              console.log("Upcoming tasks " + result)
-              let data1 = result.rows
-              let data2 = completed.rows
-              console.log("data1 is "+JSON.stringify(data1))
-              console.log("data2 is "+JSON.stringify(data2))
-              setDBData({taskArray:data1});
-              setDBData2({taskArray:data2});
-              //setActivitSelected('Chores');
-            
-              //setActivitSelected('Hobbies');
               setActivitSelected('Homework');
             }}
             android_ripple={{
@@ -248,20 +190,6 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
           <Pressable
             onPress={async () => {
-              let result = await getUpcomingTasks('Study')
-              let completed = await getCompletedTasks('Study')
-              let data1 = result.rows
-              let data2 = completed.rows
-              console.log("Completed tasks " +completed)
-              console.log("Upcoming tasks " + result)
-              console.log("data1 is "+data1)
-              console.log("data2 is "+data2)
-              setDBData(data1);
-              setDBData2(data2);
-              //setActivitSelected('Chores');
-            
-              //setActivitSelected('Hobbies');
-              //setActivitSelected('Homework');
               setActivitSelected('Study');
             }}
             android_ripple={{
@@ -284,17 +212,17 @@ const ViewTasks = ({ navigation }) => {
           </Pressable>
         </View>
         <View style={styles.taskContainer}>
-        <MyAppText>
-          <Text style={styles.activityHeader}>{activitySelected}</Text>
-        </MyAppText>
-        <TabView
-          navigationState={{ index, routes}}
-          renderScene={renderScene}
-          renderTabBar={renderTabBar}
-          onIndexChange={setIndex}
-          initialLayout={initialLayout}  
-        />
-         </View>
+          <MyAppText>
+            <Text style={styles.activityHeader}>{activitySelected}</Text>
+          </MyAppText>
+          <TabView
+            navigationState={{ index, routes }}
+            renderScene={renderScene}
+            renderTabBar={renderTabBar}
+            onIndexChange={setIndex}
+            initialLayout={initialLayout}
+          />
+        </View>
       </View>
     </View>
   );
@@ -332,7 +260,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state, ownProps) {
   return {
-      activitySelected: state.activitySelected
+    activitySelected: state.activitySelected,
   };
 }
 

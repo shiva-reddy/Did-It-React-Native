@@ -11,8 +11,7 @@ import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
-import {getUpcomingTasks} from '../database/Utilities/api'
-
+import { getUpcomingTasks } from '../database/Utilities/api';
 
 // const tasks = [
 //   {
@@ -77,31 +76,25 @@ import {getUpcomingTasks} from '../database/Utilities/api'
 //   },
 // ];
 
-const UpcomingTasks = ({category, dbData}) => {
-  console.log("rendering in upcoming tasks "+dbData)
+const UpcomingTasks = ({ category, activity }) => {
+  //console.log('rendering in upcoming tasks ' + dbData);
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([])
-  const [refreshList2, setBoolean] = useState(false)
+  // const [tasks,setData] = useState([])
+  const [tasks, setData] = useState([]);
+  const [refreshList, setBoolean] = useState(false);
 
   useEffect(() => {
+    async function getTasks() {
+      const upcoming = await getUpcomingTasks(activity);
+      const data = upcoming.rows;
+      setData(data);
+      setBoolean(!refreshList);
+    }
+    getTasks();
+  }, [activity]);
 
-    console.log ("Date is "+new Date()+" Data "+dbData)
-    setBoolean(!refreshList2)
-    setData(dbData)
-    // async function createTable () {
-    //   //console.log("Getting upcoming tasks")
-    //   // Update the document title using the browser API
-    //   let upcomingTasks = await getUpcomingTasks()
-    //   console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
-    //   setData(upcomingTasks.rows)
-    //   setBoolean(!refreshList2)
-    // }
-    // createTable();
-  },[dbData]);
-
-  console.log("Upcoming Rows is",dbData.length)
+  //console.log('Upcoming Rows is', dbData.length);
   const renderTasks = ({ item }) => {
-    //console.log("item is "+item)
     return (
       <Card containerStyle={{ borderRadius: 10, backgroundColor: '#264653' }}>
         <TouchableOpacity
@@ -109,10 +102,10 @@ const UpcomingTasks = ({category, dbData}) => {
             navigationObject.navigate('MarkTaskAsDone', {
               name: item.name,
               deadline: new Date(item.taskFinishBy).toLocaleDateString('en-US'),
-              description: "",
+              description: '',
               isRecurring: item.isRecurring,
               category: item.category,
-              id: item.id
+              id: item.id,
             });
           }}
         >
@@ -132,7 +125,8 @@ const UpcomingTasks = ({category, dbData}) => {
               </MyAppText>
               <MyAppText alignCenter={false}>
                 <Text style={styles.taskDeadline}>
-                  Deadline: {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
+                  Deadline:{' '}
+                  {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
                 </Text>
               </MyAppText>
             </View>
@@ -161,13 +155,12 @@ const UpcomingTasks = ({category, dbData}) => {
   };
 
   return (
-    <Text>{dbData}</Text>
-    // <FlatList
-    //   data={dbData}
-    //   renderItem={renderTasks}
-    //   keyExtractor={(item) => item.name}
-    //   extraData = {refreshList2}
-    // ></FlatList>
+    <FlatList
+      data={tasks}
+      renderItem={renderTasks}
+      keyExtractor={(item) => item.name}
+      extraData={refreshList}
+    ></FlatList>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,13 @@ import {
   Pressable,
   Button,
   TouchableOpacity,
+  
 } from 'react-native';
 import MyAppText from '../components/MyAppText';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
-import { deleteTask } from '../database/Utilities/api';
+import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 
 const ViewDetailedTask = ({ navigation, route }) => {
@@ -136,7 +137,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable
               onPress={() => {
-                navigation.navigate('GetUserCameraPreference', { taskId: id });
+                navigation.navigate('GetUserCameraPreference', { taskId: taskID });
               }}
             >
               <Entypo name="check" size={30} color="#E76F51" />

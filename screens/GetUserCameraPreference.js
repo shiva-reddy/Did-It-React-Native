@@ -8,7 +8,7 @@ const GetUserCameraPreference = ({ route,navigation }) => {
 
     console.log("Rerendering") 
     
-    const taskID = route.params.taskID
+    const taskID = route.params.taskId
  
     return (
         <View style={styles.container}>

@@ -83,6 +83,13 @@ export default class Task extends BaseModel {
     return this.repository.databaseLayer.executeSql(updateQueryClause, params)
   }
 
+    // Function to update the task name
+    static updateTaskPhotoURI(taskId, photoURI='') {
+      var updateQueryClause = `UPDATE ${Task.tableName} SET photoURI = ? WHERE id = ? `;
+      const params = [photoURI, taskId]
+      return this.repository.databaseLayer.executeSql(updateQueryClause, params)
+    }
+
 
   // Function to delete a task
   static deleteTask(taskId = 0){

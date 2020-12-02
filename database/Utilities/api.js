@@ -55,11 +55,15 @@ function checkTableExists(tableName = ''){
     return Task.checkTableExists(tableName)
 }
 
+function updatePhotoURI(taskID=0,photoURI=''){
+    return Task.updateTaskPhotoURI(taskID,photURI)
+}
+
 export { markTaskAsDone, 
          deleteTask, 
          createTask, 
          getCompletedTasks, 
          getUpcomingTasks, 
          reScheduleTask, 
-         updateTaskName,checkTableExists };
+         updateTaskName,checkTableExists,updatePhotoURI, getTask};
     

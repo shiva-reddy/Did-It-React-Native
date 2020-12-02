@@ -3,23 +3,22 @@ import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, Button,Ic
 import Monster from '../assets/monsterReact';
 import MyAppText from '../components/MyAppText';
 
-const TaskCreatedModal = (modalVisible) => {
-    const [isVisible, setIsVisible] = React.useState(modalVisible);
+const TaskCreatedModal = (modalVisible, navigation,lines) => {
     return (
         <View style={styles.centeredView}>
         <Modal
             animationType="slide"
             transparent={true}
-            visible={isVisible}
+            visible={modalVisible}
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Monster/>
-                    <MyAppText>You're all set</MyAppText>
-                    <MyAppText>I have created the task for you</MyAppText>
+    {lines.map(line => <MyAppText>{line}</MyAppText>)}
                     <TouchableHighlight
                         style={{ ...styles.openButton, marginTop: 30,backgroundColor: "#2196F3" }}
-                        onPress={() => setIsVisible(false)}
+                        onPress={() => {
+                          navigation.navigate('ViewTasks');}}
                         >
                             <Text style={styles.textStyle}>OK!</Text>
                         </TouchableHighlight>

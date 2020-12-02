@@ -1,19 +1,21 @@
-import React, {useState } from 'react';
+import React, {useState,useEffect } from 'react';
 import { StyleSheet, Text, View, Button, Modal, TouchableHighlight } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import { Ionicons } from '@expo/vector-icons';
+import TaskCreatedModal from "../components/TaskCreatedModal";
 
 
 const GetUserCameraPreference = ({ route,navigation }) => {
-
-    console.log("Rerendering") 
     
-    const taskID = route.params.taskId
+    const [isVisible, setIsVisible] = useState(false);
+
+    const taskID = route.params.taskId;
  
     return (
         <View style={styles.container}>
+           {TaskCreatedModal(isVisible, navigation,["You're all set", "I have created the task for you"])}
             <View style={{flex:4}}>
-           
+
             <ConversationCard avatarText="Do you want to add a picture to the task before marking it as done?"/>
             </View>
             <View style={{flex:2,flexDirection: 'column', alignSelf:'center', width:200}}>
@@ -27,7 +29,10 @@ const GetUserCameraPreference = ({ route,navigation }) => {
                     </View>
                     <View style={[{ width:200, flexDirection:'row', margin:10, justifyContent:'center'}]}>
                     <Button
-                        onPress = {()=> setModalVisible(true) }
+                        onPress = {()=> {
+                            setIsVisible(!isVisible);
+                            console.log("Pressed" + isVisible);
+                        }}
                         title="No "
                         color="#000"
                         backgroundColor='#FFF'

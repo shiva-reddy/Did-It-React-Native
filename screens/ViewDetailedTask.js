@@ -7,6 +7,8 @@ import {
   Pressable,
   Button,
   TouchableOpacity,
+  ImageBackground
+  
 } from 'react-native';
 import MyAppText from '../components/MyAppText';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,9 +18,11 @@ import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 import DeleteModal from '../components/DeleteModal';
 
-const ViewDetailedTask = ({ navigation, route }) => {
+const ViewDetailedTask = ({ navigation, route}) => {
   const taskID = route.params.taskID;
+  const taskType = route.params.taskType
   console.log(taskID);
+  console.log("Task type "+taskType)
 
   const [task, setTask] = useState({});
   const [isVisible, setIsVisible] = useState(false);
@@ -28,13 +32,14 @@ const ViewDetailedTask = ({ navigation, route }) => {
 
   const loadTask = async () => {
     const taskObj = await getTask(taskID);
-    console.log(taskObj);
+    console.log("Task object is" +JSON.stringify(taskObj));
     setTask({
       taskName: taskObj.name,
       taskDeadline: new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
       taskDescription: '',
       taskIsRecurring: taskObj.isRecurring,
       taskID: taskObj.taskID,
+      taskPhotoURI: taskObj.photoURI
     });
   };
 
@@ -79,7 +84,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
         </MyAppText>
       </View>
       <View style={[{ flex: 1 }, styles({}).elementsContainer]}>
-        <View style={{ flex: 3, backgroundColor: '#264653' }}>
+        {taskType === "Upcoming" && (    <View style={{ flex: 3, backgroundColor: '#264653' }}>
           <View style={{ flexDirection: 'row', margin: 10 }}>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
@@ -129,10 +134,12 @@ const ViewDetailedTask = ({ navigation, route }) => {
               </MyAppText>
             </View>
           </View>
-        </View>
-        <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
+          
+        </View>)}
+          {taskType === "Upcoming"?(
+            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
           <View style={[{ flex: 1, flexDirection: 'row' }]}>
-          <Pressable
+            <Pressable
               onPress={() => {
                 navigation.navigate('EditTaskOptions', {
                   taskId: taskID,
@@ -140,13 +147,13 @@ const ViewDetailedTask = ({ navigation, route }) => {
               }}
             >
               <Foundation
-                style={styles.actionIcon}
-                name="pencil"
-                size={40}
-                color="#E76F51"
+              style={styles.actionIcon}
+              name="pencil"
+              size={30}
+              color="#E76F51"
               />
             </Pressable>
-          </View>
+        </View>
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable
               onPress={() => {
@@ -158,7 +165,16 @@ const ViewDetailedTask = ({ navigation, route }) => {
               <Entypo name="check" size={40} color="#E76F51" />
             </Pressable>
           </View>
-        </View>
+          </View>):(     
+
+              <ImageBackground
+                source={{ uri: task.taskPhotoURI }}
+                style={{
+                  flex: 1,
+                }}
+              ></ImageBackground>
+          )}         
+        
       </View>
     </View>
   );

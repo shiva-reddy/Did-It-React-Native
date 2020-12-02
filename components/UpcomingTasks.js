@@ -108,6 +108,7 @@ const UpcomingTasks = ({ category, activity }) => {
               category: item.category,
               id: item.id,
               taskID: item.id,
+              taskType:"Upcoming"
             });
           }}
         >

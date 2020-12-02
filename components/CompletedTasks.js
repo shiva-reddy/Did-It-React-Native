@@ -103,6 +103,8 @@ const CompletedTasks = ({ category, activity }) => {
               deadline: new Date(item.taskFinishBy).toLocaleDateString('en-US'),
               description: '',
               isRecurring: item.isRecurring,
+              taskType:"Completed",
+              taskID: item.id
             });
           }}
         >
@@ -137,7 +139,6 @@ const CompletedTasks = ({ category, activity }) => {
                 },
               ]}
             >
-              <Entypo name="trash" size={30} color="#E76F51" />
             </View>
           </View>
         </TouchableOpacity>

@@ -165,6 +165,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
                   size={30}
                   color="#E76F51"
                 />
+                <MyAppText><Text>Update this task</Text></MyAppText>
               </Pressable>
             </View>
             <View style={[{ justifyContent: 'flex-end' }]}>
@@ -176,6 +177,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
                 }}
               >
                 <Entypo name="check" size={40} color="#E76F51" />
+                <MyAppText><Text>Mark this task as done</Text></MyAppText>
               </Pressable>
             </View>
           </View>

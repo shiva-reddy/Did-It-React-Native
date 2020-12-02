@@ -15,6 +15,7 @@ import algoliasearch from 'algoliasearch/lite';
 const SetTaskNameVoice = ({ route, navigation }) => {
 
     const taskID = route.params.taskID ? route.params.taskID : null;
+    const taskType = route.params.taskType;
 
     const [recording, setRecording] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
@@ -92,6 +93,7 @@ const SetTaskNameVoice = ({ route, navigation }) => {
               params: { 
                 chosenText: await sampleResponse() ,
                 taskID,
+                taskType,
               },
             });
         } catch(error) {

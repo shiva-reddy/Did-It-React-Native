@@ -11,6 +11,7 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
 
   const taskID = route.params.taskID ? route.params.taskID : null;
   console.log(taskID);
+  const taskType = route.params.taskType;
   const question = taskID != null ? "How do you want to enter your new name?"
   : "How do you want to enter the name of your " + route.params.taskType;
   return (
@@ -26,6 +27,7 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
               screen: 'SetTaskNameVoice',
               params: {
                 taskCategory: taskCategory,
+                taskType,
                 taskID,
               },
             })}
@@ -39,6 +41,7 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
               screen: 'SetTaskNameKeyboard',
               params: {
                 taskCategory: taskCategory,
+                taskType,
                 taskID,
               },
             })}

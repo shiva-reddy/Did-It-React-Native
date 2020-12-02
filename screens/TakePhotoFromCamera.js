@@ -56,19 +56,19 @@ const CameraComponent = ({data}) => {
   const [camera, setCameraObject] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
-  const [photo,setPhoto] = useState(null)
+  //const [photo,setPhoto] = useState(null)
 
   const __savePhoto = async () => {
     
     console.log("In save photo function")
-    const result = await updatePhotoURI(data, photoURI)
+    const result = await updatePhotoURI(data, capturedImage.uri)
     console.log("Update result "+result)
     console.log(getTask(data))
       
   };
 
   const CameraPreview = ({ photo, retakePicture, savePhoto }) => {
-    console.log('sdsfds', photo);
+    console.log('Photo ', photo);
 
 
     return (
@@ -121,7 +121,7 @@ const CameraComponent = ({data}) => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={__savePhoto}
+                onPress={savePhoto}
                 style={{
                   width: 130,
                   height: 50,

@@ -2,24 +2,39 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, Button,Icon,Modal } from 'react-native';
 import Monster from '../assets/monsterReact';
 import MyAppText from '../components/MyAppText';
+import {useNavigation} from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
 
-const TaskCreatedModal = (modalVisible) => {
-    const [isVisible, setIsVisible] = React.useState(modalVisible);
+
+const TaskCreatedModal = (modalVisible, action,lines) => {
+  const navigation = useNavigation();
     return (
         <View style={styles.centeredView}>
         <Modal
             animationType="slide"
             transparent={true}
-            visible={isVisible}
+            visible={modalVisible}
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <Monster/>
-                    <MyAppText>You're all set</MyAppText>
-                    <MyAppText>I have created the task for you</MyAppText>
+    {lines.map(line => <MyAppText>{line}</MyAppText>)}
                     <TouchableHighlight
                         style={{ ...styles.openButton, marginTop: 30,backgroundColor: "#2196F3" }}
-                        onPress={() => setIsVisible(false)}
+                        onPress={() => {
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 1,
+                              routes: [
+                                { name: 'Home', params: { headerShown: false } },
+                                {
+                                  name: 'ViewTasks',
+                                  params: { title: 'View Tasks', headerShown: false },
+                                },
+                              ],
+                            }),
+                          );
+                        }}
                         >
                             <Text style={styles.textStyle}>OK!</Text>
                         </TouchableHighlight>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,7 +7,6 @@ import {
   Pressable,
   Button,
   TouchableOpacity,
-  
 } from 'react-native';
 import MyAppText from '../components/MyAppText';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -21,19 +20,21 @@ const ViewDetailedTask = ({ navigation, route }) => {
   console.log(taskID);
 
   const [task, setTask] = useState({});
-  useEffect(() => {loadTask();}, [])
+  useEffect(() => {
+    loadTask();
+  }, []);
 
   const loadTask = async () => {
     const taskObj = await getTask(taskID);
     console.log(taskObj);
     setTask({
-      taskName : taskObj.name,
-      taskDeadline : new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
-      taskDescription: "",
+      taskName: taskObj.name,
+      taskDeadline: new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
+      taskDescription: '',
       taskIsRecurring: taskObj.isRecurring,
-      taskID: taskObj.taskID
+      taskID: taskObj.taskID,
     });
-  }
+  };
 
   const {
     primaryColor,
@@ -41,7 +42,6 @@ const ViewDetailedTask = ({ navigation, route }) => {
     tertiaryColor,
     accentColor,
   } = useTheme();
-
 
   return (
     <View style={[styles({}).container]}>
@@ -83,36 +83,49 @@ const ViewDetailedTask = ({ navigation, route }) => {
           <View style={{ flexDirection: 'row', margin: 10 }}>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>Deadline</Text>
+                <Text style={styles({}).secondaryText}>Deadline</Text>
               </MyAppText>
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>{task.taskDeadline}</Text>
-              </MyAppText>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', margin: 10 }}>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text>Created Date</Text>
-              </MyAppText>
-            </View>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text>{task.taskDeadline}</Text>
+                <Text style={styles({}).secondaryText}>
+                  {task.taskDeadline}
+                </Text>
               </MyAppText>
             </View>
           </View>
           <View style={{ flexDirection: 'row', margin: 10 }}>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>Does the Task Repeat ?</Text>
+                <Text style={styles({}).secondaryText}>Created Date</Text>
               </MyAppText>
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>{task.taskIsRecurring == 1 ? 'Yes' : 'No'}</Text>
+                <Text style={styles({}).secondaryText}>
+                  {task.taskDeadline}
+                </Text>
+              </MyAppText>
+            </View>
+          </View>
+          <View style={{ flexDirection: 'row', margin: 10 }}>
+            <View
+              style={[
+                styles({ primaryColor }).taskDetailTexts,
+                { paddingLeft: 30 },
+              ]}
+            >
+              <MyAppText>
+                <Text style={styles({}).secondaryText}>
+                  Does the Task Repeat ?
+                </Text>
+              </MyAppText>
+            </View>
+            <View style={styles({ primaryColor }).taskDetailTexts}>
+              <MyAppText>
+                <Text style={styles({}).secondaryText}>
+                  {task.taskIsRecurring == 1 ? 'Yes' : 'No'}
+                </Text>
               </MyAppText>
             </View>
           </View>
@@ -122,17 +135,19 @@ const ViewDetailedTask = ({ navigation, route }) => {
             <Foundation
               style={styles.actionIcon}
               name="pencil"
-              size={30}
+              size={40}
               color="#E76F51"
             />
           </View>
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable
               onPress={() => {
-                navigation.navigate('GetUserCameraPreference', { taskId: taskID });
+                navigation.navigate('GetUserCameraPreference', {
+                  taskId: taskID,
+                });
               }}
             >
-              <Entypo name="check" size={30} color="#E76F51" />
+              <Entypo name="check" size={40} color="#E76F51" />
             </Pressable>
           </View>
         </View>
@@ -150,7 +165,7 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
       backgroundColor: '#264653',
     },
     headerStyle: {
-      fontSize: 40,
+      fontSize: 50,
       textAlign: 'center',
       fontWeight: '100',
       color: secondaryColor,
@@ -166,7 +181,10 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
       width: '50%',
       height: 50,
       backgroundColor: primaryColor,
-    }
+    },
+    secondaryText: {
+      fontSize: 20,
+    },
   });
 
 export default ViewDetailedTask;

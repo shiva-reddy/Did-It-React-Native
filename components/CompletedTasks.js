@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -11,51 +11,97 @@ import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
-import {getCompletedTasks} from '../database/Utilities/api'
+import { getCompletedTasks } from '../database/Utilities/api';
 
-const tasks = [
-  { name: 'Task 1', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 2', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 3', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 4', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 5', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 6', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 7', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 8', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 9', deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" },
-  { name: 'Task 11',deadline: '11-17-2020', description:"Its a math day",isRecurring:"Yes" }
-];
+// const tasks = [
+//   {
+//     name: 'Task 1',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 2',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 3',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 4',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 5',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 6',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 7',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 8',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 9',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+//   {
+//     name: 'Task 11',
+//     deadline: '11-17-2020',
+//     description: 'Its a math day',
+//     isRecurring: 'Yes',
+//   },
+// ];
 
-const CompletedTasks = ({category}) => {
-  console.log("rendering2")
+const CompletedTasks = ({ category, activity }) => {
+  console.log('rendering2 in completed tasks ' + activity);
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([]);
-  const [refreshList, setBoolean] = useState(false)
+  const [tasks, setData] = useState([]);
+  const [refreshList, setBoolean] = useState(false);
 
   useEffect(() => {
-
-    async function createTable () {
-      // Update the document title using the browser API
-      let upcomingTasks = await getCompletedTasks()
-      console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
-      setData(upcomingTasks.rows)
-      setBoolean(!refreshList)
+    async function getTasks() {
+      const completed = await getCompletedTasks(activity);
+      const data = completed.rows;
+      setData(data);
+      setBoolean(!refreshList);
     }
-    createTable();
-  },[]);
-
-  console.log("Rows is",tasks.length)
+    getTasks();
+  }, [activity]);
 
   const renderTasks = ({ item }) => {
-    //console.log("Items "+JSON.stringify(item))
+    console.log('Items ' + JSON.stringify(item));
     return (
       <Card containerStyle={{ borderRadius: 10, backgroundColor: '#264653' }}>
         <TouchableOpacity
           onPress={() => {
             navigationObject.navigate('MarkTaskAsDone', {
-              name:        item.name,
-              deadline:    new Date(item.taskFinishBy).toLocaleDateString('en-US'),
-              description: "",
+              name: item.name,
+              deadline: new Date(item.taskFinishBy).toLocaleDateString('en-US'),
+              description: '',
               isRecurring: item.isRecurring,
             });
           }}
@@ -76,7 +122,8 @@ const CompletedTasks = ({category}) => {
               </MyAppText>
               <MyAppText alignCenter={false}>
                 <Text style={styles.taskDeadline}>
-                  Deadline: {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
+                  Deadline:{' '}
+                  {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
                 </Text>
               </MyAppText>
             </View>
@@ -103,7 +150,7 @@ const CompletedTasks = ({category}) => {
       data={tasks}
       renderItem={renderTasks}
       keyExtractor={(item) => item.name}
-      extraData = {refreshList}
+      extraData={refreshList}
     ></FlatList>
   );
 };

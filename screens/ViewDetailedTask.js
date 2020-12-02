@@ -122,27 +122,30 @@ const ViewDetailedTask = ({ navigation, route }) => {
                 </MyAppText>
               </View>
             </View>
-            <View style={{ flexDirection: 'row', margin: 10 }}>
-              <View
-                style={[
-                  styles({ primaryColor }).taskDetailTexts,
-                  { paddingLeft: 30 },
-                ]}
-              >
-                <MyAppText>
-                  <Text style={styles({}).secondaryText}>
-                    Does the Task Repeat ?
-                  </Text>
-                </MyAppText>
-              </View>
-              <View style={styles({ primaryColor }).taskDetailTexts}>
-                <MyAppText>
-                  <Text style={styles({}).secondaryText}>
-                    {task.taskIsRecurring == 1 ? 'Yes' : 'No'}
-                  </Text>
-                </MyAppText>
-              </View>
-            </View>
+
+            {task.taskIsRecurring == 1 && 
+                  <View style={{ flexDirection: 'row', margin: 10 }}>
+                  <View
+                    style={[
+                      styles({ primaryColor }).taskDetailTexts,
+                      { paddingLeft: 30 },
+                    ]}
+                  >
+                    <MyAppText>
+                      <Text style={styles({}).secondaryText}>
+                        This task repeats
+                      </Text>
+                    </MyAppText>
+                  </View>
+                  <View style={styles({ primaryColor }).taskDetailTexts}>
+                    <MyAppText>
+                      <Text style={styles({}).secondaryText}>
+                        every Monday
+                      </Text>
+                    </MyAppText>
+                  </View>
+                </View>
+            }
           </View>
         )}
 

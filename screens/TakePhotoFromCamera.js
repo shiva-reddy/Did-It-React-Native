@@ -16,8 +16,10 @@ import {
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
+import {updatePhotoURI, getTask} from '../database/Utilities/api'
 
 const TakePhotoFromCamera = ({ navigation, route }) => {
+  const taskID = route.params.taskID
   return (
     <View style={[styles.container]}>
       <View
@@ -38,25 +40,37 @@ const TakePhotoFromCamera = ({ navigation, route }) => {
       </View>
       <View style={[{ flex: 5 }, styles.elementsContainer]}>
         <View style={{ flex: 3, backgroundColor: '#264653' }}>
-          <CameraComponent />
+          <CameraComponent data = {taskID}/>
         </View>
       </View>
     </View>
   );
 };
 
-const CameraComponent = () => {
+const CameraComponent = ({data}) => {
   console.log('Camera permission ' + hasPermission);
+  console.log("Task id "+data)
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [ratio, setCameraRatio] = useState('4:3');
   const [camera, setCameraObject] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
+  const [photo,setPhoto] = useState(null)
 
-  const __savePhoto = () => {};
+  const __savePhoto = async () => {
+    
+    console.log("In save photo function")
+    const result = await updatePhotoURI(data, photoURI)
+    console.log("Update result "+result)
+    console.log(getTask(data))
+      
+  };
+
   const CameraPreview = ({ photo, retakePicture, savePhoto }) => {
     console.log('sdsfds', photo);
+
+
     return (
       <View
         style={{
@@ -107,7 +121,7 @@ const CameraComponent = () => {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={savePhoto}
+                onPress={__savePhoto}
                 style={{
                   width: 130,
                   height: 50,

@@ -16,8 +16,8 @@ const InputModeButton = ({ icon, action, onPressIn, onPressOut}) => {
   return (
     <TouchableOpacity
       style={styles({ tertiaryColor }).button}
-      onPress={() => action()}
-      onPressIn={onPressIn ? onPressIn : () => action()}
+      onPress={action? action : () => {}}
+      onPressIn={onPressIn ? onPressIn : () => onPressIn}
       onPressOut={onPressOut ? onPressOut : () => {}}
     >
       <Foundation

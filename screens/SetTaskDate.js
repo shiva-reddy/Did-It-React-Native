@@ -9,7 +9,10 @@ import { connect } from 'react-redux';
 import { addTaskDate } from '../store/CreateTaskActions';
 import Toast from 'react-native-simple-toast';
 
-const SetTaskDate = ({ route, navigation }) => {
+const SetTaskDate = ({ route, navigation, addTaskDate }) => {
+
+  const taskID = route.params && route.params.taskID ? route.params.taskID : null;
+  // console.log(taskID);
   const {
     primaryColor,
     secondaryColor,
@@ -20,10 +23,13 @@ const SetTaskDate = ({ route, navigation }) => {
   const [dateSelected, setDate] = useState('');
 
   const onDateChange = (date, type) => {
+    // console.log("date is "+date.format())
     const [dateFormatted] = date.format().split('T');
     setDate(dateFormatted);
   };
 
+  const moment = require('moment');
+  const now = moment();
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
@@ -39,6 +45,7 @@ const SetTaskDate = ({ route, navigation }) => {
             color: 'black',
           }}
           onDateChange={onDateChange}
+          disabledDates={date => date < now}
         />
       </View>
       <View
@@ -53,7 +60,7 @@ const SetTaskDate = ({ route, navigation }) => {
           action={() => {
             if (dateSelected !== null && dateSelected.length !== 0) {
               addTaskDate({ taskDate: dateSelected });
-              navigation.navigate('SetTaskTime');
+              navigation.navigate('SetTaskTime',{taskID});
             } else {
               Toast.show('Please select a date', Toast.SHORT, Toast.BOTTOM);
             }

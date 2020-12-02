@@ -1,5 +1,7 @@
 import * as  SQLite from 'expo-sqlite'
 import { BaseModel, types } from 'expo-sqlite-orm'
+import DatabaseLayer from 'expo-sqlite-orm/src/DatabaseLayer'
+
 
 export default class Task extends BaseModel {
   constructor(obj) {
@@ -14,6 +16,8 @@ export default class Task extends BaseModel {
     return 'TasksTable'
   }
 
+
+
   static get columnMapping() {
     return {
       id:            {type: types.INTEGER, primary_key: true },
@@ -22,16 +26,25 @@ export default class Task extends BaseModel {
       isCompleted:   {type: types.BOOLEAN},
       isRecurring:   {type: types.BOOLEAN},
       taskFinishBy : {type: types.DATETIME},
-      createdDate:   {type: types.DATE}
+      createdDate:   {type: types.DATE},
+      parentJobID:   {type:types.INTEGER},
+      repeatFrequency: {type:types.TEXT},
+      repeatDay:       {type:types.TEXT},
+      repeatWeek:      {type:types.TEXT},
+      photoURI: {type:types.TEXT}
     }
   }
 
+  static getTask(taskId){
+    return Task.find(taskId);
+  }
+  
   // Function to fetch tasks thats that are to be completed in the future from current time
   static getUpComingTasks(category='%') {
     // tasks whose end date is farther than current date
     var table_Name = Task.tableName
     category = '\''+category+'\''
-    const sql = `SELECT * FROM  ${table_Name} WHERE category like ${category} AND taskFinishBy >=datetime(\'now\') AND isCompleted=0` 
+    const sql = `SELECT * FROM  ${table_Name} WHERE category like ${category} AND taskFinishBy >=datetime(\'now\') AND isCompleted=0 order by taskFinishBy` 
     const params = []
     return this.repository.databaseLayer.executeSql(sql, params)
   }
@@ -70,6 +83,13 @@ export default class Task extends BaseModel {
     return this.repository.databaseLayer.executeSql(updateQueryClause, params)
   }
 
+    // Function to update the task name
+    static updateTaskPhotoURI(taskId, photoURI='') {
+      var updateQueryClause = `UPDATE ${Task.tableName} SET photoURI = ? WHERE id = ? `;
+      const params = [photoURI, taskId]
+      return this.repository.databaseLayer.executeSql(updateQueryClause, params)
+    }
+
 
   // Function to delete a task
   static deleteTask(taskId = 0){
@@ -85,15 +105,28 @@ export default class Task extends BaseModel {
     
     return new Promise(async (resolve, reject) => {
       try {
-        const person = new Task(task)
-        await person.save()
-        resolve("Success")
+        //const person = new Task(task)
+        const databaseLayer = new DatabaseLayer(async () => SQLite.openDatabase('didits.db'), Task.tableName)
+        const items = [task]
+        databaseLayer.bulkInsertOrReplace(items).then(response => {
+          console.log("Insert id "+JSON.stringify(response))
+          resolve("Success")
+      }).catch((err) =>{
+          reject([])
+      })
+        //await person.save()
+        
       }
       catch {
-        reject("Error creating a record")
+        reject([])
       }
     });
 
+  }
+
+  static checkTableExists(tableName){
+    const sql = `SELECT * FROM sqlite_master WHERE name = '${tableName}' AND type='table'`
+    return this.repository.databaseLayer.executeSql(sql)
   }
 
 }

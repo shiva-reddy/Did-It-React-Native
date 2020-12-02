@@ -7,7 +7,8 @@ const INITIAL_STATE = {
   taskCategory: '',
   isTaskRepeating: false,
   repeatRange: '',
-  isRecurring:0
+  mode: '',
+  isRecurring:0,
 };
 
 const createTaskReducer = (state = INITIAL_STATE, action) => {
@@ -20,6 +21,8 @@ const createTaskReducer = (state = INITIAL_STATE, action) => {
       return { ...state, taskName: action.payload };
     case 'ADD_TASK_CATEGORY':
       return { ...state, taskCategory: action.payload };
+    case 'ADD_MODE':
+      return { ...state, mode: action.payload };
     case 'ADD_TASK_DATE':
       return { ...state, taskDate: action.payload };
     case 'ADD_TASK_TIME':

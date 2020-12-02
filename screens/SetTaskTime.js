@@ -5,10 +5,14 @@ import NextStepButton from '../components/NextStepButton';
 import InlineTimePicker from 'react-native-inline-timepicker';
 import { useTheme } from '@react-navigation/native';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { addTaskTime } from '../store/CreateTaskActions';
+import {reScheduleTask} from '../database/Utilities/api';
+import moment from 'moment';
 
-const SetTaskTime = ({ route, navigation }) => {
+const SetTaskTime = ({ route, navigation, addTaskTime }) => {
+  const taskID = route.params.taskID ? route.params.taskID : null;
+  
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const [time, setTime] = React.useState({
     hours: 12,
@@ -19,6 +23,19 @@ const SetTaskTime = ({ route, navigation }) => {
   const updateTime = (h, m, s, mn) => {
     setTime({ hours: h, minutes: m, seconds: s, meridian: mn });
     console.log(time);
+  };
+
+  const reduxStore = async (state) => state.createTask;
+  const savedObject = useSelector(reduxStore);
+ 
+  const updateTaskTime = (savedObject) => {
+    var taskTimeInSeconds  = savedObject.taskTime.hours*3600 + savedObject.taskTime.minutes*60 + savedObject.taskTime.seconds;
+    taskTimeInSeconds = moment(savedObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+    const taskFinishBy = moment(
+      `${savedObject.taskDate} ${taskTimeInSeconds}`,
+      'YYYY-MM-DD HH:mm:ss',
+    ).toISOString();
+    reScheduleTask(taskID, taskFinishBy);
   };
 
   return (
@@ -41,9 +58,17 @@ const SetTaskTime = ({ route, navigation }) => {
       >
         <NextStepButton
           content="Next Step"
-          action={() => {
+          action={async () => {
             addTaskTime({ taskTime: time });
-            navigation.navigate('SetTaskRecurrance');
+            if(taskID != null){
+              console.log("Updating time for task " + taskID);
+              updateTaskTime(await savedObject);
+              navigation.navigate('MarkTaskAsDone', {
+                screen: 'EditTaskOptions',
+                taskID,
+              });
+            }
+            else navigation.navigate('SetTaskRecurrance');
           }}
         />
       </View>
@@ -72,4 +97,9 @@ const mapDispatchToProps = (dispatch) =>
     dispatch,
   );
 
-export default connect(mapDispatchToProps)(SetTaskTime);
+// const mapStateToProps = (state) => {
+//   const { taskDate } = state.createTask;
+//   return { taskDate };
+// };
+
+export default connect(null, mapDispatchToProps)(SetTaskTime);

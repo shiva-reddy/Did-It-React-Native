@@ -106,6 +106,7 @@ const UpcomingTasks = ({ category, activity }) => {
               isRecurring: item.isRecurring,
               category: item.category,
               id: item.id,
+              taskID: item.id,
             });
           }}
         >
@@ -140,13 +141,31 @@ const UpcomingTasks = ({ category, activity }) => {
                 },
               ]}
             >
-              <Foundation
-                style={styles.actionIcon}
-                name="pencil"
-                size={30}
-                color="#E76F51"
-              />
-              <Entypo name="check" size={30} color="#E76F51" />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('TaskId is ' + item.id);
+                  navigationObject.navigate('CreateTask', {
+                    screen: 'EditTaskOptions',
+                    params: { taskID: item.id },
+                  });
+                }}
+              >
+                <Foundation
+                  style={styles.actionIcon}
+                  name="pencil"
+                  size={30}
+                  color="#E76F51"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationObject.navigate('GetUserCameraPreference', {
+                    taskId: item.id,
+                  })
+                }
+              >
+                <Entypo name="check" size={30} color="#E76F51" />
+              </TouchableOpacity>
             </View>
           </View>
         </TouchableOpacity>

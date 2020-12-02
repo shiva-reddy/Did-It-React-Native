@@ -5,15 +5,27 @@ import MyAppText from '../components/MyAppText';
 import NextStepButton from '../components/NextStepButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
-import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
-import moment from 'moment'
+import moment from 'moment';
 
-const selectTodos = state => state.createTask
+const selectTodos = (state) => state.createTask;
+
+function pad(num) {
+  return ('0' + num).slice(-2);
+}
+
+moment.addRealMonth = function addRealMonth(d) {
+  var fm = moment(d).add(1, 'M');
+  var fmEnd = moment(fm).endOf('month');
+  return d.date() != fm.date() && fm.isSame(fmEnd.format('YYYY-MM-DD'))
+    ? fm.add(1, 'd')
+    : fm;
+};
 
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
-  const taskObject = useSelector(selectTodos)
-  console.log("Task name is "+JSON.stringify(taskObject))
+  const taskObject = useSelector(selectTodos);
+  console.log('Task object is ' + JSON.stringify(taskObject));
   const { secondaryColor, tertiaryColor } = useTheme();
 
   const [period, setPeriod] = React.useState('month');
@@ -24,6 +36,15 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const [dayOfMonth, setDaysOfMonth] = React.useState('1');
   const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
+  const daysOfWeekIndex = {
+    Sunday: 0,
+    Monday: 1,
+    Tuesday: 2,
+    Wednesday: 3,
+    Thursday: 4,
+    Friday: 5,
+    Saturday: 6,
+  };
   const daysOfWeek = [
     'Sunday',
     'Monday',
@@ -35,6 +56,18 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   ].map((day) => {
     return { label: day, value: day };
   });
+
+  const getNextDate = (currDateMoment, period, periodVal) => {
+    if (period === 'month') {
+      return moment([
+        currDateMoment.year(),
+        currDateMoment.month(),
+        periodVal,
+      ]).add(1, 'month');
+    } else {
+      return currDateMoment.weekday(periodVal);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -123,52 +156,73 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         <NextStepButton
           content="Next Step"
           action={async () => {
-            // Read the values, insert into db and view tasks
-            /*
-              {"createTask":{"taskName":"","taskDate":{},"taskTime":"","taskCategory":"","isTaskRepeating":false,"repeatRange":""}}
-                  
-                  name:         {type: types.TEXT, not_null: true },
-                  category:      {type: types.TEXT },
-                  isCompleted:   {type: types.BOOLEAN},
-                  isRecurring:   {type: types.BOOLEAN},
-                  taskFinishBy : {type: types.DATETIME},
-                  createdDate:   {type: types.DATE}
+            const task = {};
+            task.name = taskObject.taskName;
+            task.category = taskObject.taskCategory;
+            task.isCompleted = 0;
+            task.isRecurring = taskObject.isRecurring;
+            // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
+            // " "+JSON.stringify(taskObject.taskTime.seconds))
 
-                  var task = {}
-                  task.name=taskObject.taskName
-                  task.category=taskObject.taskCategory
-                  task.isCompleted = 0
-                  task.isRecurring = taskObject.isRecurring ==false?0:1
-                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
-                  task.createdDate = new Date().toIsoString()
-                  
-            */
-           const task = {};
-           task.name = taskObject.taskName;
-           task.category = taskObject.taskCategory;
-           task.isCompleted = 0;
-           task.isRecurring = taskObject.isRecurring;
-           // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
-           // " "+JSON.stringify(taskObject.taskTime.seconds))
-           
-           // convert time to seconds
-           var taskTimeInSeconds  = taskObject.taskTime.hours*3600 + taskObject.taskTime.minutes*60 + taskObject.taskTime.seconds
-           // Get seconds in HH:mm:ss format
-           taskTimeInSeconds = moment(taskObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
-           //console.log("Task time is "+taskTimeInSeconds)
-           
-           // Concat date and time
-           task.taskFinishBy = moment(
-             `${taskObject.taskDate} ${taskTimeInSeconds}`,
-             'YYYY-MM-DD HH:mm:ss',
-           ).toISOString();
-           //console.log("task object "+ JSON.stringify(task))
-           task.createdDate = new Date().toISOString();
+            // convert time to seconds
+            var taskTimeInSeconds =
+              taskObject.taskTime.hours * 3600 +
+              taskObject.taskTime.minutes * 60 +
+              taskObject.taskTime.seconds;
+            // Get seconds in HH:mm:ss format
+            taskTimeInSeconds = moment(taskObject.taskDate)
+              .startOf('day')
+              .seconds(taskTimeInSeconds)
+              .format('HH:mm:ss');
+            //console.log("Task time is "+taskTimeInSeconds)
 
-           console.log('Task object is ' + JSON.stringify(task));
-           await createTask(task);
+            // Concat date and time
+            task.taskFinishBy = moment(
+              `${taskObject.taskDate} ${taskTimeInSeconds}`,
+              'YYYY-MM-DD HH:mm:ss',
+            ).toISOString();
+            //console.log("task object "+ JSON.stringify(task))
+            task.createdDate = new Date().toISOString();
 
-                  navigation.navigate('ViewTasks')}}
+            console.log('Task object is ' + JSON.stringify(task));
+            const insertResult = await createTask(task);
+            console.log('Insert Result is ' + JSON.stringify(insertResult));
+
+            console.log('day of week ' + dayOfWeek);
+            // if(period == 'month'){
+
+            //   getNextDate(task.taskFinishBy,period, dayOfMonth)
+            // }
+            // else getNextDate(task.taskFinishBy,period,daysOfWeekIndex[dayOfWeek])
+
+            // Original record insert is successful. Insert another entry for denoting repeated task
+            if (insertResult.length > 0) {
+              const taskID = insertResult.insertId;
+              if (task.isRecurring == true) {
+                // Insert another entry to db, whose parentID field is the current task ID.
+                // All other fields remain the same
+                task.parentJobID = taskID;
+                /* 
+                      repeatFrequency: {type:types.TEXT},
+                      repeatDay:       {type:types.TEXT},
+                      repeatWeek:      {type:types.TEXT}
+                
+                */
+                //task.taskFinishBy =
+                const insertResult2 = await createTask(task);
+                console.log(
+                  'Insert Result is ' + JSON.stringify(insertResult2),
+                );
+              }
+            } else {
+              console.log(
+                'Insert not performed ' + JSON.stringify(insertResult2),
+              );
+            }
+            //Check if the task has isRecurring to true
+
+            navigation.navigate('ViewTasks');
+          }}
         />
       </View>
     </View>

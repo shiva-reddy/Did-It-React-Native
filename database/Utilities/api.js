@@ -5,13 +5,16 @@ function createTask(task={}) {
     return Task.createTask(task)
 }
 
+function getTask(taskId=0) {
+    return Task.getTask(taskId)
+}
+
 function getUpcomingTasks(category='%'){
     return Task.getUpComingTasks(category)
 }
 
 
 function getCompletedTasks(category='%'){
-   
    return Task.getCompletedTasks(category)
 }
 
@@ -48,11 +51,19 @@ function updateTaskName(taskId='0', name='') {
     return Task.updateTaskName(taskId,name)
 }
 
+function checkTableExists(tableName = ''){
+    return Task.checkTableExists(tableName)
+}
+
+function updatePhotoURI(taskID=0,photoURI=''){
+    return Task.updateTaskPhotoURI(taskID,photURI)
+}
+
 export { markTaskAsDone, 
          deleteTask, 
          createTask, 
          getCompletedTasks, 
          getUpcomingTasks, 
          reScheduleTask, 
-         updateTaskName };
+         updateTaskName,checkTableExists,updatePhotoURI, getTask};
     

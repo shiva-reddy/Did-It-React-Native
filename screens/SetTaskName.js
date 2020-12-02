@@ -6,9 +6,10 @@ import InputModeButton from '../components/InputModeButton';
 
 import { connect } from 'react-redux';
 
-const SetTaskName = ({ navigation, taskCategory }) => {
-  console.log(taskCategory);
+const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
 
+  const taskID = route.params.taskID ? route.params.taskID : null;
+  console.log(taskID);
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="Choose your input method" />
@@ -16,22 +17,26 @@ const SetTaskName = ({ navigation, taskCategory }) => {
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
-            action={() =>
-              navigation.navigate('SetTaskNameKeyboard', {
-                taskCategory,
-              })
-            }
+            action={() => navigation.navigate('CreateTask', {
+              screen: 'SetTaskNameVoice',
+              params: {
+                taskCategory: taskCategory,
+                taskID,
+              },
+            })}
           />
           <InputModeButton
             icon="pencil"
-            action={() =>
-              navigation.navigate('SetTaskNameKeyboard', {
-                taskCategory,
-              })
-            }
+            action={() => navigation.navigate('CreateTask', {
+              screen: 'SetTaskNameKeyboard',
+              params: {
+                taskCategory: taskCategory,
+                taskID,
+              },
+            })}
           />
         </View>
-      </View>
+      </View> 
     </View>
   );
 };
@@ -66,8 +71,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => {
-  const { taskCategory } = state.createTask;
-  return { taskCategory };
+  const { taskCategory, mode } = state.createTask;
+  return { taskCategory, mode };
 };
 
 export default connect(mapStateToProps)(SetTaskName);

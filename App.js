@@ -5,7 +5,7 @@ import { createStore } from 'redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StyleSheet, Text, View } from 'react-native';
-import ViewDetailedTask from './screens/MarkTaskAsDone';
+import ViewDetailedTask from './screens/ViewDetailedTask';
 import Home from './screens/Home';
 import ViewTasks from './screens/ViewTasks';
 import PickTaskCategory from './screens/PickTaskCategory';
@@ -18,12 +18,13 @@ import TaskComponent from './components/BackgroundTask';
 import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
 import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';
+import EditTaskOptions from './screens/EditTaskOptions';
 import SetTaskNameVoice from './screens/SetTaskNameVoice';
 import SetTaskDate from './screens/SetTaskDate';
 import SetTaskTime from './screens/SetTaskTime';
-import Task from './database/Models/Task'
+import Task from './database/Models/Task';
 import CreateTaskReducer from './store/CreateTaskReducer';
-
+import { checkTableExists } from './database/Utilities/api';
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
@@ -47,7 +48,7 @@ const MyTheme = {
 
 const createTaskScreens = () => {
   return (
-    <CreateTaskStack.Navigator>
+    <CreateTaskStack.Navigator initialRouteName="PickTaskCategory">
       <CreateTaskStack.Screen
         name="PickTaskCategory"
         component={PickTaskCategory}
@@ -91,6 +92,11 @@ const createTaskScreens = () => {
       <CreateTaskStack.Screen
         name="SetTaskRecurranceSchedule"
         component={SetTaskRecurranceSchedule}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="EditTaskOptions"
+        component={EditTaskOptions}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
     </CreateTaskStack.Navigator>
@@ -139,21 +145,32 @@ const viewTaskScreens = () => {
 };
 
 export default function App() {
-
-
+  function nextweek() {
+    var today = new Date();
+    var nextweek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 10,
+    );
+    return nextweek;
+  }
 
   useEffect(() => {
-
-    async function createTable () {
-      console.log("Creating table")
-      await Task.createTable()
-    }
-    createTable()
-  }, [])
-
+    const createTable = async () => {
+      console.log('Creating table');
+      await Task.createTable();
+      let result = await checkTableExists(Task.tableName);
+      console.log('Table name ' + JSON.stringify(result));
+      if (result.rows.length > 0) {
+        console.log('Table exists');
+      } else {
+        console.log('Table does not exist');
+      }
+    };
+    createTable();
+  }, []);
 
   const store = createStore(CreateTaskReducer);
-
 
   const headerStyles = {
     headerStyle: {

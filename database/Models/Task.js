@@ -127,7 +127,7 @@ export default class Task extends BaseModel {
 
   static checkTableExists(tableName=''){
     const sql = `SELECT * FROM sqlite_master WHERE name = '${tableName}' AND type='table'`
-    //const sql = `ALTER TABLE ${Task.tableName} ADD COLUMN photoURI text;`
+    // const sql = `ALTER TABLE ${Task.tableName} ADD COLUMN photoURI text;`
     return this.repository.databaseLayer.executeSql(sql)
   }
   

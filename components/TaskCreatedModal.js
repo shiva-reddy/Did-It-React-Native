@@ -2,8 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TouchableHighlight, Button,Icon,Modal } from 'react-native';
 import Monster from '../assets/monsterReact';
 import MyAppText from '../components/MyAppText';
+import {useNavigation} from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
 
-const TaskCreatedModal = (modalVisible, navigation,lines) => {
+
+const TaskCreatedModal = (modalVisible, action,lines) => {
+  const navigation = useNavigation();
     return (
         <View style={styles.centeredView}>
         <Modal
@@ -18,7 +22,19 @@ const TaskCreatedModal = (modalVisible, navigation,lines) => {
                     <TouchableHighlight
                         style={{ ...styles.openButton, marginTop: 30,backgroundColor: "#2196F3" }}
                         onPress={() => {
-                          navigation.navigate('ViewTasks');}}
+                          navigation.dispatch(
+                            CommonActions.reset({
+                              index: 1,
+                              routes: [
+                                { name: 'Home', params: { headerShown: false } },
+                                {
+                                  name: 'ViewTasks',
+                                  params: { title: 'View Tasks', headerShown: false },
+                                },
+                              ],
+                            }),
+                          );
+                        }}
                         >
                             <Text style={styles.textStyle}>OK!</Text>
                         </TouchableHighlight>

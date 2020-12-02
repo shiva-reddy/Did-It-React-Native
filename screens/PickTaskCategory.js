@@ -22,6 +22,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
           screen: 'SetTaskName',
           params: {
             taskCategory: props.title,
+            taskType: props.name,
             mode: 'create',
           },
         });

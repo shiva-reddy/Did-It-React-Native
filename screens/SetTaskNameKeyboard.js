@@ -24,7 +24,8 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
         screen: 'SetTaskNameVerification',
         params: { 
           chosenText: input ,
-          taskID
+          taskID,
+          taskType,
         },
       });
     } else {

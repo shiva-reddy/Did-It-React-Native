@@ -56,8 +56,7 @@ const GetUserCameraPreference = ({ route, navigation }) => {
   return (
     <View style={styles({}).container}>
       {TaskCreatedModal(isVisible, navigate, [
-        "You're all set",
-        'I have created the task for you',
+        'Great job!! I have marked this task as done',
       ])}
       <View style={{ flex: 6 }}>
         <ConversationCard avatarText="Do you want to add a picture to the task before marking it as done?" />
@@ -68,7 +67,7 @@ const GetUserCameraPreference = ({ route, navigation }) => {
             navigation.navigate('TakePhotoFromCamera', { taskID: taskID });
           })}
           {option('No', async () => {
-            //await markAsDone();
+            await markAsDone();
             setIsVisible(!isVisible);
           })}
         </View>

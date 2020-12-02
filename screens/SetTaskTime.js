@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import NextStepButton from '../components/NextStepButton';
@@ -12,6 +12,7 @@ import moment from 'moment';
 
 const SetTaskTime = ({ route, navigation, addTaskTime }) => {
   const taskID = route.params.taskID ? route.params.taskID : null;
+  const taskType = route.params.taskType;
   
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const [time, setTime] = React.useState({
@@ -27,6 +28,15 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
 
   const reduxStore = async (state) => state.createTask;
   const savedObject = useSelector(reduxStore);
+
+  const [taskObj, settaskObj] = useState();
+  const [date, setDate] = useState('this date');
+
+  useEffect(() => {savedObject.then((val) => {
+    settaskObj(val);
+    setDate(val.taskDate);
+  }
+  )}, [savedObject])
  
   const updateTaskTime = (savedObject) => {
     var taskTimeInSeconds  = savedObject.taskTime.hours*3600 + savedObject.taskTime.minutes*60 + savedObject.taskTime.seconds;
@@ -38,9 +48,10 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
     reScheduleTask(taskID, taskFinishBy);
   };
 
+
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText={`Hmm..What time on ${savedObject.taskDate} will you finish it? `}/>
+      <ConversationCard avatarText={`Hmm..What time on ${date} will you finish it? `}/>
       <View style={{ marginBottom: 30, flex: 6, alignSelf: 'stretch' }}>
         <InlineTimePicker
           onChangeTime={updateTime}
@@ -62,7 +73,7 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
             addTaskTime({ taskTime: time });
             if(taskID != null){
               console.log("Updating time for task " + taskID);
-              updateTaskTime(await savedObject);
+              updateTaskTime(taskObj);
               navigation.navigate('MarkTaskAsDone', {
                 screen: 'EditTaskOptions',
                 taskID,

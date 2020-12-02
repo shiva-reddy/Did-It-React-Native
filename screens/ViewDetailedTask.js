@@ -145,7 +145,9 @@ const ViewDetailedTask = ({ navigation, route}) => {
           <Pressable onPress={() => {
                 navigation.navigate('CreateTask', {
                   screen: 'EditTaskOptions',
-                  taskID,
+                  params: {
+                    taskID: taskID,
+                  }
                 });
               }}
               >

@@ -12,7 +12,7 @@ import { addTaskName } from '../store/CreateTaskActions';
 const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
 
   const taskID = route.params.taskID ? route.params.taskID : null;
-
+  console.log(taskID);
   const [input, setInput] = React.useState('');
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
   const { taskCategory } = route.params;
@@ -22,8 +22,10 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
       addTaskName({ taskName: input });
       navigation.navigate('CreateTask', {
         screen: 'SetTaskNameVerification',
-        params: { chosenText: input ,
-          taskID},
+        params: { 
+          chosenText: input ,
+          taskID
+        },
       });
     } else {
       Toast.show('Please enter a task name', Toast.SHORT, Toast.BOTTOM);

@@ -17,19 +17,22 @@ import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 
 const ViewDetailedTask = ({ navigation, route }) => {
-  console.log('route params ' + JSON.stringify(route));
-
-  const taskName = route.params.name;
-  const taskDeadline = route.params.deadline;
-  const taskDescription = route.params.description;
-  const taskIsRecurring = route.params.isRecurring;
-  const taskID = route.params.id;
+  const taskID = route.params.taskID;
+  console.log(taskID);
 
   const [task, setTask] = useState({});
   useEffect(() => {loadTask();}, [])
 
   const loadTask = async () => {
-    setTask(getTask(taskID));
+    const taskObj = await getTask(taskID);
+    console.log(taskObj);
+    setTask({
+      taskName : taskObj.name,
+      taskDeadline : new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
+      taskDescription: "",
+      taskIsRecurring: taskObj.isRecurring,
+      taskID: taskObj.taskID
+    });
   }
 
   const {
@@ -39,17 +42,6 @@ const ViewDetailedTask = ({ navigation, route }) => {
     accentColor,
   } = useTheme();
 
-  const [id, setID] = useState(id);
-
-  console.log(
-    taskName +
-      ' ' +
-      taskDeadline +
-      ' ' +
-      taskDescription +
-      ' ' +
-      taskIsRecurring,
-  );
 
   return (
     <View style={[styles({}).container]}>
@@ -82,7 +74,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
               }).headerStyle,
             ]}
           >
-            {taskName}
+            {task.taskName}
           </Text>
         </MyAppText>
       </View>
@@ -96,7 +88,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>{taskDeadline}</Text>
+                <Text>{task.taskDeadline}</Text>
               </MyAppText>
             </View>
           </View>
@@ -108,7 +100,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>{taskDeadline}</Text>
+                <Text>{task.taskDeadline}</Text>
               </MyAppText>
             </View>
           </View>
@@ -120,7 +112,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text>{taskIsRecurring == 1 ? 'Yes' : 'No'}</Text>
+                <Text>{task.taskIsRecurring == 1 ? 'Yes' : 'No'}</Text>
               </MyAppText>
             </View>
           </View>
@@ -174,8 +166,7 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
       width: '50%',
       height: 50,
       backgroundColor: primaryColor,
-     
-    },
+    }
   });
 
 export default ViewDetailedTask;

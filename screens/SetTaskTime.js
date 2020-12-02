@@ -38,7 +38,6 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
     reScheduleTask(taskID, taskFinishBy);
   };
 
-
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />
@@ -64,7 +63,12 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
             if(taskID != null){
               console.log("Updating time for task " + taskID);
               updateTaskTime(await savedObject);
-              navigation.navigate('ViewTasks');
+              navigation.navigate('CreateTask', {
+                screen: 'EditTaskOptions',
+                params: {
+                  taskId: taskID,
+                },
+              });
             }
             else navigation.navigate('SetTaskRecurrance');
           }}

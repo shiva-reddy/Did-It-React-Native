@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
@@ -7,7 +7,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
+import { CommonActions } from "@react-navigation/native";
+import {markTaskAsDone} from "../database/Utilities/api"
 import moment from 'moment';
+import TaskCreatedModal from "../components/TaskCreatedModal";
 
 const selectTodos = (state) => state.createTask;
 
@@ -35,6 +38,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
   const daysOfWeekIndex = {"Sunday":0,'Monday':1,'Tuesday':2,"Wednesday":3,'Thursday':4,'Friday':5,'Saturday':6}
+
   const daysOfWeek = [
     'Sunday',
     'Monday',
@@ -55,9 +59,25 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
       return currDateMoment.weekday(periodVal);
     }
   };
+  const [isVisible, setIsVisible] = useState(false);
+  const navigate = () => {
+  navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home', params: { headerShown: false } },
+          {
+            name: 'ViewTasks',
+            params: { title: 'View Tasks', headerShown: false },
+          },
+        ],
+      }),
+    );
+}
 
   return (
     <View style={styles.container}>
+       {TaskCreatedModal(isVisible, navigate,["You're all set", "I have created the task for you"])}
       <ConversationCard avatarText="How does the task repeat?" />
       <View
         style={{
@@ -206,7 +226,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             }
             //Check if the task has isRecurring to true
 
-            navigation.navigate('ViewTasks');
+            setIsVisible(!isVisible);
           }}
         />
       </View>

@@ -10,6 +10,9 @@ import { addTaskDate } from '../store/CreateTaskActions';
 import Toast from 'react-native-simple-toast';
 
 const SetTaskDate = ({ route, navigation, addTaskDate }) => {
+
+  const taskID = route.params.taskID ? route.params.taskID : null;
+
   const {
     primaryColor,
     secondaryColor,
@@ -57,7 +60,8 @@ const SetTaskDate = ({ route, navigation, addTaskDate }) => {
           action={() => {
             if (dateSelected !== null && dateSelected.length !== 0) {
               addTaskDate({ taskDate: dateSelected });
-              navigation.navigate('SetTaskTime');
+
+              navigation.navigate('SetTaskTime',{taskID});
             } else {
               Toast.show('Please select a date', Toast.SHORT, Toast.BOTTOM);
             }

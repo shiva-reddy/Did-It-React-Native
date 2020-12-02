@@ -6,7 +6,9 @@ import InputModeButton from '../components/InputModeButton';
 
 import { connect } from 'react-redux';
 
-const SetTaskName = ({ navigation, taskCategory, mode}) => {
+const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
+
+  const taskID = route.params.taskID ? route.params.taskID : null;
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="Choose your input method" />
@@ -14,22 +16,26 @@ const SetTaskName = ({ navigation, taskCategory, mode}) => {
         <View style={styles.options}>
           <InputModeButton
             icon="microphone"
-            action={() =>
-              navigation.navigate('SetTaskNameVoice', {
-                taskCategory,
-              })
-            }
+            action={() => navigation.navigate('CreateTask', {
+              screen: 'SetTaskNameVoice',
+              params: {
+                taskCategory: taskCategory,
+                taskID,
+              },
+            })}
           />
           <InputModeButton
             icon="pencil"
-            action={() =>
-              navigation.navigate('SetTaskNameKeyboard', {
-                taskCategory,
-              })
-            }
+            action={() => navigation.navigate('CreateTask', {
+              screen: 'SetTaskNameKeyboard',
+              params: {
+                taskCategory: taskCategory,
+                taskID,
+              },
+            })}
           />
         </View>
-      </View>
+      </View> 
     </View>
   );
 };

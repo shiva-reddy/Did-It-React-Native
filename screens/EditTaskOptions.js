@@ -22,7 +22,10 @@ const option = (text, action) => {
   );
 };
 
-const EditTaskOptions = ({ navigation, taskCategory }) => {
+const EditTaskOptions = ({ route, navigation, taskCategory }) => {
+
+  const taskID = route.params.taskID;
+
   const { tertiaryColor, secondaryColor } = useTheme();
   return (
     <View style={styles({ tertiaryColor }).container}>
@@ -34,6 +37,7 @@ const EditTaskOptions = ({ navigation, taskCategory }) => {
               screen: 'SetTaskName',
               params: {
                 taskCategory: taskCategory,
+                taskID,
               },
             });
           })}
@@ -42,6 +46,7 @@ const EditTaskOptions = ({ navigation, taskCategory }) => {
               screen: 'SetTaskDate',
               params: {
                 taskCategory: taskCategory,
+                taskID,
               },
             });
           })}

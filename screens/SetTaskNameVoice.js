@@ -14,6 +14,8 @@ import algoliasearch from 'algoliasearch/lite';
 
 const SetTaskNameVoice = ({ route, navigation }) => {
 
+    const taskID = route.params.taskID ? route.params.taskID : null;
+
     const [recording, setRecording] = useState(null);
     const [isFetching, setIsFetching] = useState(false);
     const [isRecording, setIsRecording] = useState(false);
@@ -87,7 +89,10 @@ const SetTaskNameVoice = ({ route, navigation }) => {
             // console.log(data);
             navigation.navigate('CreateTask', {
               screen: 'SetTaskNameVerification',
-              params: { chosenText: await sampleResponse() },
+              params: { 
+                chosenText: await sampleResponse() ,
+                taskID,
+              },
             });
         } catch(error) {
             console.log('There was an error reading file', error);

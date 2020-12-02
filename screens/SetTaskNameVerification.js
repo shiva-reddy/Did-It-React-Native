@@ -3,18 +3,25 @@ import { StyleSheet, View } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import NextStepButton from '../components/NextStepButton';
 import { StackActions } from '@react-navigation/native';
-
-import { connect } from 'react-redux';
+import {updateTaskName} from '../database/Utilities/api';
+import { connect, useSelector } from 'react-redux';
 
 const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
   const chosenText = route.params.chosenText;
 
+  const taskID = route.params && route.params.taskID ? route.params.taskID : null;
+  
   const redoAction = (taskCategory) => {
     const pushAction = StackActions.push('SetTaskName', {
       taskCategory,
+      taskID,
     });
 
     navigation.dispatch(pushAction);
+  };
+
+  const updateDescription = () => {
+    updateTaskName(taskID, chosenText);
   };
 
   return (
@@ -22,7 +29,7 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
       <ConversationCard
         style={{ flex: 2 }}
         avatarText={
-          mode === 'create'
+          taskID != null
             ? 'Is this your task name?'
             : 'Update your task name to this?'
         }
@@ -31,11 +38,25 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
         taskCategory={taskCategory}
       />
       <View style={{ flex: 1, alignItems: 'flex-end', marginRight: 30 }}>
-        <NextStepButton action={() => navigation.navigate('SetTaskDate')} />
+        <NextStepButton action={() => {
+          if (taskID != null){
+              console.log("Save with task id " + taskID);
+              updateDescription();
+              navigation.navigate('CreateTask', {
+                screen: 'EditTaskOptions',
+                params: {
+                  taskId: taskID,
+                },
+              });
+          } else {
+            navigation.navigate('SetTaskDate');
+          }
+        }} />
       </View>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   icon: {

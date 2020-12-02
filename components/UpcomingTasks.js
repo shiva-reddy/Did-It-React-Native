@@ -142,7 +142,15 @@ const UpcomingTasks = ({category}) => {
                 },
               ]}
             >
-              <TouchableOpacity>
+              
+
+              <TouchableOpacity onPress={() => {
+                console.log("TaskId is " + item.id);
+                navigationObject.navigate('CreateTask', {
+                  screen: 'EditTaskOptions',
+                  params: {taskID:item.id},
+                });
+              }}>
                 <Foundation
                   style={styles.actionIcon}
                   name="pencil"
@@ -150,7 +158,7 @@ const UpcomingTasks = ({category}) => {
                   color="#E76F51"
                 />
               </TouchableOpacity>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigationObject.navigate('GetUserCameraPreference', {taskId:item.id})}>
                 <Entypo name="check" size={30} color="#E76F51" />
               </TouchableOpacity>
             </View>

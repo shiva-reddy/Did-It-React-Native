@@ -188,7 +188,7 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
   }
   //createTasks()
 
-}, [])
+}, []);
   return (
     <View style={styles({ primaryColor }).container}>
       <MyAppText>

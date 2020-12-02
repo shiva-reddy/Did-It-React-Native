@@ -46,6 +46,14 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
     return { label: day, value: day };
   });
 
+  const getNextDate = (currDate, period, periodVal) => {
+    if (period === 'month'){
+
+    } else {
+
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="How does the task repeat?" />

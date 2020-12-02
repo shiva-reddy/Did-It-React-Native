@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 import {createTask, deleteTask} from '../database/Utilities/api'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addTaskCategory, addMode } from '../store/CreateTaskActions';
+import { addTaskCategory } from '../store/CreateTaskActions';
 
 
 import MyAppText from '../components/MyAppText';
@@ -19,14 +19,10 @@ const TaskCategoryCard = ({ navigation, props }) => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('CreateTask', {
-          screen: 'EditTaskOptions',
-          params: {
-            taskCategory: props.title ,
-            mode: 'create',
-          },
+          screen: 'SetTaskName',
+          params: { taskCategory: props.title },
         });
         props.addTaskCategory({ taskCategory: props.title });
-        props.addMode({ mode : 'create'});
       }}
     >
       <View style={styles({ accentColor, secondaryColor }).card}>
@@ -60,82 +56,80 @@ const TaskCategoryCard = ({ navigation, props }) => {
   );
 };
 
-<<<<<<< HEAD
-const CreateTask = ({ navigation, addTaskCategory,addMode }) => {
-=======
 
-// const CreateTask = ({ navigation }) => {
+const CreateTask = ({ navigation }) => {
 
-//   const { primaryColor } = useTheme();
+  const { primaryColor } = useTheme();
 
-//   function nextweek(){
-//     var today = new Date();
-//     var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+10);
-//     return nextweek.toISOString();
-//   }
+  function nextweek(){
+    var today = new Date();
+    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+10);
+    return nextweek;
+  }
 
-//   useEffect(() => {
+  useEffect(() => {
 
-  //   async function createTasks() {
+    async function createTasks() {
 
-  //     var task = {
-  //       name:"Task1",
-  //       isCompleted:   0,
-  //       category:"Homework",
-  //       isRecurring:   1,
-  //       taskFinishBy : nextweek()
-  //     };
-  //     var task2 = {
-  //       name:"Task2",
-  //       isCompleted:   0,
-  //       category:"Homework",
-  //       isRecurring:   1,
-  //       taskFinishBy : nextweek()
-  //     };
-  //     var task3 = {
-  //       name:"Task3",
-  //       isCompleted:   1,
-  //       category:"Homework",
-  //       isRecurring:   0,
-  //       taskFinishBy : new Date().toISOString()
-  //     };
-  //     var task4 = {
-  //       name:"Task4",
-  //       isCompleted:   1,
-  //       category:"Homework",
-  //       isRecurring:   0,
-  //       taskFinishBy : new Date().toISOString()
-  //     };
+      var task = {
+        name:"Task1",
+        isCompleted:   0,
+        category:"Homework",
+        isRecurring:   1,
+        taskFinishBy : nextweek()
+      };
+      var task2 = {
+        name:"Task2",
+        isCompleted:   0,
+        category:"Homework",
+        isRecurring:   1,
+        taskFinishBy : nextweek()
+      };
+      var task3 = {
+        name:"Task3",
+        isCompleted:   1,
+        category:"Homework",
+        isRecurring:   0,
+        taskFinishBy : new Date().toISOString()
+      };
+      var task4 = {
+        name:"Task4",
+        isCompleted:   1,
+        category:"Homework",
+        isRecurring:   0,
+        taskFinishBy : new Date().toISOString()
+      };
               
-  //     // let result = await deleteTask(7)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await deleteTask(8)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await deleteTask(3)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await deleteTask(4)
-  //     // console.log('Task created result  '+result)
+      let result = await deleteTask(7)
+      console.log('Task created result  '+result)
+      result =     await deleteTask(8)
+      console.log('Task created result  '+result)
+      result =     await deleteTask(3)
+      console.log('Task created result  '+result)
+      result =     await deleteTask(4)
+      console.log('Task created result  '+result)
 
-  //     // let result = await createTask(task)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await createTask(task2)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await createTask(task3)
-  //     // console.log('Task created result  '+result)
-  //     // result =     await createTask(task4)
-  //     // console.log('Task created result  '+result)
-
-
-  //   }
-  //   createTasks()
+      result = await createTask(task)
+      console.log('Task created result  '+result)
+      result =     await createTask(task2)
+      console.log('Task created result  '+result)
+      result =     await createTask(task3)
+      console.log('Task created result  '+result)
+      result =     await createTask(task4)
+      console.log('Task created result  '+result)
 
 
-  // }, [])
+    }
+    createTasks()
+
+
+  }, [])
 
 const CreateTask = ({ navigation, addTaskCategory }) => {
->>>>>>> enhancements-suhan
   const { primaryColor } = useTheme();
   console.log('from here' + addTaskCategory);
+
+
   return (
     <View style={styles({ primaryColor }).container}>
       <MyAppText>
@@ -145,7 +139,7 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
         {TaskCategories.map((cat) => (
           <TaskCategoryCard
             navigation={navigation}
-            props={{ ...cat, addTaskCategory,addMode }}
+            props={{ ...cat, addTaskCategory }}
             key={`category-${cat.title}`}
           />
         ))}
@@ -180,17 +174,17 @@ const styles = ({ accentColor, primaryColor, secondaryColor }) =>
       backgroundColor: primaryColor,
     },
   });
+}
 
 const mapStateToProps = (state) => {
-  const { taskCategory, mode } = state.createTask;
-  return { taskCategory, mode };
+  const { taskCategory } = state.createTask;
+  return { taskCategory };
 };
 
 const mapDispatchToProps = (dispatch) =>
   bindActionCreators(
     {
       addTaskCategory,
-      addMode,
     },
     dispatch,
   );

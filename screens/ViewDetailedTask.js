@@ -28,14 +28,14 @@ const ViewDetailedTask = ({ navigation, route}) => {
 
   const loadTask = async () => {
     const taskObj = await getTask(taskID);
-    console.log(taskObj);
+    console.log("Task object is" +JSON.stringify(taskObj));
     setTask({
       taskName : taskObj.name,
       taskDeadline : new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
       taskDescription: "",
       taskIsRecurring: taskObj.isRecurring,
       taskID: taskObj.taskID,
-      taskPhotoURI: task.photoURI
+      taskPhotoURI: taskObj.photoURI
     });
   }
 
@@ -83,7 +83,7 @@ const ViewDetailedTask = ({ navigation, route}) => {
         </MyAppText>
       </View>
       <View style={[{ flex: 1 }, styles({}).elementsContainer]}>
-        <View style={{ flex: 3, backgroundColor: '#264653' }}>
+        {taskType === "Upcoming" && (    <View style={{ flex: 3, backgroundColor: '#264653' }}>
           <View style={{ flexDirection: 'row', margin: 10 }}>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
@@ -120,8 +120,9 @@ const ViewDetailedTask = ({ navigation, route}) => {
               </MyAppText>
             </View>
           </View>
-        </View>
-         {taskType === "Upcoming"?(
+          
+        </View>)}
+          {taskType === "Upcoming"?(
             <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
           <View style={[{ flex: 1, flexDirection: 'row' }]}>
           <Foundation
@@ -141,24 +142,14 @@ const ViewDetailedTask = ({ navigation, route}) => {
             </Pressable>
           </View>
           </View>):(     
-            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}> 
-          <View
-              style={{
-                backgroundColor: 'transparent',
-                flex: 1,
-                margin: 10,
-              }}
-            >
+
               <ImageBackground
                 source={{ uri: task.taskPhotoURI }}
                 style={{
                   flex: 1,
                 }}
               ></ImageBackground>
-        
-        </View>
-        </View>)}
-          
+          )}         
         
       </View>
     </View>

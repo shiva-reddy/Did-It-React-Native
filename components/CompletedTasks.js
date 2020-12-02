@@ -57,7 +57,8 @@ const CompletedTasks = ({category}) => {
               deadline:    new Date(item.taskFinishBy).toLocaleDateString('en-US'),
               description: "",
               isRecurring: item.isRecurring,
-              taskType:"Completed"
+              taskType:"Completed",
+              taskID: item.id
             });
           }}
         >

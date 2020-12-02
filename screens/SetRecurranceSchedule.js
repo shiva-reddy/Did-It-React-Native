@@ -105,7 +105,9 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         }}
       >
         <View>
-          <MyAppText><Text>Every</Text></MyAppText>
+          <MyAppText>
+            <Text style={{ fontSize: 20 }}>Every</Text>
+          </MyAppText>
           <DropDownPicker
             items={[
               { label: 'Month', value: 'month' },
@@ -133,7 +135,9 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         </View>
 
         <View>
-        <MyAppText><Text>On</Text></MyAppText>
+          <MyAppText>
+            <Text style={{ fontSize: 20, marginBottom: 5 }}>On</Text>
+          </MyAppText>
           {period === 'month' ? (
             <DropDownPicker
               items={daysOfMonth}
@@ -144,7 +148,10 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                 borderColor: secondaryColor,
                 width: 150,
               }}
-              itemStyle={{ justifyContent: 'flex-start', color: secondaryColor }}
+              itemStyle={{
+                justifyContent: 'flex-start',
+                color: secondaryColor,
+              }}
               dropDownStyle={{
                 backgroundColor: tertiaryColor,
                 borderColor: secondaryColor,

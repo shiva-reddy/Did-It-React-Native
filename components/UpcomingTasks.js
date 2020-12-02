@@ -10,6 +10,7 @@ import { Card } from 'react-native-elements';
 import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 import MyAppText from './MyAppText';
 import { getUpcomingTasks } from '../database/Utilities/api';
 import { Feather } from '@expo/vector-icons';
@@ -109,7 +110,7 @@ const UpcomingTasks = ({ category, activity }) => {
               category: item.category,
               id: item.id,
               taskID: item.id,
-              taskType:"Upcoming"
+              taskType: 'Upcoming',
             });
           }}
         >
@@ -170,7 +171,16 @@ const UpcomingTasks = ({ category, activity }) => {
               ) : (
                 <View></View>
               )}
-
+              {item.name === 'Math Homework' ? (
+                <FontAwesome
+                  style={{ marginBottom: 25 }}
+                  name="warning"
+                  size={24}
+                  color="#E76F51"
+                />
+              ) : (
+                <View></View>
+              )}
               <View
                 style={{
                   borderWidth: 1,

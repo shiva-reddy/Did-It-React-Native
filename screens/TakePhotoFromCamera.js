@@ -11,6 +11,10 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Camera } from 'expo-camera';
+import { CommonActions } from "@react-navigation/native";
+import {markTaskAsDone} from "../database/Utilities/api"
+import TaskCreatedModal from "../components/TaskCreatedModal";
+import {useNavigation} from "@react-navigation/native";
 import {
   FontAwesome,
   Ionicons,
@@ -56,20 +60,36 @@ const CameraComponent = ({data}) => {
   const [camera, setCameraObject] = useState(null);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
+  const [isVisible, setIsVisible] = useState(false);
   //const [photo,setPhoto] = useState(null)
 
   const __savePhoto = async () => {
-    
     console.log("In save photo function")
+    await markTaskAsDone(data);
     const result = await updatePhotoURI(data, capturedImage.uri)
     console.log("Update result "+result)
-    console.log(getTask(data))
-      
+    console.log(getTask(data));
+    setIsVisible(!isVisible);
   };
 
   const CameraPreview = ({ photo, retakePicture, savePhoto }) => {
     console.log('Photo ', photo);
 
+    const navigation = useNavigation();
+    const navigate = () => {
+      navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [
+              { name: 'Home', params: { headerShown: false } },
+              {
+                name: 'ViewTasks',
+                params: { title: 'View Tasks', headerShown: false },
+              },
+            ],
+          }),
+        );
+  }
 
     return (
       <View
@@ -85,6 +105,7 @@ const CameraComponent = ({data}) => {
             flex: 1,
           }}
         >
+           {TaskCreatedModal(isVisible, navigate,["You're all set", "I have created the task for you"])}
           <View
             style={{
               flex: 1,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
@@ -7,7 +7,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { useTheme } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
 import { createTask } from '../database/Utilities/api';
+import { CommonActions } from '@react-navigation/native';
+import { markTaskAsDone } from '../database/Utilities/api';
 import moment from 'moment';
+import TaskCreatedModal from '../components/TaskCreatedModal';
 
 const selectTodos = (state) => state.createTask;
 
@@ -45,6 +48,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
     Friday: 5,
     Saturday: 6,
   };
+
   const daysOfWeek = [
     'Sunday',
     'Monday',
@@ -68,9 +72,29 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
       return currDateMoment.weekday(periodVal);
     }
   };
+  const [isVisible, setIsVisible] = useState(false);
+  const [lines, setLines] = useState([
+    "You're all set",
+    'I have created a repeating task for you',
+  ]);
+  const navigate = () => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home', params: { headerShown: false } },
+          {
+            name: 'ViewTasks',
+            params: { title: 'View Tasks', headerShown: false },
+          },
+        ],
+      }),
+    );
+  };
 
   return (
     <View style={styles.container}>
+      {TaskCreatedModal(isVisible, navigate, lines)}
       <ConversationCard avatarText="How does the task repeat?" />
       <View
         style={{
@@ -220,20 +244,14 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
               );
             }
             //Check if the task has isRecurring to true
-
-            //navigation.navigate('ViewTasks');
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [
-                  { name: 'Home', params: { headerShown: false } },
-                  {
-                    name: 'ViewTasks',
-                    params: { title: 'View Tasks', headerShown: false },
-                  },
-                ],
-              }),
-            );
+            setLines([
+              'You are all set',
+              'I have created a task that repeats on ' +
+                (period == 'month'
+                  ? dayOfMonth + ' of every month'
+                  : dayOfWeek),
+            ]);
+            setIsVisible(!isVisible);
           }}
         />
       </View>

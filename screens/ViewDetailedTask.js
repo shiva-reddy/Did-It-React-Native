@@ -7,8 +7,7 @@ import {
   Pressable,
   Button,
   TouchableOpacity,
-  ImageBackground
-  
+  ImageBackground,
 } from 'react-native';
 import MyAppText from '../components/MyAppText';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -18,13 +17,13 @@ import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 import DeleteModal from '../components/DeleteModal';
 import { CommonActions } from '@react-navigation/native';
-import {useNavigation} from "@react-navigation/native";
+import { useNavigation } from '@react-navigation/native';
 
-const ViewDetailedTask = ({ navigation, route}) => {
+const ViewDetailedTask = ({ navigation, route }) => {
   const taskID = route.params.taskID;
-  const taskType = route.params.taskType
+  const taskType = route.params.taskType;
   console.log(taskID);
-  console.log("Task type "+taskType)
+  console.log('Task type ' + taskType);
 
   const [task, setTask] = useState({});
   const [isVisible, setIsVisible] = useState(false);
@@ -34,14 +33,14 @@ const ViewDetailedTask = ({ navigation, route}) => {
 
   const loadTask = async () => {
     const taskObj = await getTask(taskID);
-    console.log("Task object is" +JSON.stringify(taskObj));
+    console.log('Task object is' + JSON.stringify(taskObj));
     setTask({
       taskName: taskObj.name,
       taskDeadline: new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
       taskDescription: '',
       taskIsRecurring: taskObj.isRecurring,
       taskID: taskObj.taskID,
-      taskPhotoURI: taskObj.photoURI
+      taskPhotoURI: taskObj.photoURI,
     });
   };
 
@@ -54,7 +53,16 @@ const ViewDetailedTask = ({ navigation, route}) => {
 
   return (
     <View style={[styles({}).container]}>
-      {DeleteModal(isVisible, () => {setIsVisible(!isVisible)},() => {deleteTask(taskID)})}
+      {isVisible &&
+        DeleteModal(
+          isVisible,
+          () => {
+            setIsVisible(!isVisible);
+          },
+          () => {
+            deleteTask(taskID);
+          },
+        )}
       <View
         style={[
           {
@@ -65,9 +73,7 @@ const ViewDetailedTask = ({ navigation, route}) => {
           },
         ]}
       >
-        <TouchableOpacity
-          onPress={() => setIsVisible(!isVisible)}
-        >
+        <TouchableOpacity onPress={() => setIsVisible(!isVisible)}>
           <Entypo name="trash" size={30} color={accentColor} />
         </TouchableOpacity>
       </View>
@@ -86,100 +92,132 @@ const ViewDetailedTask = ({ navigation, route}) => {
         </MyAppText>
       </View>
       <View style={[{ flex: 1 }, styles({}).elementsContainer]}>
-        {taskType === "Upcoming" && (    <View style={{ flex: 3, backgroundColor: '#264653' }}>
-          <View style={{ flexDirection: 'row', margin: 10 }}>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>Deadline</Text>
-              </MyAppText>
+        {taskType === 'Upcoming' && (
+          <View style={{ flex: 3, backgroundColor: '#264653' }}>
+            <View style={{ flexDirection: 'row', margin: 10 }}>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>Deadline</Text>
+                </MyAppText>
+              </View>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    {task.taskDeadline}
+                  </Text>
+                </MyAppText>
+              </View>
             </View>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>
-                  {task.taskDeadline}
-                </Text>
-              </MyAppText>
+            <View style={{ flexDirection: 'row', margin: 10 }}>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>Created Date</Text>
+                </MyAppText>
+              </View>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    {task.taskDeadline}
+                  </Text>
+                </MyAppText>
+              </View>
             </View>
-          </View>
-          <View style={{ flexDirection: 'row', margin: 10 }}>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>Created Date</Text>
-              </MyAppText>
-            </View>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>
-                  {task.taskDeadline}
-                </Text>
-              </MyAppText>
-            </View>
-          </View>
-          <View style={{ flexDirection: 'row', margin: 10 }}>
-            <View
-              style={[
-                styles({ primaryColor }).taskDetailTexts,
-                { paddingLeft: 30 },
-              ]}
-            >
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>
-                  Does the Task Repeat ?
-                </Text>
-              </MyAppText>
-            </View>
-            <View style={styles({ primaryColor }).taskDetailTexts}>
-              <MyAppText>
-                <Text style={styles({}).secondaryText}>
-                  {task.taskIsRecurring == 1 ? 'Yes' : 'No'}
-                </Text>
-              </MyAppText>
-            </View>
-          </View>
-        </View>)}
-
-
-        {taskType === "Upcoming"?(
-            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
-          <View style={[{ flex: 1, flexDirection: 'row' }]}>
-          <Pressable onPress={() => {
-                navigation.navigate('CreateTask', {
-                  screen: 'EditTaskOptions',
-                  params: {
-                    taskID: taskID,
-                  }
-                });
-              }}
+            <View style={{ flexDirection: 'row', margin: 10 }}>
+              <View
+                style={[
+                  styles({ primaryColor }).taskDetailTexts,
+                  { paddingLeft: 30 },
+                ]}
               >
-            <Foundation
-              style={styles.actionIcon}
-              name="pencil"
-              size={30}
-              color="#E76F51"
-            />
-          </Pressable>
-        </View>
-          <View style={[{ justifyContent: 'flex-end' }]}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('GetUserCameraPreference', {
-                  taskId: taskID,
-                });
-              }}
-            >
-              <Entypo name="check" size={40} color="#E76F51" />
-            </Pressable>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    Does the Task Repeat ?
+                  </Text>
+                </MyAppText>
+              </View>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    {task.taskIsRecurring == 1 ? 'Yes' : 'No'}
+                  </Text>
+                </MyAppText>
+              </View>
+            </View>
           </View>
-          </View>):(
+        )}
 
-              <ImageBackground
-                source={{ uri: task.taskPhotoURI }}
-                style={{
-                  flex: 1,
+        {taskType === 'Upcoming' ? (
+          <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
+            <View style={[{ flex: 1, flexDirection: 'row' }]}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('CreateTask', {
+                    screen: 'EditTaskOptions',
+                    params: {
+                      taskID: taskID,
+                    },
+                  });
                 }}
-              ></ImageBackground>
-          )}
-
+              >
+                <Foundation
+                  style={styles.actionIcon}
+                  name="pencil"
+                  size={30}
+                  color="#E76F51"
+                />
+              </Pressable>
+            </View>
+            <View style={[{ justifyContent: 'flex-end' }]}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('GetUserCameraPreference', {
+                    taskId: taskID,
+                  });
+                }}
+              >
+                <Entypo name="check" size={40} color="#E76F51" />
+              </Pressable>
+            </View>
+          </View>
+        ) : task.taskPhotoURI !== null ? (
+          <ImageBackground
+            source={{ uri: task.taskPhotoURI }}
+            style={{
+              flex: 1,
+            }}
+          ></ImageBackground>
+        ) : (
+          <View style={{ backgroundColor: '#264653', flex: 1 }}>
+            <View style={{ flexDirection: 'row', margin: 10 }}>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>Deadline</Text>
+                </MyAppText>
+              </View>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    {task.taskDeadline}
+                  </Text>
+                </MyAppText>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', margin: 10 }}>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>Completed On</Text>
+                </MyAppText>
+              </View>
+              <View style={styles({ primaryColor }).taskDetailTexts}>
+                <MyAppText>
+                  <Text style={styles({}).secondaryText}>
+                    {new Date().getDate()}
+                  </Text>
+                </MyAppText>
+              </View>
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );

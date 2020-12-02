@@ -11,8 +11,7 @@ import { Foundation } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
-import {getUpcomingTasks} from '../database/Utilities/api'
-
+import { getUpcomingTasks } from '../database/Utilities/api';
 
 // const tasks = [
 //   {
@@ -77,27 +76,26 @@ import {getUpcomingTasks} from '../database/Utilities/api'
 //   },
 // ];
 
-const UpcomingTasks = ({category}) => {
-  console.log("rendering")
+const UpcomingTasks = ({ category, activity }) => {
+  //console.log('rendering in upcoming tasks ' + dbData);
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([]);
-  const [refreshList2, setBoolean] = useState(false)
+  // const [tasks,setData] = useState([])
+  const [tasks, setData] = useState([]);
+  const [refreshList, setBoolean] = useState(false);
 
   useEffect(() => {
-    async function createTable () {
-      //console.log("Getting upcoming tasks")
-      // Update the document title using the browser API
-      let upcomingTasks = await getUpcomingTasks()
-      console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
-      setData(upcomingTasks.rows)
-      setBoolean(!refreshList2)
+    async function getTasks() {
+      const upcoming = await getUpcomingTasks(activity);
+      const data = upcoming.rows;
+      console.log(data);
+      setData(data);
+      setBoolean(!refreshList);
     }
-    createTable();
-  },[]);
+    getTasks();
+  }, [activity]);
 
-  console.log("Upcoming Rows is",tasks.length)
+  //console.log('Upcoming Rows is', dbData.length);
   const renderTasks = ({ item }) => {
-    //console.log("item is "+item)
     return (
       <Card containerStyle={{ borderRadius: 10, backgroundColor: '#264653' }}>
         <TouchableOpacity
@@ -105,7 +103,7 @@ const UpcomingTasks = ({category}) => {
             navigationObject.navigate('MarkTaskAsDone', {
               name: item.name,
               deadline: new Date(item.taskFinishBy).toLocaleDateString('en-US'),
-              description: "",
+              description: '',
               isRecurring: item.isRecurring,
               category: item.category,
               id: item.id,
@@ -130,7 +128,8 @@ const UpcomingTasks = ({category}) => {
               </MyAppText>
               <MyAppText alignCenter={false}>
                 <Text style={styles.taskDeadline}>
-                  Deadline: {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
+                  Deadline:{' '}
+                  {new Date(item.taskFinishBy).toLocaleDateString('en-US')}
                 </Text>
               </MyAppText>
             </View>
@@ -144,15 +143,15 @@ const UpcomingTasks = ({category}) => {
                 },
               ]}
             >
-              
-
-              <TouchableOpacity onPress={() => {
-                console.log("TaskId is " + item.id);
-                navigationObject.navigate('CreateTask', {
-                  screen: 'EditTaskOptions',
-                  params: {taskID:item.id},
-                });
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  console.log('TaskId is ' + item.id);
+                  navigationObject.navigate('CreateTask', {
+                    screen: 'EditTaskOptions',
+                    params: { taskID: item.id },
+                  });
+                }}
+              >
                 <Foundation
                   style={styles.actionIcon}
                   name="pencil"
@@ -160,7 +159,13 @@ const UpcomingTasks = ({category}) => {
                   color="#E76F51"
                 />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => navigationObject.navigate('GetUserCameraPreference', {taskId:item.id})}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigationObject.navigate('GetUserCameraPreference', {
+                    taskId: item.id,
+                  })
+                }
+              >
                 <Entypo name="check" size={30} color="#E76F51" />
               </TouchableOpacity>
             </View>
@@ -175,7 +180,7 @@ const UpcomingTasks = ({category}) => {
       data={tasks}
       renderItem={renderTasks}
       keyExtractor={(item) => item.name}
-      extraData = {refreshList2}
+      extraData={refreshList}
     ></FlatList>
   );
 };

@@ -14,6 +14,7 @@ import SetTaskNameKeyboard from './screens/SetTaskNameKeyboard';
 import SetTaskNameVerification from './screens/SetTaskNameVerification';
 import GetUserCameraPreference from './screens/GetUserCameraPreference';
 import TaskCompletedModal from './components/TaskMarkedDoneModal';
+import TaskComponent from './components/BackgroundTask';
 import TakePhotoFromCamera from './screens/TakePhotoFromCamera';
 import SetTaskRecurrance from './screens/SetTaskRecurrance';
 import SetTaskRecurranceSchedule from './screens/SetRecurranceSchedule';

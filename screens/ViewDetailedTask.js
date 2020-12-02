@@ -24,6 +24,13 @@ const ViewDetailedTask = ({ navigation, route }) => {
   const taskIsRecurring = route.params.isRecurring;
   const taskID = route.params.id;
 
+  const [task, setTask] = useState({});
+  useEffect(() => {loadTask();}, [])
+
+  const loadTask = async () => {
+    setTask(getTask(taskID));
+  }
+
   const {
     primaryColor,
     secondaryColor,

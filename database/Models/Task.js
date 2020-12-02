@@ -34,6 +34,10 @@ export default class Task extends BaseModel {
     }
   }
 
+  static getTask(taskId){
+    return Task.find(taskId);
+  }
+  
   // Function to fetch tasks thats that are to be completed in the future from current time
   static getUpComingTasks(category='%') {
     // tasks whose end date is farther than current date

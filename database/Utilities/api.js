@@ -5,13 +5,16 @@ function createTask(task={}) {
     return Task.createTask(task)
 }
 
+function getTask(taskId=0) {
+    return Task.getTask(taskId)
+}
+
 function getUpcomingTasks(category='%'){
     return Task.getUpComingTasks(category)
 }
 
 
 function getCompletedTasks(category='%'){
-   
    return Task.getCompletedTasks(category)
 }
 

@@ -4,6 +4,7 @@ import ConversationCard from '../components/ConversationCard';
 import { Ionicons } from '@expo/vector-icons';
 import TaskCreatedModal from "../components/TaskCreatedModal";
 import { CommonActions } from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import {markTaskAsDone} from "../database/Utilities/api"
 
 
@@ -16,6 +17,7 @@ const GetUserCameraPreference = ({ route,navigation }) => {
     const markAsDone = async () => {
         await markTaskAsDone(taskID);
     }
+
 
     const navigate = () => {
         navigation.dispatch(

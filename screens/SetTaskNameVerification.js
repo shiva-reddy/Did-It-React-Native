@@ -42,11 +42,11 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
           if (taskID != null){
               console.log("Save with task id " + taskID);
               updateDescription();
-              navigation.navigate('CreateTask', {
+              navigation.navigate('MarkTaskAsDone', {
                 screen: 'EditTaskOptions',
                 params: {
                   taskId: taskID,
-                },
+                }
               });
           } else {
             navigation.navigate('SetTaskDate');

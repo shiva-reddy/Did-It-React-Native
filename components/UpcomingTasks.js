@@ -108,7 +108,8 @@ const UpcomingTasks = ({category}) => {
               description: "",
               isRecurring: item.isRecurring,
               category: item.category,
-              id: item.id
+              id: item.id,
+              taskID: item.id,
             });
           }}
         >

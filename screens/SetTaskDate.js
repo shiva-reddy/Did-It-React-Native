@@ -23,7 +23,7 @@ const SetTaskDate = ({ route, navigation, addTaskDate }) => {
   const [dateSelected, setDate] = useState('');
 
   const onDateChange = (date, type) => {
-    console.log("date is "+date.format())
+    // console.log("date is "+date.format())
     const [dateFormatted] = date.format().split('T');
     setDate(dateFormatted);
   };

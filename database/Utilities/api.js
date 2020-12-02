@@ -61,5 +61,6 @@ export { markTaskAsDone,
          getCompletedTasks, 
          getUpcomingTasks, 
          reScheduleTask, 
-         updateTaskName,checkTableExists };
+         updateTaskName,checkTableExists,
+         getTask };
     

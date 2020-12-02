@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
@@ -8,6 +8,8 @@ import { connect, useSelector } from 'react-redux';
 import { setTaskRepeating } from '../store/CreateTaskActions';
 import { createTask } from '../database/Utilities/api';
 import moment from 'moment';
+import TaskCreatedModal from "../components/TaskCreatedModal";
+import {useNavigation} from "@react-navigation/native";
 
 const option = (text, action) => {
   const { tertiaryColor } = useTheme();
@@ -25,6 +27,19 @@ const option = (text, action) => {
 };
 
 const reduxStore = async (state) => state.createTask;
+
+const toMoment = (taskTime, taskDate) => {
+  var taskTimeInSeconds  = taskTime.hours*3600 + taskTime.minutes*60 + taskTime.seconds;
+  // // Get seconds in HH:mm:ss format
+  taskTimeInSeconds = moment(taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+  // console.log("Task time is "+taskTimeInSeconds);
+  
+  // // Concat date and time
+ return moment(
+    `${taskDate} ${taskTimeInSeconds}`,
+    'YYYY-MM-DD HH:mm',
+  ).format('YYYY MM DD');
+}
 
 const create = async (taskObject) => {
   const task = {};
@@ -62,8 +77,25 @@ const create = async (taskObject) => {
 
 const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
   const taskObject = useSelector(reduxStore);
+  const [isVisible, setIsVisible] = useState(false);
+  const [lines, setLines] = useState(["You're all set", "I have created a task for you"]);
+  const navigate = () => {
+  navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [
+          { name: 'Home', params: { headerShown: false } },
+          {
+            name: 'ViewTasks',
+            params: { title: 'View Tasks', headerShown: false },
+          },
+        ],
+      }),
+    );
+}
   return (
     <View style={styles({}).container}>
+      {TaskCreatedModal(isVisible, navigate,lines)}
       <ConversationCard avatarText="Does this task repeat?" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles({}).options}>
@@ -75,20 +107,10 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
           })}
           {option('No', async () => {
             // console.log("Creating task in recurrance");
-            await create(await taskObject);
-            //navigation.navigate('ViewTasks');
-            navigation.dispatch(
-              CommonActions.reset({
-                index: 1,
-                routes: [
-                  { name: 'Home', params: { headerShown: false } },
-                  {
-                    name: 'ViewTasks',
-                    params: { title: 'View Tasks', headerShown: false },
-                  },
-                ],
-              }),
-            );
+            const _taskObject = await taskObject;
+            await create(_taskObject);
+            setLines(["You're all set", "I have created a " + _taskObject.taskCategory + " for you to finish by " + toMoment(_taskObject.taskTime, _taskObject.taskDate)]);
+            setIsVisible(!isVisible);
           })}
         </View>
       </View>

@@ -14,12 +14,14 @@ import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
+import DeleteModal from '../components/DeleteModal';
 
 const ViewDetailedTask = ({ navigation, route }) => {
   const taskID = route.params.taskID;
   console.log(taskID);
 
   const [task, setTask] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
   useEffect(() => {
     loadTask();
   }, []);
@@ -45,6 +47,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
 
   return (
     <View style={[styles({}).container]}>
+      {DeleteModal(isVisible, () => {setIsVisible(!isVisible)},() => {deleteTask(taskID)})}
       <View
         style={[
           {
@@ -56,10 +59,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
         ]}
       >
         <TouchableOpacity
-          onPress={async () => {
-            navigation.goBack();
-            await deleteTask(taskID);
-          }}
+          onPress={() => setIsVisible(!isVisible)}
         >
           <Entypo name="trash" size={30} color={accentColor} />
         </TouchableOpacity>
@@ -132,12 +132,20 @@ const ViewDetailedTask = ({ navigation, route }) => {
         </View>
         <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
           <View style={[{ flex: 1, flexDirection: 'row' }]}>
-            <Foundation
-              style={styles.actionIcon}
-              name="pencil"
-              size={40}
-              color="#E76F51"
-            />
+          <Pressable
+              onPress={() => {
+                navigation.navigate('EditTaskOptions', {
+                  taskId: taskID,
+                });
+              }}
+            >
+              <Foundation
+                style={styles.actionIcon}
+                name="pencil"
+                size={40}
+                color="#E76F51"
+              />
+            </Pressable>
           </View>
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable

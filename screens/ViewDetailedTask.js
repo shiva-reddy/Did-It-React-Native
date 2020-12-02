@@ -139,7 +139,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
               color="#E76F51"
             />
           </View>
-          <View style={[{ justifyContent: 'flex-end' }]}>
+          <View style={[{ justifyContent: 'flex-end', paddingBottom: 10 }]}>
             <Pressable
               onPress={() => {
                 navigation.navigate('GetUserCameraPreference', {
@@ -147,7 +147,12 @@ const ViewDetailedTask = ({ navigation, route }) => {
                 });
               }}
             >
-              <Entypo name="check" size={40} color="#E76F51" />
+              {/* <Entypo name="check" size={40} color="#E76F51" /> */}
+              <MyAppText>
+                <Text style={{ fontSize: 20, color: '#E76F51' }}>
+                  Mark As Done
+                </Text>
+              </MyAppText>
             </Pressable>
           </View>
         </View>

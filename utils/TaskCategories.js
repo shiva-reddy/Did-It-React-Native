@@ -5,7 +5,7 @@ const taskCategories = [
     icon: 'broom',
   },
   {
-    title: 'Hobby',
+    title: 'Hobbies',
     iconPack: 'FontAwesome5',
     icon: 'guitar',
   },

@@ -200,9 +200,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             task.name = taskObject.taskName;
             task.category = taskObject.taskCategory;
             task.isCompleted = 0;
-            task.isRecurring = taskObject.isRecurring;
-            // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
-            // " "+JSON.stringify(taskObject.taskTime.seconds))
+            task.isRecurring = true;
 
             // convert time to seconds
             var taskTimeInSeconds =
@@ -223,51 +221,20 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             ).toISOString();
             //console.log("task object "+ JSON.stringify(task))
             task.createdDate = new Date().toISOString();
-
+            // task.repeatFrequency = period;
+            // task.repeatDay = dayOfMonth;
+            // task.repeatWeek = dayOfWeek;
             console.log('Task object is ' + JSON.stringify(task));
-            const insertResult = await createTask(task);
-            console.log('Insert Result is ' + JSON.stringify(insertResult));
-
-            console.log('day of week ' + dayOfWeek);
-            // if(period == 'month'){
-
-            //   getNextDate(task.taskFinishBy,period, dayOfMonth)
-            // }
-            // else getNextDate(task.taskFinishBy,period,daysOfWeekIndex[dayOfWeek])
-
-            // Original record insert is successful. Insert another entry for denoting repeated task
-            if (insertResult.length > 0) {
-              const taskID = insertResult.insertId;
-              if (task.isRecurring == true) {
-                // Insert another entry to db, whose parentID field is the current task ID.
-                // All other fields remain the same
-                task.parentJobID = taskID;
-                /* 
-                      repeatFrequency: {type:types.TEXT},
-                      repeatDay:       {type:types.TEXT},
-                      repeatWeek:      {type:types.TEXT}
-                
-                */
-                //task.taskFinishBy =
-                const insertResult2 = await createTask(task);
-                console.log(
-                  'Insert Result is ' + JSON.stringify(insertResult2),
-                );
-              }
-            } else {
-              console.log(
-                'Insert not performed ' + JSON.stringify(insertResult2),
-              );
-            }
-            //Check if the task has isRecurring to true
-            setLines([
-              'You are all set',
-              'I have created a task that repeats on ' +
-                (period == 'month'
-                  ? dayOfMonth + ' of every month'
-                  : dayOfWeek),
-            ]);
-            setIsVisible(!isVisible);
+            createTask(task).then(() => {
+              setLines([
+                'You are all set',
+                'I have created a task that repeats on ' +
+                  (period == 'month'
+                    ? dayOfMonth + ' of every month'
+                    : dayOfWeek),
+              ])
+              setIsVisible(!isVisible);
+            }).error(e => console.log(e));
           }}
         />
       </View>

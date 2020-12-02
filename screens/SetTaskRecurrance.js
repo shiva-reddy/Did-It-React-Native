@@ -29,6 +29,19 @@ const option = (text, action) => {
 
 const reduxStore = async (state) => state.createTask;
 
+const toMoment = (taskTime, taskDate) => {
+  var taskTimeInSeconds  = taskTime.hours*3600 + taskTime.minutes*60 + taskTime.seconds;
+  // // Get seconds in HH:mm:ss format
+  taskTimeInSeconds = moment(taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+  // console.log("Task time is "+taskTimeInSeconds);
+  
+  // // Concat date and time
+ return moment(
+    `${taskDate} ${taskTimeInSeconds}`,
+    'YYYY-MM-DD HH:mm',
+  ).format('YYYY MM DD');
+}
+
 const create = async (taskObject) => {
   const task = {};
   task.name = taskObject.taskName;
@@ -56,6 +69,8 @@ const create = async (taskObject) => {
   // console.log('Task object is ' + JSON.stringify(task));
   await createTask(task);
 };
+
+
 
 
 
@@ -93,7 +108,7 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
             // console.log("Creating task in recurrance");
             const _taskObject = await taskObject;
             await create(_taskObject);
-            setLines(["You're all set", "I have created a " + _taskObject.taskCategory + " for you to finish by " + _taskObject.taskTime]);
+            setLines(["You're all set", "I have created a " + _taskObject.taskCategory + " for you to finish by " + toMoment(_taskObject.taskTime, _taskObject.taskDate)]);
             setIsVisible(!isVisible);
           })}
         </View>

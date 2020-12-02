@@ -63,11 +63,9 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
             if(taskID != null){
               console.log("Updating time for task " + taskID);
               updateTaskTime(await savedObject);
-              navigation.navigate('CreateTask', {
+              navigation.navigate('MarkTaskAsDone', {
                 screen: 'EditTaskOptions',
-                params: {
-                  taskId: taskID,
-                },
+                taskID,
               });
             }
             else navigation.navigate('SetTaskRecurrance');

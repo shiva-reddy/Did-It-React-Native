@@ -44,9 +44,7 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
               updateDescription();
               navigation.navigate('MarkTaskAsDone', {
                 screen: 'EditTaskOptions',
-                params: {
-                  taskId: taskID,
-                }
+                taskID,
               });
           } else {
             navigation.navigate('SetTaskDate');

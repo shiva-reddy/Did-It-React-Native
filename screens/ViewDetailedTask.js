@@ -16,7 +16,7 @@ import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 
 const ViewDetailedTask = ({ navigation, route }) => {
-  const taskID = route.params.id;
+  const taskID = route.params.taskID;
   console.log(taskID);
 
   const [task, setTask] = useState({});

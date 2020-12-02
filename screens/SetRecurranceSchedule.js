@@ -34,6 +34,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const [dayOfMonth, setDaysOfMonth] = React.useState('1');
   const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
+  const daysOfWeekIndex = {"Sunday":0,'Monday':1,'Tuesday':2,"Wednesday":3,'Thursday':4,'Friday':5,'Saturday':6}
   const daysOfWeek = [
     'Sunday',
     'Monday',
@@ -46,8 +47,8 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
     return { label: day, value: day };
   });
 
-  const getNextDate = (currDate, period, periodVal) => {
-    const currDateMoment = moment(currDate).format('MM/DD/YYYY');
+  const getNextDate = (currDateMoment, period, periodVal) => {
+    
     if (period === 'month'){
       return moment([currDateMoment.year(), currDateMoment.month(), periodVal]).add(1, 'month');
     } else {
@@ -170,30 +171,13 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             const insertResult = await createTask(task);
             console.log("Insert Result is "+JSON.stringify(insertResult))
             
+            console.log("day of week "+dayOfWeek)
+            // if(period == 'month'){
 
-
-            // It stores last chosen option. so take the day from Month
-            if(period == 'month'){
-              // Extract next month from current taskDate.
-              // Add the date for the current year extracted from date
-              // Insert
-
-              
-              // var now = moment(task.taskFinishBy).format('YYYY-MM-DD')
-              // var nextMonth = moment.addRealMonth(moment(now)).toISOString(true);
-              // var nextMonthWithTime  = moment(
-              //   `${taskObject.taskDate} ${taskTimeInSeconds}`,
-              //   'YYYY-MM-DD HH:mm:ss',
-              // ).toISOString();
-              
-
-              
-            }
-            else {
-              // Get immediate date who day is Sun or Mon
-              // Insert
-            }
-
+            //   getNextDate(task.taskFinishBy,period, dayOfMonth)
+            // }
+            // else getNextDate(task.taskFinishBy,period,daysOfWeekIndex[dayOfWeek])
+            
 
 
 

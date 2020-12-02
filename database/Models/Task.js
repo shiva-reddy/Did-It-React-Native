@@ -30,7 +30,8 @@ export default class Task extends BaseModel {
       parentJobID:   {type:types.INTEGER},
       repeatFrequency: {type:types.TEXT},
       repeatDay:       {type:types.TEXT},
-      repeatWeek:      {type:types.TEXT}
+      repeatWeek:      {type:types.TEXT},
+      photoURI: {type:types.TEXT}
     }
   }
 

@@ -88,7 +88,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
             </View>
             <View style={styles({ primaryColor }).taskDetailTexts}>
               <MyAppText>
-                <Text style={}>{taskDeadline}</Text>
+                <Text>{taskDeadline}</Text>
               </MyAppText>
             </View>
           </View>
@@ -166,7 +166,7 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
       width: '50%',
       height: 50,
       backgroundColor: primaryColor,
-      fontSize: 
+     
     },
   });
 

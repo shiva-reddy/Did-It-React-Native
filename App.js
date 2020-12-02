@@ -161,7 +161,7 @@ export default function App() {
       let result = await Task.createTable();
       let result2 = await checkTableExists(Task.tableName);
        console.log('Table name ' + JSON.stringify(result2));
-      if (result.rows.length > 0) {
+      if (result2.rows.length > 0) {
         console.log('Table exists');
       } else {
         console.log('Table does not exist');

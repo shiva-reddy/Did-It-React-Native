@@ -7,6 +7,7 @@ import {
   Pressable,
   Button,
   TouchableOpacity,
+  ImageBackground
   
 } from 'react-native';
 import MyAppText from '../components/MyAppText';
@@ -16,9 +17,11 @@ import { Foundation } from '@expo/vector-icons';
 import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 
-const ViewDetailedTask = ({ navigation, route }) => {
+const ViewDetailedTask = ({ navigation, route}) => {
   const taskID = route.params.taskID;
+  const taskType = route.params.taskType
   console.log(taskID);
+  console.log("Task type "+taskType)
 
   const [task, setTask] = useState({});
   useEffect(() => {loadTask();}, [])
@@ -31,7 +34,8 @@ const ViewDetailedTask = ({ navigation, route }) => {
       taskDeadline : new Date(taskObj.taskFinishBy).toLocaleDateString('en-US'),
       taskDescription: "",
       taskIsRecurring: taskObj.isRecurring,
-      taskID: taskObj.taskID
+      taskID: taskObj.taskID,
+      taskPhotoURI: task.photoURI
     });
   }
 
@@ -117,15 +121,16 @@ const ViewDetailedTask = ({ navigation, route }) => {
             </View>
           </View>
         </View>
-        <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
+         {taskType === "Upcoming"?(
+            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
           <View style={[{ flex: 1, flexDirection: 'row' }]}>
-            <Foundation
-              style={styles.actionIcon}
-              name="pencil"
-              size={30}
-              color="#E76F51"
-            />
-          </View>
+          <Foundation
+            style={styles.actionIcon}
+            name="pencil"
+            size={30}
+            color="#E76F51"
+          />
+        </View>
           <View style={[{ justifyContent: 'flex-end' }]}>
             <Pressable
               onPress={() => {
@@ -135,7 +140,26 @@ const ViewDetailedTask = ({ navigation, route }) => {
               <Entypo name="check" size={30} color="#E76F51" />
             </Pressable>
           </View>
+          </View>):(     
+            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}> 
+          <View
+              style={{
+                backgroundColor: 'transparent',
+                flex: 1,
+                margin: 10,
+              }}
+            >
+              <ImageBackground
+                source={{ uri: task.taskPhotoURI }}
+                style={{
+                  flex: 1,
+                }}
+              ></ImageBackground>
+        
         </View>
+        </View>)}
+          
+        
       </View>
     </View>
   );

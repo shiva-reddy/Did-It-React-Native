@@ -115,6 +115,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             backgroundColor: tertiaryColor,
             borderColor: secondaryColor,
             width: 150,
+            height: 300,
           }}
           itemStyle={{ justifyContent: 'flex-start' }}
           dropDownStyle={{
@@ -157,6 +158,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
               backgroundColor: tertiaryColor,
               borderColor: secondaryColor,
               width: 150,
+              height: 80,
             }}
             itemStyle={{ justifyContent: 'flex-start' }}
             dropDownStyle={{

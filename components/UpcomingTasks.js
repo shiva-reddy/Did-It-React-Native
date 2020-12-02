@@ -12,6 +12,7 @@ import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import MyAppText from './MyAppText';
 import { getUpcomingTasks } from '../database/Utilities/api';
+import { Feather } from '@expo/vector-icons';
 
 // const tasks = [
 //   {
@@ -159,15 +160,41 @@ const UpcomingTasks = ({ category, activity }) => {
                   color="#E76F51"
                 />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() =>
-                  navigationObject.navigate('GetUserCameraPreference', {
-                    taskId: item.id,
-                  })
-                }
+              {item.isRecurring ? (
+                <Feather
+                  style={{ marginBottom: 25 }}
+                  name="repeat"
+                  size={24}
+                  color="#E76F51"
+                />
+              ) : (
+                <View></View>
+              )}
+
+              <View
+                style={{
+                  borderWidth: 1,
+                  borderColor: '#E76F51',
+                  borderRadius: 4,
+                  backgroundColor: '#E76F51',
+                  width: 50,
+                }}
               >
-                <Entypo name="check" size={30} color="#E76F51" />
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigationObject.navigate('GetUserCameraPreference', {
+                      taskId: item.id,
+                    })
+                  }
+                >
+                  <Entypo
+                    name="check"
+                    style={{ paddingLeft: 10 }}
+                    size={30}
+                    color="#E9C46A"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </TouchableOpacity>

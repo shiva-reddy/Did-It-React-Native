@@ -17,6 +17,8 @@ import { Foundation } from '@expo/vector-icons';
 import { deleteTask, getTask } from '../database/Utilities/api';
 import { useTheme } from '@react-navigation/native';
 import DeleteModal from '../components/DeleteModal';
+import { CommonActions } from '@react-navigation/native';
+import {useNavigation} from "@react-navigation/native";
 
 const ViewDetailedTask = ({ navigation, route}) => {
   const taskID = route.params.taskID;
@@ -135,6 +137,47 @@ const ViewDetailedTask = ({ navigation, route}) => {
             </View>
           </View>
         </View>)}
+
+
+        {taskType === "Upcoming"?(
+            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
+          <View style={[{ flex: 1, flexDirection: 'row' }]}>
+          <Pressable onPress={() => {
+                navigation.navigate('CreateTask', {
+                  screen: 'EditTaskOptions',
+                  taskID,
+                });
+              }}
+              >
+            <Foundation
+              style={styles.actionIcon}
+              name="pencil"
+              size={30}
+              color="#E76F51"
+            />
+          </Pressable>
+        </View>
+          <View style={[{ justifyContent: 'flex-end' }]}>
+            <Pressable
+              onPress={() => {
+                navigation.navigate('GetUserCameraPreference', {
+                  taskId: taskID,
+                });
+              }}
+            >
+              <Entypo name="check" size={40} color="#E76F51" />
+            </Pressable>
+          </View>
+          </View>):(
+
+              <ImageBackground
+                source={{ uri: task.taskPhotoURI }}
+                style={{
+                  flex: 1,
+                }}
+              ></ImageBackground>
+          )}
+
       </View>
     </View>
   );

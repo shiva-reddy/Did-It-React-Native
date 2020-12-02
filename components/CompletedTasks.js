@@ -29,20 +29,23 @@ const tasks = [
 const CompletedTasks = ({category,dbData}) => {
   console.log("rendering2 in completed tasks "+dbData)
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState(dbData);
+  const [tasks,setData] = useState([])
   const [refreshList, setBoolean] = useState(false)
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   async function createTable () {
-  //     // Update the document title using the browser API
-  //     let upcomingTasks = await getCompletedTasks()
-  //     console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
-  //     setData(upcomingTasks.rows)
-  //     setBoolean(!refreshList)
-  //   }
-  //   createTable();
-  // },[]);
+    console.log ("Date is "+new Date()+" Data "+dbData)
+    setBoolean(!refreshList)
+    setData(dbData)
+    // async function createTable () {
+    //   // Update the document title using the browser API
+    //   let upcomingTasks = await getCompletedTasks()
+    //   console.log("Completed tasks "+JSON.stringify(upcomingTasks.rows))
+    //   setData(upcomingTasks.rows)
+    //   setBoolean(!refreshList)
+    // }
+    // createTable();
+  },[dbData]);
 
   // async function createTable () {
   //   // Update the document title using the browser API
@@ -53,7 +56,7 @@ const CompletedTasks = ({category,dbData}) => {
   // }
   // createTable();
 
-  console.log("Rows is",tasks.length)
+  console.log("Rows is",dbData.length)
 
   const renderTasks = ({ item }) => {
     //console.log("Items "+JSON.stringify(item))
@@ -108,12 +111,13 @@ const CompletedTasks = ({category,dbData}) => {
   };
 
   return (
-    <FlatList
-      data={tasks}
-      renderItem={renderTasks}
-      keyExtractor={(item) => item.name}
-      extraData = {refreshList}
-    ></FlatList>
+    <Text>{dbData}</Text>
+    // <FlatList
+    //   data={dbData}
+    //   renderItem={renderTasks}
+    //   keyExtractor={(item) => item.name}
+    //   extraData = {refreshList}
+    // ></FlatList>
   );
 };
 

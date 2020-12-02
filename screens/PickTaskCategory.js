@@ -11,6 +11,7 @@ import { addTaskCategory } from '../store/CreateTaskActions';
 
 
 import MyAppText from '../components/MyAppText';
+import Task from '../database/Models/Task';
 
 const TaskCategoryCard = ({ navigation, props }) => {
   const { accentColor, tertiaryColor, secondaryColor } = useTheme();
@@ -74,20 +75,21 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
   console.log('from here' + addTaskCategory);
 
     useEffect(() => {
-
+    
     async function createTasks() {
 
+      await Task.destroyAll()
       var task = {
         name:"Task1",
         isCompleted:   0,
-        category:"Homework",
+        category:"Chores",
         isRecurring:   1,
         taskFinishBy : nextweek()
       };
       var task2 = {
         name:"Task2",
         isCompleted:   0,
-        category:"Homework",
+        category:"Hobbies",
         isRecurring:   1,
         taskFinishBy : nextweek()
       };
@@ -101,7 +103,7 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
       var task4 = {
         name:"Task4",
         isCompleted:   1,
-        category:"Homework",
+        category:"Study",
         isRecurring:   0,
         taskFinishBy : new Date().toISOString()
       };
@@ -126,7 +128,7 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
 
 
     }
-    createTasks()
+    //createTasks()
 
 
   }, [])

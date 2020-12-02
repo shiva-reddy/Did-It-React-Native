@@ -80,22 +80,26 @@ import {getUpcomingTasks} from '../database/Utilities/api'
 const UpcomingTasks = ({category, dbData}) => {
   console.log("rendering in upcoming tasks "+dbData)
   const navigationObject = useNavigation();
-  const [tasks,setData] = useState([dbData]);
+  const [tasks,setData] = useState([])
   const [refreshList2, setBoolean] = useState(false)
 
-  // useEffect(() => {
-  //   async function createTable () {
-  //     //console.log("Getting upcoming tasks")
-  //     // Update the document title using the browser API
-  //     let upcomingTasks = await getUpcomingTasks()
-  //     console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
-  //     setData(upcomingTasks.rows)
-  //     setBoolean(!refreshList2)
-  //   }
-  //   createTable();
-  // },[]);
+  useEffect(() => {
 
-  console.log("Upcoming Rows is",tasks.length)
+    console.log ("Date is "+new Date()+" Data "+dbData)
+    setBoolean(!refreshList2)
+    setData(dbData)
+    // async function createTable () {
+    //   //console.log("Getting upcoming tasks")
+    //   // Update the document title using the browser API
+    //   let upcomingTasks = await getUpcomingTasks()
+    //   console.log("Upcoming tasks "+JSON.stringify(upcomingTasks))
+    //   setData(upcomingTasks.rows)
+    //   setBoolean(!refreshList2)
+    // }
+    // createTable();
+  },[dbData]);
+
+  console.log("Upcoming Rows is",dbData.length)
   const renderTasks = ({ item }) => {
     //console.log("item is "+item)
     return (
@@ -157,12 +161,13 @@ const UpcomingTasks = ({category, dbData}) => {
   };
 
   return (
-    <FlatList
-      data={tasks}
-      renderItem={renderTasks}
-      keyExtractor={(item) => item.name}
-      extraData = {refreshList2}
-    ></FlatList>
+    <Text>{dbData}</Text>
+    // <FlatList
+    //   data={dbData}
+    //   renderItem={renderTasks}
+    //   keyExtractor={(item) => item.name}
+    //   extraData = {refreshList2}
+    // ></FlatList>
   );
 };
 

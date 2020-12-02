@@ -7,7 +7,7 @@ const taskCategories = [
   },
   {
     title: 'Hobbies',
-    name: 'hobby practice',
+    name: 'hobby',
     iconPack: 'FontAwesome5',
     icon: 'guitar',
   },

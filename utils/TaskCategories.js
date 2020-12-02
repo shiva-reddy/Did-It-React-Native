@@ -1,6 +1,6 @@
 const taskCategories = [
   {
-    title: 'Chore',
+    title: 'Chores',
     iconPack: 'materialCommunity',
     icon: 'broom',
   },

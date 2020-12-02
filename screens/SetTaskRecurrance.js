@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
-import { useTheme } from '@react-navigation/native';
+import { useTheme, CommonActions } from '@react-navigation/native';
 import { bindActionCreators } from 'redux';
 import { connect, useSelector } from 'react-redux';
 import { setTaskRepeating } from '../store/CreateTaskActions';
@@ -76,7 +76,19 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
           {option('No', async () => {
             // console.log("Creating task in recurrance");
             await create(await taskObject);
-            navigation.navigate('ViewTasks');
+            //navigation.navigate('ViewTasks');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  { name: 'Home', params: { headerShown: false } },
+                  {
+                    name: 'ViewTasks',
+                    params: { title: 'View Tasks', headerShown: false },
+                  },
+                ],
+              }),
+            );
           })}
         </View>
       </View>

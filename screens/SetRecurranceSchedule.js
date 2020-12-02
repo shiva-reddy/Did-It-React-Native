@@ -221,7 +221,19 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             }
             //Check if the task has isRecurring to true
 
-            navigation.navigate('ViewTasks');
+            //navigation.navigate('ViewTasks');
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [
+                  { name: 'Home', params: { headerShown: false } },
+                  {
+                    name: 'ViewTasks',
+                    params: { title: 'View Tasks', headerShown: false },
+                  },
+                ],
+              }),
+            );
           }}
         />
       </View>

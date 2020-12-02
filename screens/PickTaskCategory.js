@@ -26,6 +26,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
           },
         });
         props.addTaskCategory({ taskCategory: props.title });
+        console.log({ taskCategory: props.title });
         props.addMode({ mode: 'create' });
       }}
     >

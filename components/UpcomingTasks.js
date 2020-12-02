@@ -87,6 +87,7 @@ const UpcomingTasks = ({ category, activity }) => {
     async function getTasks() {
       const upcoming = await getUpcomingTasks(activity);
       const data = upcoming.rows;
+      console.log(data);
       setData(data);
       setBoolean(!refreshList);
     }

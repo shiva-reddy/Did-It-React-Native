@@ -142,13 +142,17 @@ const UpcomingTasks = ({category}) => {
                 },
               ]}
             >
-              <Foundation
-                style={styles.actionIcon}
-                name="pencil"
-                size={30}
-                color="#E76F51"
-              />
-              <Entypo name="check" size={30} color="#E76F51" />
+              <TouchableOpacity>
+                <Foundation
+                  style={styles.actionIcon}
+                  name="pencil"
+                  size={30}
+                  color="#E76F51"
+                />
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Entypo name="check" size={30} color="#E76F51" />
+              </TouchableOpacity>
             </View>
           </View>
         </TouchableOpacity>

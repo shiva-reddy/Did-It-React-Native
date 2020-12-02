@@ -105,7 +105,7 @@ const CameraComponent = ({data}) => {
             flex: 1,
           }}
         >
-           {TaskCreatedModal(isVisible, navigate,["You're all set", "I have created the task for you"])}
+           {TaskCreatedModal(isVisible, navigate,["Amazing!!", "Keep going!!"])}
           <View
             style={{
               flex: 1,

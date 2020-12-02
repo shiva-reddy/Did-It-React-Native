@@ -21,12 +21,9 @@ const NextStepButton = ({ content, action }) => {
       onPress={() => action()}
     >
       <MyAppText>
-        <Text>
-      {content}
-      </Text>
-      {/* <MaterialIcons name="navigate-next" size={30} color={secondaryColor} /> */}
+        <Text style={{ fontSize: 18 }}>{content}</Text>
+        {/* <MaterialIcons name="navigate-next" size={30} color={secondaryColor} /> */}
       </MyAppText>
-      
     </TouchableOpacity>
   );
 };

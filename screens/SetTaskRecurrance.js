@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
@@ -8,15 +8,15 @@ import { connect, useSelector } from 'react-redux';
 import { setTaskRepeating } from '../store/CreateTaskActions';
 import { createTask } from '../database/Utilities/api';
 import moment from 'moment';
-import TaskCreatedModal from "../components/TaskCreatedModal";
-import {useNavigation} from "@react-navigation/native";
+import TaskCreatedModal from '../components/TaskCreatedModal';
+import { useNavigation } from '@react-navigation/native';
 
 const option = (text, action) => {
   const { tertiaryColor } = useTheme();
 
   return (
     <TouchableOpacity
-      style={styles({ tertiaryColor }).button}
+      style={[styles({ tertiaryColor }).button, { paddingLeft: 20 }]}
       onPress={() => action()}
     >
       <MyAppText>
@@ -29,17 +29,20 @@ const option = (text, action) => {
 const reduxStore = async (state) => state.createTask;
 
 const toMoment = (taskTime, taskDate) => {
-  var taskTimeInSeconds  = taskTime.hours*3600 + taskTime.minutes*60 + taskTime.seconds;
+  var taskTimeInSeconds =
+    taskTime.hours * 3600 + taskTime.minutes * 60 + taskTime.seconds;
   // // Get seconds in HH:mm:ss format
-  taskTimeInSeconds = moment(taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+  taskTimeInSeconds = moment(taskDate)
+    .startOf('day')
+    .seconds(taskTimeInSeconds)
+    .format('HH:mm:ss');
   // console.log("Task time is "+taskTimeInSeconds);
-  
+
   // // Concat date and time
- return moment(
-    `${taskDate} ${taskTimeInSeconds}`,
-    'YYYY-MM-DD HH:mm',
-  ).format('YYYY MM DD');
-}
+  return moment(`${taskDate} ${taskTimeInSeconds}`, 'YYYY-MM-DD HH:mm').format(
+    'YYYY MM DD',
+  );
+};
 
 const create = async (taskObject) => {
   const task = {};
@@ -78,9 +81,12 @@ const create = async (taskObject) => {
 const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
   const taskObject = useSelector(reduxStore);
   const [isVisible, setIsVisible] = useState(false);
-  const [lines, setLines] = useState(["You're all set", "I have created a task for you"]);
+  const [lines, setLines] = useState([
+    "You're all set",
+    'I have created a task for you',
+  ]);
   const navigate = () => {
-  navigation.dispatch(
+    navigation.dispatch(
       CommonActions.reset({
         index: 1,
         routes: [
@@ -92,11 +98,11 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
         ],
       }),
     );
-}
-const text = `We are almost done! Do you want me to remind you of this task regularly? For example..once a month or once a week`
+  };
+  const text = `We are almost done! Do you want me to remind you of this task regularly? For example..once a month or once a week`;
   return (
     <View style={styles({}).container}>
-      {TaskCreatedModal(isVisible, navigate,lines)}
+      {TaskCreatedModal(isVisible, navigate, lines)}
       <ConversationCard avatarText={text} />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles({}).options}>
@@ -110,7 +116,13 @@ const text = `We are almost done! Do you want me to remind you of this task regu
             // console.log("Creating task in recurrance");
             const _taskObject = await taskObject;
             await create(_taskObject);
-            setLines(["You're all set", "I have created a " + _taskObject.taskCategory + " for you to finish by " + toMoment(_taskObject.taskTime, _taskObject.taskDate)]);
+            setLines([
+              "You're all set",
+              'I have created a ' +
+                _taskObject.taskCategory +
+                ' for you to finish by ' +
+                toMoment(_taskObject.taskTime, _taskObject.taskDate),
+            ]);
             setIsVisible(!isVisible);
           })}
         </View>
@@ -136,13 +148,13 @@ const styles = ({ tertiaryColor, secondaryColor }) =>
       borderColor: 'rgba(0,0,0,0.2)',
       alignItems: 'center',
       justifyContent: 'center',
-      width: 100,
-      height: 100,
+      width: 120,
+      height: 120,
       backgroundColor: tertiaryColor,
       borderRadius: 100,
     },
     modeText: {
-      fontSize: 35,
+      fontSize: 20,
     },
     options: {
       flex: 6,

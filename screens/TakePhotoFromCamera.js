@@ -11,24 +11,24 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Camera } from 'expo-camera';
-import { CommonActions } from "@react-navigation/native";
-import {markTaskAsDone} from "../database/Utilities/api"
-import TaskCreatedModal from "../components/TaskCreatedModal";
-import {useNavigation} from "@react-navigation/native";
+import { CommonActions } from '@react-navigation/native';
+import { markTaskAsDone } from '../database/Utilities/api';
+import TaskCreatedModal from '../components/TaskCreatedModal';
+import { useNavigation } from '@react-navigation/native';
 import {
   FontAwesome,
   Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import {updatePhotoURI, getTask} from '../database/Utilities/api'
+import { updatePhotoURI, getTask } from '../database/Utilities/api';
 
 const TakePhotoFromCamera = ({ navigation, route }) => {
-  const taskID = route.params.taskID
+  const taskID = route.params.taskID;
   return (
     <View style={[styles.container]}>
       <View
         style={[
-          { flexDirection: 'row', backgroundColor: '#264653', marginTop: 15 },
+          { flexDirection: 'row', backgroundColor: '#264653', margin: 15 },
         ]}
       >
         <MyAppText>
@@ -44,16 +44,16 @@ const TakePhotoFromCamera = ({ navigation, route }) => {
       </View>
       <View style={[{ flex: 5 }, styles.elementsContainer]}>
         <View style={{ flex: 3, backgroundColor: '#264653' }}>
-          <CameraComponent data = {taskID}/>
+          <CameraComponent data={taskID} />
         </View>
       </View>
     </View>
   );
 };
 
-const CameraComponent = ({data}) => {
+const CameraComponent = ({ data }) => {
   console.log('Camera permission ' + hasPermission);
-  console.log("Task id "+data)
+  console.log('Task id ' + data);
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [ratio, setCameraRatio] = useState('4:3');
@@ -64,10 +64,10 @@ const CameraComponent = ({data}) => {
   //const [photo,setPhoto] = useState(null)
 
   const __savePhoto = async () => {
-    console.log("In save photo function")
+    console.log('In save photo function');
     await markTaskAsDone(data);
-    const result = await updatePhotoURI(data, capturedImage.uri)
-    console.log("Update result "+result)
+    const result = await updatePhotoURI(data, capturedImage.uri);
+    console.log('Update result ' + result);
     console.log(getTask(data));
     setIsVisible(!isVisible);
   };
@@ -78,18 +78,18 @@ const CameraComponent = ({data}) => {
     const navigation = useNavigation();
     const navigate = () => {
       navigation.dispatch(
-          CommonActions.reset({
-            index: 1,
-            routes: [
-              { name: 'Home', params: { headerShown: false } },
-              {
-                name: 'ViewTasks',
-                params: { title: 'View Tasks', headerShown: false },
-              },
-            ],
-          }),
-        );
-  }
+        CommonActions.reset({
+          index: 1,
+          routes: [
+            { name: 'Home', params: { headerShown: false } },
+            {
+              name: 'ViewTasks',
+              params: { title: 'View Tasks', headerShown: false },
+            },
+          ],
+        }),
+      );
+    };
 
     return (
       <View
@@ -105,7 +105,7 @@ const CameraComponent = ({data}) => {
             flex: 1,
           }}
         >
-           {TaskCreatedModal(isVisible, navigate,["Amazing!!", "Keep going!!"])}
+          {TaskCreatedModal(isVisible, navigate, ['Amazing!!', 'Keep going!!'])}
           <View
             style={{
               flex: 1,
@@ -191,7 +191,6 @@ const CameraComponent = ({data}) => {
     setCapturedImage(photo);
   };
 
-
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestPermissionsAsync();
@@ -264,7 +263,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#264653',
   },
   headerStyle: {
-    fontSize: 36,
+    fontSize: 20,
     textAlign: 'center',
     fontWeight: '100',
   },

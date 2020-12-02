@@ -60,6 +60,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
     }
   };
   const [isVisible, setIsVisible] = useState(false);
+  const [lines, setLines] = useState(["You're all set", "I have created a repeating task for you"]);
   const navigate = () => {
   navigation.dispatch(
       CommonActions.reset({
@@ -77,7 +78,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-       {TaskCreatedModal(isVisible, navigate,["You're all set", "I have created the task for you"])}
+       {TaskCreatedModal(isVisible, navigate,lines)}
       <ConversationCard avatarText="How does the task repeat?" />
       <View
         style={{
@@ -225,7 +226,10 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
               console.log("Insert not performed "+JSON.stringify(insertResult2))
             }
             //Check if the task has isRecurring to true
-
+            setLines(["You are all set", "I have created a task that repeats on " + 
+            (period == 'month' ? 
+              (dayOfMonth + " of every month")
+              : (dayOfWeek))]); 
             setIsVisible(!isVisible);
           }}
         />

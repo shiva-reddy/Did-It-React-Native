@@ -62,6 +62,7 @@ const create = async (taskObject) => {
 const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
   const taskObject = useSelector(reduxStore);
   const [isVisible, setIsVisible] = useState(false);
+  const [lines, setLines] = useState(["You're all set", "I have created a task for you"]);
   const navigate = () => {
   navigation.dispatch(
       CommonActions.reset({
@@ -78,7 +79,7 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
 }
   return (
     <View style={styles({}).container}>
-       {TaskCreatedModal(isVisible, navigate,["You're all set", "I have created the task for you"])}
+       {TaskCreatedModal(isVisible, navigate,lines)}
       <ConversationCard avatarText="Does this task repeat?" />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles({}).options}>
@@ -90,7 +91,9 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
           })}
           {option('No', async () => {
             // console.log("Creating task in recurrance");
-            await create(await taskObject);
+            const _taskObject = await taskObject;
+            await create(_taskObject);
+            setLines(["You're all set", "I have created a " + _taskObject.taskCategory + " for you to finish by " + _taskObject.taskTime]);
             setIsVisible(!isVisible);
           })}
         </View>

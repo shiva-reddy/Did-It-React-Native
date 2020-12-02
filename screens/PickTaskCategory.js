@@ -129,66 +129,59 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
   const { primaryColor } = useTheme();
   console.log('from here' + addTaskCategory);
 
-    function nextweek(){
-    var today = new Date();
-    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+10);
+  function nextweek() {
+    const today = new Date();
+    const nextweek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() + 10,
+    );
     return nextweek.toISOString();
   }
-    useEffect(() => {
 
-  async function createTasks() {
+  // const createTasks = async () => {
+  //   const task = {
+  //     name: 'Task1',
+  //     isCompleted: 0,
+  //     category: 'Homework',
+  //     isRecurring: 1,
+  //     taskFinishBy: nextweek(),
+  //   };
+  //   const task2 = {
+  //     name: 'Task2',
+  //     isCompleted: 0,
+  //     category: 'Homework',
+  //     isRecurring: 1,
+  //     taskFinishBy: nextweek(),
+  //   };
+  //   const task3 = {
+  //     name: 'Task3',
+  //     isCompleted: 1,
+  //     category: 'Homework',
+  //     isRecurring: 0,
+  //     taskFinishBy: new Date().toISOString(),
+  //   };
+  //   const task4 = {
+  //     name: 'Task4',
+  //     isCompleted: 1,
+  //     category: 'Homework',
+  //     isRecurring: 0,
+  //     taskFinishBy: new Date().toISOString(),
+  //   };
 
-    var task = {
-      name:"Task1",
-      isCompleted:   0,
-      category:"Homework",
-      isRecurring:   1,
-      taskFinishBy : nextweek()
-    };
-    var task2 = {
-      name:"Task2",
-      isCompleted:   0,
-      category:"Homework",
-      isRecurring:   1,
-      taskFinishBy : nextweek()
-    };
-    var task3 = {
-      name:"Task3",
-      isCompleted:   1,
-      category:"Homework",
-      isRecurring:   0,
-      taskFinishBy : new Date().toISOString()
-    };
-    var task4 = {
-      name:"Task4",
-      isCompleted:   1,
-      category:"Homework",
-      isRecurring:   0,
-      taskFinishBy : new Date().toISOString()
-    };
+  //   let result = await createTask(task);
+  //   console.log('Task created result  ' + result);
+  //   result = await createTask(task2);
+  //   console.log('Task created result  ' + result);
+  //   result = await createTask(task3);
+  //   console.log('Task created result  ' + result);
+  //   result = await createTask(task4);
+  //   console.log('Task created result  ' + result);
+  // };
 
-    // let result = await deleteTask(7)
-    // console.log('Task created result  '+result)
-    // result =     await deleteTask(8)
-    // console.log('Task created result  '+result)
-    // result =     await deleteTask(3)
-    // console.log('Task created result  '+result)
-    // result =     await deleteTask(4)
-    // console.log('Task created result  '+result)
-
-    let result = await createTask(task)
-    console.log('Task created result  '+result)
-    result =     await createTask(task2)
-    console.log('Task created result  '+result)
-    result =     await createTask(task3)
-    console.log('Task created result  '+result)
-    result =     await createTask(task4)
-    console.log('Task created result  '+result)
-
-  }
-  //createTasks()
-
-}, [])
+  useEffect(async () => {
+    //await createTasks();
+  }, []);
   return (
     <View style={styles({ primaryColor }).container}>
       <MyAppText>

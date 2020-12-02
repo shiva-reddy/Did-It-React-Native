@@ -1,8 +1,9 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View,Text } from 'react-native';
 
 import ConversationCard from '../components/ConversationCard';
 import InputModeButton from '../components/InputModeButton';
+import MyAppText from '../components/MyAppText';
 
 import { connect } from 'react-redux';
 
@@ -10,11 +11,15 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
 
   const taskID = route.params.taskID ? route.params.taskID : null;
   console.log(taskID);
+  const question = taskID != null ? "How do you want to enter your new name?"
+  : "How do you want to enter the name of your " + route.params.taskType;
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText="Choose your input method" />
+      <ConversationCard avatarText={question} />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
+          <View>
+            
           <InputModeButton
             icon="microphone"
             action={() => navigation.navigate('CreateTask', {
@@ -25,6 +30,9 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
               },
             })}
           />
+          <MyAppText>I'll say it by voice</MyAppText>
+          </View>
+          <View>
           <InputModeButton
             icon="pencil"
             action={() => navigation.navigate('CreateTask', {
@@ -35,6 +43,8 @@ const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
               },
             })}
           />
+          <MyAppText>I'll type it in</MyAppText>
+          </View>
         </View>
       </View> 
     </View>

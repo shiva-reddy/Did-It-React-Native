@@ -37,6 +37,7 @@ const DeleteModal = (modalVisible, onCancel, onDelete) => {
              <TouchableHighlight
               style={{
                 ...styles({ tertiaryColor }).openButton,
+                backgroundColor: '#B33A3A',
                 marginTop: 60,
               }}
               onPress={async () => {
@@ -56,12 +57,14 @@ const DeleteModal = (modalVisible, onCancel, onDelete) => {
                 );
               }}
             >
-              <Text style={styles({}).textStyle}>OK!</Text>
+              <Text style={styles({}).textStyle}>Delete it</Text>
             </TouchableHighlight>
+
+            
             <TouchableHighlight
               style={{
                 ...styles({ tertiaryColor }).openButton,
-                marginTop: 60,
+                marginTop: 20,
               }}
               onPress={onCancel}
             >
@@ -102,10 +105,10 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor, accentColor }) =>
     openButton: {
       backgroundColor: tertiaryColor,
       borderRadius: 20,
-      padding: 10,
+      padding: 5,
       elevation: 2,
       height: 50,
-      width: 70,
+      width: 200,
     },
     textStyle: {
       color: 'white',

@@ -50,7 +50,9 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
           } else {
             navigation.navigate('SetTaskDate');
           }
-        }} />
+        }}
+        content = "Yes, looks good" 
+        />
       </View>
     </View>
   );

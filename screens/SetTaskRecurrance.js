@@ -93,19 +93,20 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
       }),
     );
 }
+const text = `We are almost done! Do you want me to remind you of this task regularly? For example..once a month or once a week`
   return (
     <View style={styles({}).container}>
       {TaskCreatedModal(isVisible, navigate,lines)}
-      <ConversationCard avatarText="Does this task repeat?" />
+      <ConversationCard avatarText={text} />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles({}).options}>
-          {option('Yes', () => {
+          {option('Yes, Tell me more', () => {
             setTaskRepeating({
               isRecurring: 1,
             });
             navigation.navigate('SetTaskRecurranceSchedule');
           })}
-          {option('No', async () => {
+          {option('No, create my task', async () => {
             // console.log("Creating task in recurrance");
             const _taskObject = await taskObject;
             await create(_taskObject);

@@ -21,8 +21,12 @@ const NextStepButton = ({ content, action }) => {
       onPress={() => action()}
     >
       <MyAppText>
-        <MaterialIcons name="navigate-next" size={30} color={secondaryColor} />
+        <Text>
+      {content}
+      </Text>
+      {/* <MaterialIcons name="navigate-next" size={30} color={secondaryColor} /> */}
       </MyAppText>
+      
     </TouchableOpacity>
   );
 };
@@ -38,7 +42,7 @@ const styles = ({ tertiaryColor }) =>
       borderColor: tertiaryColor,
       alignItems: 'center',
       justifyContent: 'center',
-      width: 80,
+      width: 150,
       height: 50,
       borderRadius: 100,
       flexDirection: 'row-reverse',

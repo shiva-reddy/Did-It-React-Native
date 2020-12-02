@@ -56,7 +56,7 @@ const SetTaskDate = ({ route, navigation, addTaskDate }) => {
         }}
       >
         <NextStepButton
-          content="Next Step"
+          content="Choose time next"
           action={() => {
             if (dateSelected !== null && dateSelected.length !== 0) {
               addTaskDate({ taskDate: dateSelected });

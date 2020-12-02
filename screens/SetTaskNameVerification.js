@@ -45,6 +45,7 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
               navigation.navigate('MarkTaskAsDone', {
                 screen: 'EditTaskOptions',
                 taskID,
+                taskType:"Upcoming"
               });
           } else {
             navigation.navigate('SetTaskDate');

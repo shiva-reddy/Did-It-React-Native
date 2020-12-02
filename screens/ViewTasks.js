@@ -215,13 +215,13 @@ const ViewTasks = ({ navigation }) => {
           <MyAppText>
             <Text style={styles.activityHeader}>{activitySelected}</Text>
           </MyAppText>
-          <TabView
+          {isFocused && <TabView
             navigationState={{ index, routes }}
             renderScene={renderScene}
             renderTabBar={renderTabBar}
             onIndexChange={setIndex}
             initialLayout={initialLayout}
-          />
+          />}
         </View>
       </View>
     </View>

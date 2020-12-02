@@ -139,7 +139,6 @@ const CompletedTasks = ({ category, activity }) => {
                 },
               ]}
             >
-              <Entypo name="trash" size={30} color="#E76F51" />
             </View>
           </View>
         </TouchableOpacity>

@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 const SetTaskName = ({ route, navigation, taskCategory, mode}) => {
 
   const taskID = route.params.taskID ? route.params.taskID : null;
+  console.log(taskID);
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="Choose your input method" />

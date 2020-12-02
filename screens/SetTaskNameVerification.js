@@ -10,7 +10,7 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
   const chosenText = route.params.chosenText;
 
   const taskID = route.params && route.params.taskID ? route.params.taskID : null;
-  
+  console.log(taskID != null);
   const redoAction = (taskCategory) => {
     const pushAction = StackActions.push('SetTaskName', {
       taskCategory,
@@ -29,7 +29,7 @@ const SetTaskNameVerification = ({ navigation, route, mode, taskCategory }) => {
       <ConversationCard
         style={{ flex: 2 }}
         avatarText={
-          taskID != null
+          taskID == null
             ? 'Is this your task name?'
             : 'Update your task name to this?'
         }

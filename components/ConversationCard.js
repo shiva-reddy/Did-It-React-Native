@@ -6,11 +6,12 @@ import AvatarComponent from '../assets/avatarSVG';
 import { useTheme } from '@react-navigation/native';
 import MyAppText from '../components/MyAppText';
 
-const redoButton = (redoAction) => {
+const redoButton = (redoAction, taskCategory) => {
   const { secondaryColor, tertiaryColor } = useTheme();
   return (
-    <TouchableOpacity style={styles({ secondaryColor, tertiaryColor }).button}
-      onPress={redoAction}
+    <TouchableOpacity
+      style={styles({ secondaryColor, tertiaryColor }).button}
+      onPress={() => redoAction(taskCategory)}
     >
       <MyAppText>
         <Text style={{ color: tertiaryColor }}>Redo</Text>
@@ -19,7 +20,12 @@ const redoButton = (redoAction) => {
   );
 };
 
-const ConversationCard = ({ avatarText, userText,redoAction }) => {
+const ConversationCard = ({
+  avatarText,
+  userText,
+  redoAction,
+  taskCategory,
+}) => {
   //const { secondaryColor, tertiaryColor } = useTheme();
 
   return (
@@ -36,7 +42,7 @@ const ConversationCard = ({ avatarText, userText,redoAction }) => {
         <View style={styles({}).avatarText}>
           <View>
             <MessageBubble text={userText} />
-            {redoButton(redoAction)}
+            {redoButton(redoAction, taskCategory)}
           </View>
         </View>
       )}

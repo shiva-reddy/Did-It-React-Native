@@ -4,11 +4,10 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import TaskCategories from '../utils/TaskCategories';
 import { useTheme } from '@react-navigation/native';
-import {createTask, deleteTask} from '../database/Utilities/api'
+import { createTask, deleteTask } from '../database/Utilities/api';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { addTaskCategory } from '../store/CreateTaskActions';
-
 
 import MyAppText from '../components/MyAppText';
 
@@ -19,10 +18,14 @@ const TaskCategoryCard = ({ navigation, props }) => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('CreateTask', {
-          screen: 'SetTaskName',
-          params: { taskCategory: props.title },
+          screen: 'EditTaskOptions',
+          params: {
+            taskCategory: props.title,
+            mode: 'create',
+          },
         });
         props.addTaskCategory({ taskCategory: props.title });
+        props.addMode({ mode: 'create' });
       }}
     >
       <View style={styles({ accentColor, secondaryColor }).card}>
@@ -56,74 +59,71 @@ const TaskCategoryCard = ({ navigation, props }) => {
   );
 };
 
+// const CreateTask = ({ navigation }) => {
 
-const CreateTask = ({ navigation }) => {
+//   const { primaryColor } = useTheme();
 
-  const { primaryColor } = useTheme();
+//   function nextweek(){
+//     var today = new Date();
+//     var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+10);
+//     return nextweek.toISOString();
+//   }
 
-  function nextweek(){
-    var today = new Date();
-    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+10);
-    return nextweek;
-  }
+//   useEffect(() => {
 
-  useEffect(() => {
+//   async function createTasks() {
 
-    async function createTasks() {
+//     var task = {
+//       name:"Task1",
+//       isCompleted:   0,
+//       category:"Homework",
+//       isRecurring:   1,
+//       taskFinishBy : nextweek()
+//     };
+//     var task2 = {
+//       name:"Task2",
+//       isCompleted:   0,
+//       category:"Homework",
+//       isRecurring:   1,
+//       taskFinishBy : nextweek()
+//     };
+//     var task3 = {
+//       name:"Task3",
+//       isCompleted:   1,
+//       category:"Homework",
+//       isRecurring:   0,
+//       taskFinishBy : new Date().toISOString()
+//     };
+//     var task4 = {
+//       name:"Task4",
+//       isCompleted:   1,
+//       category:"Homework",
+//       isRecurring:   0,
+//       taskFinishBy : new Date().toISOString()
+//     };
 
-      var task = {
-        name:"Task1",
-        isCompleted:   0,
-        category:"Homework",
-        isRecurring:   1,
-        taskFinishBy : nextweek()
-      };
-      var task2 = {
-        name:"Task2",
-        isCompleted:   0,
-        category:"Homework",
-        isRecurring:   1,
-        taskFinishBy : nextweek()
-      };
-      var task3 = {
-        name:"Task3",
-        isCompleted:   1,
-        category:"Homework",
-        isRecurring:   0,
-        taskFinishBy : new Date().toISOString()
-      };
-      var task4 = {
-        name:"Task4",
-        isCompleted:   1,
-        category:"Homework",
-        isRecurring:   0,
-        taskFinishBy : new Date().toISOString()
-      };
-              
-      let result = await deleteTask(7)
-      console.log('Task created result  '+result)
-      result =     await deleteTask(8)
-      console.log('Task created result  '+result)
-      result =     await deleteTask(3)
-      console.log('Task created result  '+result)
-      result =     await deleteTask(4)
-      console.log('Task created result  '+result)
+//     // let result = await deleteTask(7)
+//     // console.log('Task created result  '+result)
+//     // result =     await deleteTask(8)
+//     // console.log('Task created result  '+result)
+//     // result =     await deleteTask(3)
+//     // console.log('Task created result  '+result)
+//     // result =     await deleteTask(4)
+//     // console.log('Task created result  '+result)
 
-      result = await createTask(task)
-      console.log('Task created result  '+result)
-      result =     await createTask(task2)
-      console.log('Task created result  '+result)
-      result =     await createTask(task3)
-      console.log('Task created result  '+result)
-      result =     await createTask(task4)
-      console.log('Task created result  '+result)
+//     // let result = await createTask(task)
+//     // console.log('Task created result  '+result)
+//     // result =     await createTask(task2)
+//     // console.log('Task created result  '+result)
+//     // result =     await createTask(task3)
+//     // console.log('Task created result  '+result)
+//     // result =     await createTask(task4)
+//     // console.log('Task created result  '+result)
 
+//   }
+//   createTasks()
 
-    }
-    createTasks()
-
-
-  }, [])
+// }, [])
 
 const CreateTask = ({ navigation, addTaskCategory }) => {
   const { primaryColor } = useTheme();
@@ -139,7 +139,7 @@ const CreateTask = ({ navigation, addTaskCategory }) => {
         {TaskCategories.map((cat) => (
           <TaskCategoryCard
             navigation={navigation}
-            props={{ ...cat, addTaskCategory }}
+            props={{ ...cat, addTaskCategory, addMode }}
             key={`category-${cat.title}`}
           />
         ))}

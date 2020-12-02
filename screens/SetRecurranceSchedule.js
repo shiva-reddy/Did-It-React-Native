@@ -15,6 +15,12 @@ function pad(num) {
   return ("0"+num).slice(-2);
 }
 
+moment.addRealMonth = function addRealMonth(d) {
+  var fm = moment(d).add(1, 'M');
+  var fmEnd = moment(fm).endOf('month');
+  return d.date() != fm.date() && fm.isSame(fmEnd.format('YYYY-MM-DD')) ? fm.add(1, 'd') : fm;  
+}
+
 const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const taskObject = useSelector(selectTodos);
   console.log('Task object is ' + JSON.stringify(taskObject));
@@ -127,26 +133,8 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         <NextStepButton
           content="Next Step"
           action={async () => {
-            // Read the values, insert into db and view tasks
-            /*
-              {"createTask":{"taskName":"","taskDate":{},"taskTime":"","taskCategory":"","isTaskRepeating":false,"repeatRange":""}}
-                  
-                  name:         {type: types.TEXT, not_null: true },
-                  category:      {type: types.TEXT },
-                  isCompleted:   {type: types.BOOLEAN},
-                  isRecurring:   {type: types.BOOLEAN},
-                  taskFinishBy : {type: types.DATETIME},
-                  createdDate:   {type: types.DATE}
+            
 
-                  var task = {}
-                  task.name=taskObject.taskName
-                  task.category=taskObject.taskCategory
-                  task.isCompleted = 0
-                  task.isRecurring = taskObject.isRecurring ==false?0:1
-                  task.taskFinishBy = moment(`${taskObject.taskDate} ${taskObject.taskTime}`, 'YYYY-MM-DD HH:mm:ss').format();
-                  task.createdDate = new Date().toIsoString()
-                  
-            */
             const task = {};
             task.name = taskObject.taskName;
             task.category = taskObject.taskCategory;
@@ -170,7 +158,60 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             task.createdDate = new Date().toISOString();
 
             console.log('Task object is ' + JSON.stringify(task));
-            await createTask(task);
+            const insertResult = await createTask(task);
+            console.log("Insert Result is "+JSON.stringify(insertResult))
+            
+
+
+            // It stores last chosen option. so take the day from Month
+            if(period == 'month'){
+              // Extract next month from current taskDate.
+              // Add the date for the current year extracted from date
+              // Insert
+
+              
+              // var now = moment(task.taskFinishBy).format('YYYY-MM-DD')
+              // var nextMonth = moment.addRealMonth(moment(now)).toISOString(true);
+              // var nextMonthWithTime  = moment(
+              //   `${taskObject.taskDate} ${taskTimeInSeconds}`,
+              //   'YYYY-MM-DD HH:mm:ss',
+              // ).toISOString();
+              
+
+              
+            }
+            else {
+              // Get immediate date who day is Sun or Mon
+              // Insert
+            }
+
+
+
+
+
+            // Original record insert is successful. Insert another entry for denoting repeated task
+            if(insertResult.length>0) {
+              const taskID = insertResult.insertId
+              if(task.isRecurring ==true ){
+                // Insert another entry to db, whose parentID field is the current task ID.
+                // All other fields remain the same
+                task.parentJobID = taskID
+                /* 
+                      repeatFrequency: {type:types.TEXT},
+                      repeatDay:       {type:types.TEXT},
+                      repeatWeek:      {type:types.TEXT}
+                
+                */
+                //task.taskFinishBy = 
+                const insertResult2 = await createTask(task)
+                console.log("Insert Result is "+JSON.stringify(insertResult2))
+              }
+  
+            }
+            else {
+              console.log("Insert not performed "+JSON.stringify(insertResult2))
+            }
+            //Check if the task has isRecurring to true
 
             navigation.navigate('ViewTasks');
           }}

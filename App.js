@@ -48,7 +48,7 @@ const MyTheme = {
 
 const createTaskScreens = () => {
   return (
-    <CreateTaskStack.Navigator>
+    <CreateTaskStack.Navigator initialRouteName="PickTaskCategory">
       <CreateTaskStack.Screen
         name="PickTaskCategory"
         component={PickTaskCategory}

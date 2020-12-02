@@ -47,10 +47,11 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   });
 
   const getNextDate = (currDate, period, periodVal) => {
+    const currDateMoment = moment(currDate).format('MM/DD/YYYY');
     if (period === 'month'){
-
+      return moment([currDateMoment.year(), currDateMoment.month(), periodVal]).add(1, 'month');
     } else {
-
+      return currDateMoment.weekday(periodVal);
     }
   };
 

@@ -160,12 +160,14 @@ const ViewDetailedTask = ({ navigation, route }) => {
                 }}
               >
                 <Foundation
-                  style={styles.actionIcon}
+                  style={{ marginLeft: 50 }}
                   name="pencil"
-                  size={30}
+                  size={40}
                   color="#E76F51"
                 />
-                <MyAppText><Text>Update this task</Text></MyAppText>
+                <MyAppText>
+                  <Text style={{ fontSize: 20 }}>Update this task</Text>
+                </MyAppText>
               </Pressable>
             </View>
             <View style={[{ justifyContent: 'flex-end' }]}>
@@ -176,8 +178,15 @@ const ViewDetailedTask = ({ navigation, route }) => {
                   });
                 }}
               >
-                <Entypo name="check" size={40} color="#E76F51" />
-                <MyAppText><Text>Mark this task as done</Text></MyAppText>
+                <Entypo
+                  style={{ marginLeft: 40 }}
+                  name="check"
+                  size={40}
+                  color="#E76F51"
+                />
+                <MyAppText>
+                  <Text style={{ fontSize: 20 }}>Mark as done</Text>
+                </MyAppText>
               </Pressable>
             </View>
           </View>

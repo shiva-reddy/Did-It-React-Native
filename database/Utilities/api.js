@@ -56,7 +56,7 @@ function checkTableExists(tableName = ''){
 }
 
 function updatePhotoURI(taskID=0,photoURI=''){
-    return Task.updateTaskPhotoURI(taskID,photURI)
+    return Task.updateTaskPhotoURI(taskID,photoURI)
 }
 
 export { markTaskAsDone, 

@@ -157,9 +157,10 @@ export default function App() {
   useEffect(() => {
     const createTable = async () => {
       console.log('Creating table');
-      await Task.createTable();
-      let result = await checkTableExists(Task.tableName);
-      console.log('Table name ' + JSON.stringify(result));
+      //await Task.checkTableExists()
+      let result = await Task.createTable();
+      let result2 = await checkTableExists(Task.tableName);
+       console.log('Table name ' + JSON.stringify(result2));
       if (result.rows.length > 0) {
         console.log('Table exists');
       } else {

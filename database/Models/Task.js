@@ -10,6 +10,7 @@ export default class Task extends BaseModel {
 
   static get database() {
     return async () => SQLite.openDatabase('didits.db')
+    
   }
 
   static get tableName() {
@@ -124,9 +125,11 @@ export default class Task extends BaseModel {
 
   }
 
-  static checkTableExists(tableName){
+  static checkTableExists(tableName=''){
     const sql = `SELECT * FROM sqlite_master WHERE name = '${tableName}' AND type='table'`
+    //const sql = `ALTER TABLE ${Task.tableName} ADD COLUMN photoURI text;`
     return this.repository.databaseLayer.executeSql(sql)
   }
+  
 
 }

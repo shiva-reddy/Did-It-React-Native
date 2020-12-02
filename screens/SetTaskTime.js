@@ -40,7 +40,7 @@ const SetTaskTime = ({ route, navigation, addTaskTime }) => {
 
   return (
     <View style={styles.container}>
-      <ConversationCard avatarText="By what date do you plan on completing this task?" />
+      <ConversationCard avatarText={`Hmm..What time on ${savedObject.taskDate} will you finish it? `}/>
       <View style={{ marginBottom: 30, flex: 6, alignSelf: 'stretch' }}>
         <InlineTimePicker
           onChangeTime={updateTime}

@@ -95,7 +95,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       {TaskCreatedModal(isVisible, navigate, lines)}
-      <ConversationCard avatarText="How does the task repeat?" />
+      <ConversationCard avatarText={`Great! How often should I remind you?`} />
       <View
         style={{
           alignSelf: 'stretch',
@@ -104,74 +104,81 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
           flexDirection: 'row',
         }}
       >
-        <DropDownPicker
-          items={[
-            { label: 'Month', value: 'month' },
-            { label: 'Week', value: 'week' },
-          ]}
-          defaultValue={period}
-          containerStyle={{ height: 40 }}
-          style={{
-            backgroundColor: tertiaryColor,
-            borderColor: secondaryColor,
-            width: 150,
-            height: 300,
-          }}
-          itemStyle={{ justifyContent: 'flex-start' }}
-          dropDownStyle={{
-            backgroundColor: tertiaryColor,
-            borderColor: secondaryColor,
-          }}
-          onChangeItem={(item) => setPeriod(item.value)}
-          labelStyle={{
-            color: secondaryColor,
-            fontFamily: 'Pangolin_400Regular',
-          }}
-        />
-        {period === 'month' ? (
+        <View>
+          <MyAppText><Text>Every</Text></MyAppText>
           <DropDownPicker
-            items={daysOfMonth}
-            defaultValue={dayOfMonth}
+            items={[
+              { label: 'Month', value: 'month' },
+              { label: 'Week', value: 'week' },
+            ]}
+            defaultValue={period}
             containerStyle={{ height: 40 }}
             style={{
               backgroundColor: tertiaryColor,
               borderColor: secondaryColor,
               width: 150,
-            }}
-            itemStyle={{ justifyContent: 'flex-start', color: secondaryColor }}
-            dropDownStyle={{
-              backgroundColor: tertiaryColor,
-              borderColor: secondaryColor,
-            }}
-            onChangeItem={(item) => setDaysOfMonth(item.value)}
-            labelStyle={{
-              color: secondaryColor,
-              fontFamily: 'Pangolin_400Regular',
-            }}
-          />
-        ) : (
-          <DropDownPicker
-            items={daysOfWeek}
-            defaultValue={dayOfWeek}
-            containerStyle={{ height: 40 }}
-            style={{
-              backgroundColor: tertiaryColor,
-              borderColor: secondaryColor,
-              width: 150,
-              height: 80,
+              height: 300,
             }}
             itemStyle={{ justifyContent: 'flex-start' }}
             dropDownStyle={{
               backgroundColor: tertiaryColor,
               borderColor: secondaryColor,
             }}
-            onChangeItem={(item) => setDayOfWeek(item.value)}
+            onChangeItem={(item) => setPeriod(item.value)}
             labelStyle={{
               color: secondaryColor,
               fontFamily: 'Pangolin_400Regular',
             }}
           />
-        )}
+        </View>
+
+        <View>
+        <MyAppText><Text>On</Text></MyAppText>
+          {period === 'month' ? (
+            <DropDownPicker
+              items={daysOfMonth}
+              defaultValue={dayOfMonth}
+              containerStyle={{ height: 40 }}
+              style={{
+                backgroundColor: tertiaryColor,
+                borderColor: secondaryColor,
+                width: 150,
+              }}
+              itemStyle={{ justifyContent: 'flex-start', color: secondaryColor }}
+              dropDownStyle={{
+                backgroundColor: tertiaryColor,
+                borderColor: secondaryColor,
+              }}
+              onChangeItem={(item) => setDaysOfMonth(item.value)}
+              labelStyle={{
+                color: secondaryColor,
+                fontFamily: 'Pangolin_400Regular',
+              }}
+            />
+          ) : (
+            <DropDownPicker
+              items={daysOfWeek}
+              defaultValue={dayOfWeek}
+              containerStyle={{ height: 40 }}
+              style={{
+                backgroundColor: tertiaryColor,
+                borderColor: secondaryColor,
+                width: 150,
+                height: 80,
+              }}
+              itemStyle={{ justifyContent: 'flex-start' }}
+              dropDownStyle={{
+                backgroundColor: tertiaryColor,
+                borderColor: secondaryColor,
+              }}
+              onChangeItem={(item) => setDayOfWeek(item.value)}
+              labelStyle={{
+                color: secondaryColor,
+                fontFamily: 'Pangolin_400Regular',
+              }}
+            />
+          )}
+        </View>
       </View>
       <View
         style={{
@@ -180,7 +187,7 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         }}
       >
         <NextStepButton
-          content="Next Step"
+          content="Create my task"
           action={async () => {
             const task = {};
             task.name = taskObject.taskName;

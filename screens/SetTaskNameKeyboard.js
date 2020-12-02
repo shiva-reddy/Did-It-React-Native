@@ -15,7 +15,7 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
   console.log(taskID);
   const [input, setInput] = React.useState('');
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
-  const { taskCategory } = route.params;
+  const { taskCategory,taskType } = route.params;
 
   const navigateToVerify = () => {
     if (input !== '' && input.length != 0) {
@@ -36,7 +36,7 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
     <View style={styles({ primaryColor }).container}>
       <ConversationCard
         style={{ flex: 1 }}
-        avatarText={`What is the name of your ${taskCategory} task?`}
+        avatarText={`What is the name of your ${taskType} task?`}
       />
       <View style={{ flex: 3 }}>
         <View
@@ -47,7 +47,7 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
           <Input
             style={styles({ secondaryColor, tertiaryColor }).input}
             inputContainerStyle={{ color: secondaryColor }}
-            placeholder="Task Name"
+            placeholder={`${taskType} name`}
             placeholderTextColor={secondaryColor}
             onChangeText={(text) => setInput(text)}
             onSubmitEditing={navigateToVerify}

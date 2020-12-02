@@ -134,52 +134,7 @@ const ViewDetailedTask = ({ navigation, route}) => {
               </MyAppText>
             </View>
           </View>
-          
         </View>)}
-          {taskType === "Upcoming"?(
-            <View style={{ backgroundColor: '#264653', flexDirection: 'row' }}>
-          <View style={[{ flex: 1, flexDirection: 'row' }]}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('EditTaskOptions', {
-                  taskId: taskID,
-                });
-              }}
-            >
-              <Foundation
-              style={styles.actionIcon}
-              name="pencil"
-              size={30}
-              color="#E76F51"
-              />
-              </Pressable>
-          </View>):(
-          <View style={[{ justifyContent: 'flex-end', paddingBottom: 10 }]}>
-            <Pressable
-              onPress={() => {
-                navigation.navigate('GetUserCameraPreference', {
-                  taskId: taskID,
-                });
-              }}
-            >
-              {/* <Entypo name="check" size={40} color="#E76F51" /> */}
-              <MyAppText>
-                <Text style={{ fontSize: 20, color: '#E76F51' }}>
-                  Mark As Done
-                </Text>
-              </MyAppText>
-            </Pressable>
-          </View>
-          </View>):(     
-
-              <ImageBackground
-                source={{ uri: task.taskPhotoURI }}
-                style={{
-                  flex: 1,
-                }}
-              ></ImageBackground>
-          )}         
-        
       </View>
     </View>
   );

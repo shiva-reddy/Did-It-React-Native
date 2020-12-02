@@ -7,7 +7,7 @@ import { useTheme } from '@react-navigation/native';
 import { createTask, deleteTask } from '../database/Utilities/api';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addTaskCategory } from '../store/CreateTaskActions';
+import { addTaskCategory, addMode } from '../store/CreateTaskActions';
 
 import MyAppText from '../components/MyAppText';
 
@@ -18,7 +18,7 @@ const TaskCategoryCard = ({ navigation, props }) => {
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('CreateTask', {
-          screen: 'EditTaskOptions',
+          screen: 'SetTaskName',
           params: {
             taskCategory: props.title,
             mode: 'create',
@@ -174,7 +174,6 @@ const styles = ({ accentColor, primaryColor, secondaryColor }) =>
       backgroundColor: primaryColor,
     },
   });
-}
 
 const mapStateToProps = (state) => {
   const { taskCategory } = state.createTask;

@@ -4,9 +4,10 @@ import ConversationCard from '../components/ConversationCard';
 import MyAppText from '../components/MyAppText';
 import { useTheme } from '@react-navigation/native';
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 import { setTaskRepeating } from '../store/CreateTaskActions';
-//import CalendarPicker from 'react-native-calendar-picker';
+import { createTask } from '../database/Utilities/api';
+import moment from 'moment';
 
 const option = (text, action) => {
   const { tertiaryColor } = useTheme();
@@ -23,7 +24,38 @@ const option = (text, action) => {
   );
 };
 
+const reduxStore = async (state) => state.createTask;
+
+const create = async (taskObject) => {
+  const task = {};
+  task.name = taskObject.taskName;
+  task.category = taskObject.taskCategory;
+  task.isCompleted = 0;
+  task.isRecurring = false;
+  // console.log(taskObject);
+  // console.log("Tasktime hours "+JSON.stringify(taskObject.taskTime.hours)+ " "+JSON.stringify(taskObject.taskTime.minutes)+
+  // " "+JSON.stringify(taskObject.taskTime.seconds))
+  
+  // convert time to seconds
+  var taskTimeInSeconds  = taskObject.taskTime.hours*3600 + taskObject.taskTime.minutes*60 + taskObject.taskTime.seconds;
+  // // Get seconds in HH:mm:ss format
+  taskTimeInSeconds = moment(taskObject.taskDate).startOf('day').seconds(taskTimeInSeconds).format('HH:mm:ss');
+  // console.log("Task time is "+taskTimeInSeconds);
+  
+  // // Concat date and time
+  task.taskFinishBy = moment(
+    `${taskObject.taskDate} ${taskTimeInSeconds}`,
+    'YYYY-MM-DD HH:mm:ss',
+  ).toISOString();
+  // console.log("task object "+ JSON.stringify(task))
+  task.createdDate = new Date().toISOString();
+
+  // console.log('Task object is ' + JSON.stringify(task));
+  await createTask(task);
+};
+
 const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
+  const taskObject = useSelector(reduxStore);
   return (
     <View style={styles({}).container}>
       <ConversationCard avatarText="Does this task repeat?" />
@@ -35,7 +67,9 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
             });
             navigation.navigate('SetTaskRecurranceSchedule');
           })}
-          {option('No', () => {
+          {option('No', async () => {
+            // console.log("Creating task in recurrance");
+            await create(await taskObject);
             navigation.navigate('ViewTasks');
           })}
         </View>

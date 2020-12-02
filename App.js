@@ -50,11 +50,6 @@ const createTaskScreens = () => {
   return (
     <CreateTaskStack.Navigator>
       <CreateTaskStack.Screen
-        name="EditTaskOptions"
-        component={EditTaskOptions}
-        options={{ headerShown: false }}
-      ></CreateTaskStack.Screen>
-      <CreateTaskStack.Screen
         name="PickTaskCategory"
         component={PickTaskCategory}
         options={{ headerShown: false }}
@@ -97,6 +92,11 @@ const createTaskScreens = () => {
       <CreateTaskStack.Screen
         name="SetTaskRecurranceSchedule"
         component={SetTaskRecurranceSchedule}
+        options={{ headerShown: false }}
+      ></CreateTaskStack.Screen>
+      <CreateTaskStack.Screen
+        name="EditTaskOptions"
+        component={EditTaskOptions}
         options={{ headerShown: false }}
       ></CreateTaskStack.Screen>
     </CreateTaskStack.Navigator>

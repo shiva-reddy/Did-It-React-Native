@@ -11,6 +11,7 @@ import { CommonActions } from '@react-navigation/native';
 import { markTaskAsDone } from '../database/Utilities/api';
 import moment from 'moment';
 import TaskCreatedModal from '../components/TaskCreatedModal';
+import {schedulePushNotification} from '../background/Notifications'
 
 const selectTodos = (state) => state.createTask;
 
@@ -40,13 +41,13 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
   const [dayOfWeek, setDayOfWeek] = React.useState('Sunday');
 
   const daysOfWeekIndex = {
-    Sunday: 0,
-    Monday: 1,
-    Tuesday: 2,
-    Wednesday: 3,
-    Thursday: 4,
-    Friday: 5,
-    Saturday: 6,
+    Sunday: 1,
+    Monday: 2,
+    Tuesday: 3,
+    Wednesday: 4,
+    Thursday: 5,
+    Friday: 6,
+    Saturday: 7,
   };
 
   const daysOfWeek = [
@@ -69,7 +70,8 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
         periodVal,
       ]).add(1, 'month');
     } else {
-      return currDateMoment.weekday(periodVal);
+      let currentIndex = moment().weekday()
+      return currDateMoment.weekday(currentIndex + periodVal);
     }
   };
   const [isVisible, setIsVisible] = useState(false);
@@ -221,11 +223,30 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
             ).toISOString();
             //console.log("task object "+ JSON.stringify(task))
             task.createdDate = new Date().toISOString();
-            // task.repeatFrequency = period;
-            // task.repeatDay = dayOfMonth;
-            // task.repeatWeek = dayOfWeek;
             console.log('Task object is ' + JSON.stringify(task));
-            createTask(task).then(() => {
+            let taskID = null
+            let newDate = ""
+            if(task.isRecurring==true) {
+
+              if(period == "month") {
+
+                newDate = getNextDate(moment(task.taskFinishBy),period,dayOfMonth)
+                newDate.set('second',taskTimeInSeconds)
+                task.repeatFrequency = "Month"
+                task.repeatDay = dayOfMonth
+
+              }
+              else {
+
+                newDate = getNextDate(moment(task.taskFinishBy),period,daysOfWeekIndex[dayOfWeek])
+                newDate.set('second',taskTimeInSeconds)
+                task.repeatFrequency = "Week"
+                task.repeatDay  = dayOfWeek
+
+              }
+            }
+            createTask(task).then((taskID) => {
+              taskID = taskID
               setLines([
                 'You are all set',
                 'I have created a task that repeats on ' +
@@ -233,6 +254,32 @@ const SetTaskRecurranceSchedule = ({ route, navigation }) => {
                     ? dayOfMonth + ' of every month'
                     : dayOfWeek),
               ])
+              // Schedule a notification
+              // 
+              const notificationDate = moment(task.taskFinishBy).subtract(2,'minutes');
+              console.log("Line 240 "+moment(task.taskFinishBy))
+              let temp = moment(task.taskFinishBy).format('HH:mm:ss')
+              schedulePushNotification(notificationDate.toDate(), task.name, temp)
+              
+
+              if(task.isRecurring==true) {
+
+                  task.taskFinishBy  =  moment(newDate).toISOString()
+                  console.log("Next recurring task date "+ task.taskFinishBy)
+                  task.parentJobID = taskID
+                  
+                  createTask(task).then((taskID)=> {
+
+                    console.log("Created job with task id "+taskID)
+                    const notificationDate = moment(task.taskFinishBy).subtract(2,'minutes');
+                    schedulePushNotification(notificationDate.toDate(), task.name, temp)
+
+
+                  }).catch((error)=>{
+                    console.log("Error in creating task "+ JSON.stringify(task))
+                  })
+
+              }
               setIsVisible(!isVisible);
             }).error(e => console.log(e));
           }}

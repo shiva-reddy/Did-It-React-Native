@@ -30,7 +30,8 @@ const SetTaskDate = ({ route, navigation, addTaskDate }) => {
   };
 
   const moment = require('moment');
-  const now = moment();
+  const now = moment().subtract(1,'days');
+  console.log("Now is "+now)
   return (
     <View style={styles.container}>
       <ConversationCard avatarText="By what date do you plan on completing this task?" />

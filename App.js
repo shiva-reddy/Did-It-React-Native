@@ -25,11 +25,13 @@ import SetTaskTime from './screens/SetTaskTime';
 import Task from './database/Models/Task';
 import CreateTaskReducer from './store/CreateTaskReducer';
 import { checkTableExists } from './database/Utilities/api';
+import {initialiseNotifications} from './background/Notifications'
 
 const ViewTaskStack = createStackNavigator();
 const CreateTaskStack = createStackNavigator();
 const RootStack = createStackNavigator();
 
+let notificationToken = null;
 const MyTheme = {
   dark: false,
   colors: {
@@ -157,8 +159,9 @@ export default function App() {
 
   useEffect(() => {
     const createTable = async () => {
+      //Task.destroyAll()
       console.log('Creating table');
-      //await Task.checkTableExists()
+      await Task.checkTableExists()
       let result = await Task.createTable();
       let result2 = await checkTableExists(Task.tableName);
        console.log('Table name ' + JSON.stringify(result2));
@@ -169,6 +172,15 @@ export default function App() {
       }
     };
     createTable();
+    initialiseNotifications().then(token => {
+     
+      if(notificationToken == null) {
+
+        console.log("Notification token is null ")
+        notificationToken = token
+      }
+    });
+    
   }, []);
 
   const store = createStore(CreateTaskReducer);

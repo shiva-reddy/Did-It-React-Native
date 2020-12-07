@@ -37,7 +37,7 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
     <View style={styles({ primaryColor }).container}>
       <ConversationCard
         style={{ flex: 1 }}
-        avatarText={`What is the name of your ${taskType} task?`}
+        avatarText={taskID? `What is the new task name?` : `What is the name of your ${taskType} task?`}
       />
       <View style={{ flex: 3 }}>
         <View
@@ -48,7 +48,7 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
           <Input
             style={styles({ secondaryColor, tertiaryColor }).input}
             inputContainerStyle={{ color: secondaryColor }}
-            placeholder={`${taskType} name`}
+            placeholder={taskID ? `New name` : `${taskType} name`}
             placeholderTextColor={secondaryColor}
             onChangeText={(text) => setInput(text)}
             onSubmitEditing={navigateToVerify}

@@ -20,6 +20,7 @@
     "expo-camera": "~9.0.0",
     "expo-file-system": "~9.2.0",
     "expo-font": "~8.3.0",
+    "expo-notifications": "~0.7.2",
     "expo-permissions": "~9.3.0",
     "expo-sqlite": "^8.4.0",
     "expo-sqlite-orm": "^1.5.6",

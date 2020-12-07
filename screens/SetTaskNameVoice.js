@@ -18,7 +18,7 @@ const SetTaskNameVoice = ({ route, navigation }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [query, setQuery] = useState('');
   const [speech, setSpeech] = React.useState(
-    'Push the microphone button and speak your task description into the phone',
+    'Press and hold the microphone button and speak your task description into the phone.',
   );
 
   useEffect(() => {
@@ -127,7 +127,7 @@ const SetTaskNameVoice = ({ route, navigation }) => {
       console.log(error);
       stopRecording();
     }
-    setSpeech('Listening...');
+    setSpeech('Listening...When you are done release the button');
     setRecording(recording);
   };
 

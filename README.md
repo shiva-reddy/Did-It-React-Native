@@ -24,9 +24,10 @@ A children centric todo app built in React Native. This project is part of the C
   - Now scan the QR code displayed with the expo client. *Both device and project should be running on the same network.*
   - After scanning it might take a while to bundle your JS modules.
   - The app gets launched your device
-  
-## Contributors
+## DEMO
+<img src="demo_video.gif" width="350" height="650">
 
+## Contributors
 * Arvind Ganesan
 * Suhan Suredra Nath
 * Shiva Reddy Kokilathota Jagirdar  

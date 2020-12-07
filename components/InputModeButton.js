@@ -11,11 +11,12 @@ import { Foundation } from '@expo/vector-icons';
 import MyAppText from '../components/MyAppText';
 import { useTheme } from '@react-navigation/native';
 
-const InputModeButton = ({ icon, action, onPressIn, onPressOut}) => {
+const InputModeButton = ({ icon, action, onPressIn, onPressOut, isVoice}) => {
   const { tertiaryColor, secondaryColor } = useTheme();
+  isVoice = isVoice ? true : false;
   return (
     <TouchableOpacity
-      style={styles({ tertiaryColor }).button}
+      style={styles({ tertiaryColor,isVoice }).button}
       onPress={action? action : () => {}}
       onPressIn={onPressIn ? onPressIn : () => onPressIn}
       onPressOut={onPressOut ? onPressOut : () => {}}
@@ -30,7 +31,7 @@ const InputModeButton = ({ icon, action, onPressIn, onPressOut}) => {
   );
 };
 
-const styles = ({ tertiaryColor }) =>
+const styles = ({ tertiaryColor, isVoice }) =>
   StyleSheet.create({
     icon: {
       marginTop: 20,
@@ -41,9 +42,10 @@ const styles = ({ tertiaryColor }) =>
       borderColor: 'rgba(0,0,0,0.2)',
       alignItems: 'center',
       justifyContent: 'center',
+      color: '#740b0f',
       width: 100,
       height: 100,
-      backgroundColor: tertiaryColor,
+      backgroundColor: `${isVoice ? '#f2898d' : tertiaryColor}`,
       borderRadius: 100,
     },
   });

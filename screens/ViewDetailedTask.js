@@ -41,6 +41,8 @@ const ViewDetailedTask = ({ navigation, route }) => {
       taskIsRecurring: taskObj.isRecurring,
       taskID: taskObj.taskID,
       taskPhotoURI: taskObj.photoURI,
+      repeatDay: taskObj.repeatDay,
+      repeatFrequency: taskObj.repeatFrequency
     });
   };
 
@@ -140,7 +142,7 @@ const ViewDetailedTask = ({ navigation, route }) => {
                   <View style={styles({ primaryColor }).taskDetailTexts}>
                     <MyAppText>
                       <Text style={styles({}).secondaryText}>
-                        every Monday
+                        every {task.repeatFrequency} on {task.repeatDay}
                       </Text>
                     </MyAppText>
                   </View>

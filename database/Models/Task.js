@@ -31,7 +31,6 @@ export default class Task extends BaseModel {
       parentJobID:   {type:types.INTEGER},
       repeatFrequency: {type:types.TEXT},
       repeatDay:       {type:types.TEXT},
-      repeatWeek:      {type:types.TEXT},
       photoURI: {type:types.TEXT}
     }
   }
@@ -111,9 +110,9 @@ export default class Task extends BaseModel {
         const items = [task]
         databaseLayer.bulkInsertOrReplace(items).then(response => {
           console.log("Insert id "+JSON.stringify(response))
-          resolve("Success")
+          resolve(response[0].insertId)
       }).catch((err) =>{
-          reject([])
+          reject(-1)
       })
         //await person.save()
         
@@ -127,7 +126,7 @@ export default class Task extends BaseModel {
 
   static checkTableExists(tableName=''){
     const sql = `SELECT * FROM sqlite_master WHERE name = '${tableName}' AND type='table'`
-    // const sql = `ALTER TABLE ${Task.tableName} ADD COLUMN photoURI text;`
+     //const sql = `ALTER TABLE ${Task.tableName} DROP COLUMN repeatWeek;`
     return this.repository.databaseLayer.executeSql(sql)
   }
   

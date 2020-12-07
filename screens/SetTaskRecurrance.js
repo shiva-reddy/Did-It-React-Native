@@ -115,6 +115,7 @@ const SetTaskRecurrance = ({ route, navigation, setTaskRepeating }) => {
           {option('No, create my task', async () => {
             // console.log("Creating task in recurrance");
             const _taskObject = await taskObject;
+            console.log(_taskObject);
             await create(_taskObject);
             setLines([
               "You're all set",

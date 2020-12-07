@@ -11,7 +11,7 @@ A children centric todo app built in React Native. This project is part of the C
 ## Running the project
 ### Through APK
   - Clone the project
-  - Tranfer `.apk` file to your Android device
+  - Transfer `.apk` file to your Android device
   - Enable Installation of apps from unknown sources. [Tutorial](https://www.androidauthority.com/how-to-install-apks-31494/)
   - Install the APK.
   
@@ -23,6 +23,7 @@ A children centric todo app built in React Native. This project is part of the C
   - Run `expo start` or `npm start`.
   - Now scan the QR code displayed with the expo client. *Both device and project should be running on the same network.*
   - After scanning it might take a while to bundle your JS modules.
+  - The app gets launched your device
   
 ## Contributors
 

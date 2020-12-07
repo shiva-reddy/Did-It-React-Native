@@ -71,27 +71,25 @@ const SetTaskNameVoice = ({ route, navigation }) => {
     const getTranscription = async () => {
         setIsFetching(true);
         try {
-            // const info = await FileSystem.getInfoAsync(recording.getURI());
-            // // console.log(`FILE INFO: ${JSON.stringify(info)}`);
-            // const uri = info.uri;
-            // const formData = new FormData();
-            // formData.append('file', {
-            //     uri,
-            //     type: 'audio/x-wav',
-            //     name: 'speech2text'
-            // });
-            // // console.log(formData);
-            // const response = await fetch(config.CLOUD_FUNCTION_URL, {
-            //     method: 'POST',
-            //     body: formData
-            // });
-            // const resp = await response;
-            // const data = await resp.json();
-            // console.log(data);
+            const info = await FileSystem.getInfoAsync(recording.getURI());
+            const uri = info.uri;
+            const formData = new FormData();
+            formData.append('file', {
+                uri,
+                type: 'audio/x-wav',
+                name: 'speech2text'
+            });
+            // console.log(formData);
+            const response = await fetch(config.CLOUD_FUNCTION_URL, {
+                method: 'POST',
+                body: formData
+            });
+            const resp = await response;
+            const data = await resp.json();
             navigation.navigate('CreateTask', {
               screen: 'SetTaskNameVerification',
               params: { 
-                chosenText: await sampleResponse() ,
+                chosenText: data,
                 taskID,
                 taskType,
               },

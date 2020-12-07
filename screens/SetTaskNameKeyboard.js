@@ -5,25 +5,20 @@ import { Input } from 'react-native-elements';
 import { useTheme } from '@react-navigation/native';
 import NextStepButton from '../components/NextStepButton';
 import Toast from 'react-native-simple-toast';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { addTaskName } from '../store/CreateTaskActions';
 
 const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
-
   const taskID = route.params.taskID ? route.params.taskID : null;
   console.log(taskID);
   const [input, setInput] = React.useState('');
   const { primaryColor, secondaryColor, tertiaryColor } = useTheme();
-  const { taskCategory,taskType } = route.params;
+  const { taskCategory, taskType } = route.params;
 
   const navigateToVerify = () => {
     if (input !== '' && input.length != 0) {
-      addTaskName({ taskName: input });
       navigation.navigate('CreateTask', {
         screen: 'SetTaskNameVerification',
-        params: { 
-          chosenText: input ,
+        params: {
+          chosenText: input,
           taskID,
           taskType,
         },
@@ -37,7 +32,11 @@ const SetTaskNameKeyboard = ({ route, navigation, addTaskName }) => {
     <View style={styles({ primaryColor }).container}>
       <ConversationCard
         style={{ flex: 1 }}
-        avatarText={taskID? `What is the new task name?` : `What is the name of your ${taskType} task?`}
+        avatarText={
+          taskID
+            ? `What is the new task name?`
+            : `What is the name of your ${taskType} task?`
+        }
       />
       <View style={{ flex: 3 }}>
         <View
@@ -91,12 +90,4 @@ const styles = ({ primaryColor, secondaryColor, tertiaryColor }) =>
     },
   });
 
-const mapDispatchToProps = (dispatch) =>
-  bindActionCreators(
-    {
-      addTaskName,
-    },
-    dispatch,
-  );
-
-export default connect(null, mapDispatchToProps)(SetTaskNameKeyboard);
+export default SetTaskNameKeyboard;

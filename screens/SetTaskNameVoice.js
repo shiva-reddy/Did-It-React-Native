@@ -84,14 +84,18 @@ const SetTaskNameVoice = ({ route, navigation }) => {
       });
       const resp = await response;
       const data = await resp.json();
-      navigation.navigate('CreateTask', {
-        screen: 'SetTaskNameVerification',
-        params: {
-          chosenText: data.transcript,
-          taskID,
-          taskType,
-        },
-      });
+      if(data.transcript != ''){
+        navigation.navigate('CreateTask', {
+          screen: 'SetTaskNameVerification',
+          params: {
+            chosenText: data.transcript,
+            taskID,
+            taskType,
+          },
+        });
+      } else {
+        setSpeech('Hmm..I couldn\'t hear anything. Why don\'t you try again? Push the microphone button and speak your task description into the phone');
+      }
     } catch (error) {
       console.log('There was an error reading file', error);
       stopRecording();
@@ -157,16 +161,19 @@ const SetTaskNameVoice = ({ route, navigation }) => {
     setQuery(query);
   };
 
+
   return (
     <View style={styles.container}>
       <ConversationCard avatarText={speech} />
       <View style={{ flex: 3, flexDirection: 'row' }}>
         <View style={styles.options}>
-          <InputModeButton
-            icon="microphone"
-            onPressIn={handleOnPressIn}
-            onPressOut={handleOnPressOut}
-          />
+            {!isFetching && <InputModeButton
+                isVoice="true"
+                icon="microphone"
+                onPressIn={handleOnPressIn}
+                onPressOut={handleOnPressOut}
+                />
+            }
         </View>
       </View>
     </View>

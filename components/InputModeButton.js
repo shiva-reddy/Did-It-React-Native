@@ -42,9 +42,10 @@ const styles = ({ tertiaryColor, isVoice }) =>
       borderColor: 'rgba(0,0,0,0.2)',
       alignItems: 'center',
       justifyContent: 'center',
+      color: '#740b0f',
       width: 100,
       height: 100,
-      backgroundColor: `${isVoice ? 'red' : tertiaryColor}`,
+      backgroundColor: `${isVoice ? '#f2898d' : tertiaryColor}`,
       borderRadius: 100,
     },
   });

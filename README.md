@@ -11,7 +11,7 @@ A children centric todo app built in React Native. This project is part of the C
 ## Running the project
 ### Through APK
   - Clone the project
-  - Transfer `.apk` file to your Android device
+  - Transfer `install.apk` file to your Android device
   - Enable Installation of apps from unknown sources. [Tutorial](https://www.androidauthority.com/how-to-install-apks-31494/)
   - Install the APK.
   

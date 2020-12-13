@@ -1,6 +1,6 @@
 # Overview
  
-The goal of the project is to build a children centric todo app built in React Native. This project is part of the CS522 Human Computer Interface(HCI) course at the University of Illinois at Chicago. The project is an exploration of the design process, and reflect on how the process impacts the final app. The design journey can be found [here](https://sites.google.com/uic.edu/diditprojectwebsite/)
+The goal of the project is to build a children centric todo app built in React Native. This project is part of the CS522 Human Computer Interface(HCI) course at the University of Illinois at Chicago. The project is an exploration of the design process, and reflect on how the process impacts the final app. The design journey can be found [here](https://sites.google.com/uic.edu/diditprojectwebsite/).
 
 ## System Requirements
   - Android OS 7.0+
